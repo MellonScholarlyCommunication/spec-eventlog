@@ -1,7 +1,7 @@
 <!doctype html><html lang="en">
  <head>
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  <title>Your Spec Title</title>
+  <title>Artefact Lifecycle Event Log</title>
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 <style data-fill-with="stylesheet">/******************************************************************************
  *                   Style sheet for the W3C specifications                   *
@@ -1222,8 +1222,8 @@ Possible extra rowspan handling
 	}
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
-  <link href="http://example.com/url-this-spec-will-live-at" rel="canonical">
-  <meta content="30e5c0b7a88bad5afcee3a5f6b6646e6b67a1f29" name="document-revision">
+  <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
+  <meta content="5fc3a362d6fb83aaa1a0eff4996468f22f046945" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -1374,16 +1374,19 @@ dfn > a.self-link::before      { content: "#"; }</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"></p>
-   <h1 class="p-name no-ref" id="title">Your Spec Title</h1>
+   <h1 class="p-name no-ref" id="title">Artefact Lifecycle Event Log</h1>
    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-05-04">4 May 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
-     <dd><a class="u-url" href="http://example.com/url-this-spec-will-live-at">http://example.com/url-this-spec-will-live-at</a>
+     <dd><a class="u-url" href="https://mellonscholarlycommunication.github.io/spec-eventlog">https://mellonscholarlycommunication.github.io/spec-eventlog</a>
      <dt>Issue Tracking:
-     <dd><a href="https://github.com/mielvds/spec-eventlog/issues/">GitHub</a>
-     <dt class="editor">Editor:
-     <dd class="editor p-author h-card vcard"><a class="p-name fn u-url url" href="http://example.com/your-personal-website">Your Name</a> (<a class="p-org org" href="http://example.com/your-company">Your Company</a>) <a class="u-email email" href="mailto:your-email@example.com">your-email@example.com</a>
+     <dd><a href="https://github.com/MellonScholarlyCommunication/spec-eventlog/issues/">GitHub</a>
+     <dt class="editor">Editors:
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:miel.vandersande@meemoo.be">Miel Vander Sande</a> (<span class="p-org org">meemoo - <a href="https://meemoo.be">Flemish Institute for Archiving</a></span>)
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:patrick.hochstenbach@ugent.be">Patrick Hochstenbach</a> (<span class="p-org org">Ghent University</span>)
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:ruben.dedecker@ugent.be">Ruben Dedecker</a> (<span class="p-org org">Ghent University</span>)
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:Jeroen.Werbrouck@ugent.be">Jeroen Werbrouck</a> (<span class="p-org org">Ghent University</span>)
     </dl>
    </div>
    <div data-fill-with="warning"></div>
@@ -1397,13 +1400,14 @@ Parts of this work may be from another specification document.  If so, those par
   </div>
   <div class="p-summary" data-fill-with="abstract">
    <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
-   <p>A short description of your spec, one or two sentences.</p>
+   <p>This document specifies the requirements for implementing and hosting an Artefact Lifecycle Event Log.</p>
   </div>
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
    <ol class="toc" role="directory">
-    <li><a href="#intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
+    <li><a href="#set"><span class="secno">1</span> <span class="content">Set of documents</span></a>
+    <li><a href="#intro"><span class="secno">2</span> <span class="content">Introduction</span></a>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
@@ -1413,7 +1417,21 @@ Parts of this work may be from another specification document.  If so, those par
    </ol>
   </nav>
   <main>
-   <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
+   <h2 class="heading settled" data-level="1" id="set"><span class="secno">1. </span><span class="content">Set of documents</span><a class="self-link" href="#set"></a></h2>
+   <p>This document is one of the specifications produced by the <strong>ResearcherPod</strong> and <strong>ErfgoedPod</strong> project:</p>
+   <ol>
+    <li data-md>
+     <p><a href="/spec-overview/">Overview</a></p>
+    <li data-md>
+     <p><a href="/spec-orchestrator/">Orchestrator</a></p>
+    <li data-md>
+     <p><a href="/spec-datapod/">Data Pod</a></p>
+    <li data-md>
+     <p><a href="/spec-rulelanguage/">Rule language</a></p>
+    <li data-md>
+     <p><a href="/spec-eventlog/">Artefact Lifecycle Event Log</a> (this document)</p>
+   </ol>
+   <h2 class="heading settled" data-level="2" id="intro"><span class="secno">2. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
    <p>Introduction here.</p>
    <p>Test build: d929bb9</p>
   </main>
