@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="9bd5fae3f9fdfae2c29c56fdee97bcd35198d1c6" name="document-revision">
+  <meta content="929fe60c0b72327a0b128350444f37291c3d122a" name="document-revision">
 <style>
 table {
   margin: 25px auto;
@@ -1402,7 +1402,7 @@ dfn > a.self-link::before      { content: "#"; }</style>
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Artefact Lifecycle Event Log</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-05-18">18 May 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-06-01">1 June 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1419,7 +1419,7 @@ dfn > a.self-link::before      { content: "#"; }</style>
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 18 May 2021,
+In addition, as of 1 June 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1435,11 +1435,35 @@ Parts of this work may be from another specification document.  If so, those par
    <ol class="toc" role="directory">
     <li><a href="#set"><span class="secno">1</span> <span class="content">Set of documents</span></a>
     <li><a href="#intro"><span class="secno">2</span> <span class="content">Introduction</span></a>
+    <li><a href="#definitions"><span class="secno">3</span> <span class="content">Definitions</span></a>
+    <li><a href="#high-level"><span class="secno">4</span> <span class="content">High-level overview</span></a>
+    <li><a href="#create"><span class="secno">5</span> <span class="content">Creating an event log</span></a>
+    <li><a href="#append"><span class="secno">6</span> <span class="content">Appending to an event log</span></a>
+    <li><a href="#create①"><span class="secno">7</span> <span class="content">Discovering an event log</span></a>
+    <li>
+     <a href="#read"><span class="secno">8</span> <span class="content">Reading an event log</span></a>
+     <ol class="toc">
+      <li><a href="#read-all"><span class="secno">8.1</span> <span class="content">Reading all events of a resource</span></a>
+      <li><a href="#read-all①"><span class="secno">8.2</span> <span class="content">Reading events tied to specific resource versions</span></a>
+      <li><a href="#read-all②"><span class="secno">8.3</span> <span class="content">Reading all events of a resource</span></a>
+     </ol>
+    <li><a href="#events"><span class="secno">9</span> <span class="content">Events</span></a>
+    <li>
+     <a href="#append①"><span class="secno">10</span> <span class="content">Implementation</span></a>
+     <ol class="toc">
+      <li><a href="#implementation-solid"><span class="secno">10.1</span> <span class="content">Solid Platform Implementation</span></a>
+     </ol>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+    <li>
+     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
+     <ol class="toc">
+      <li><a href="#index-defined-here"><span class="secno"></span> <span class="content">Terms defined by this specification</span></a>
+     </ol>
     <li>
      <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
      <ol class="toc">
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
    </ol>
   </nav>
@@ -1461,8 +1485,65 @@ Parts of this work may be from another specification document.  If so, those par
      <p><a href="/spec-notifications/">Notifications</a></p>
    </ol>
    <h2 class="heading settled" data-level="2" id="intro"><span class="secno">2. </span><span class="content">Introduction</span><a class="self-link" href="#intro"></a></h2>
-   <p>Introduction here.</p>
-   <p>Test build: d929bb9</p>
+   <p>In a <a href="https://solidproject.org/">Solid decentralized network</a>, the <strong>Event Log</strong> is a data model that defines a log of all events related to a specific resource or a  collection of resources.
+This document outlines the requirements of such an <strong>Event Log</strong> data model.</p>
+   <h2 class="heading settled" data-level="3" id="definitions"><span class="secno">3. </span><span class="content">Definitions</span><a class="self-link" href="#definitions"></a></h2>
+   <p>This document uses the following defined terms from <a data-link-type="biblio" href="#biblio-spec-overview">[spec-overview]</a>:</p>
+   <ul>
+    <li data-md>
+     <p><dfn data-dfn-type="dfn" data-export id="actor">Actor<a class="self-link" href="#actor"></a></dfn></p>
+    <li data-md>
+     <p><dfn data-dfn-type="dfn" data-export id="artefact">Artefact<a class="self-link" href="#artefact"></a></dfn></p>
+    <li data-md>
+     <p><dfn data-dfn-type="dfn" data-export id="maintainer">Maintainer<a class="self-link" href="#maintainer"></a></dfn></p>
+    <li data-md>
+     <p><dfn data-dfn-type="dfn" data-export id="data-pod">Data Pod<a class="self-link" href="#data-pod"></a></dfn></p>
+    <li data-md>
+     <p><dfn data-dfn-type="dfn" data-export id="inbox">Inbox<a class="self-link" href="#inbox"></a></dfn></p>
+    <li data-md>
+     <p><dfn data-dfn-type="dfn" data-export id="artefact-lifecycle-event-log">Artefact Lifecycle Event Log<a class="self-link" href="#artefact-lifecycle-event-log"></a></dfn></p>
+    <li data-md>
+     <p><dfn data-dfn-type="dfn" data-export id="service-hub">Service Hub<a class="self-link" href="#service-hub"></a></dfn></p>
+    <li data-md>
+     <p><dfn data-dfn-type="dfn" data-export id="policy">Policy<a class="self-link" href="#policy"></a></dfn></p>
+    <li data-md>
+     <p><dfn data-dfn-type="dfn" data-export id="dashboard">Dashboard<a class="self-link" href="#dashboard"></a></dfn></p>
+   </ul>
+   <h2 class="heading settled" data-level="4" id="high-level"><span class="secno">4. </span><span class="content">High-level overview</span><a class="self-link" href="#high-level"></a></h2>
+    The <strong>Event Log</strong> protocol defines the approach to store and retrieve events of online resources published over the Web.
+Any Web resource can advertise an event log by EITHER providing a LINK header: 
+<pre>Link: &lt;/EventLog>; rel="eventlog".</pre>
+   <p>In this document, we assume all actors have the correct permissions set for all actions unless explicitly specified.</p>
+   <p><img alt="..." class="myimg" src="images/protocol_based_versioning.svg"></p>
+   <h2 class="heading settled" data-level="5" id="create"><span class="secno">5. </span><span class="content">Creating an event log</span><a class="self-link" href="#create"></a></h2>
+    On any resource published over the Web with a URI, an <strong>Event Log</strong> MAY be created.
+To create an event log, an <strong>Event Log</strong> object MUST be created that is available on the network with a URI.
+The URI of this created object MUST provide a LINK header to the Event Log resource. 
+   <h2 class="heading settled" data-level="6" id="append"><span class="secno">6. </span><span class="content">Appending to an event log</span><a class="self-link" href="#append"></a></h2>
+    Any actor in the network with the correct permissions MUST be able to append events to the Event Log.
+The Event Log MAY impose constraints on the events that can be appended to the Event Log (e.g., SHACL, Web Annotation Protocol) via an HTTP Link header or body of the resource with a rel value of http://www.w3.org/ns/ldp#constrainedBy.
+Actors adding an event to the Event Log should comply with constraint specifications or the Event Log may reject their event and return an appropriate 4xx error code. 
+   <h2 class="heading settled" data-level="7" id="create①"><span class="secno">7. </span><span class="content">Discovering an event log</span><a class="self-link" href="#create①"></a></h2>
+    Any actor in the network can discover the event log of a resource by retrieving the resource and dereferencing the LINK header pointing to the Event Log resource.
+On retrival of the event log, the individual events contained in the event log can be discovered 
+   <ul>
+    <li data-md>
+     <p>Protocol based approach (e.g. TimeMap?)</p>
+    <li data-md>
+     <p>RDF based approach (e.g. ldp:contains?)</p>
+   </ul>
+   <h2 class="heading settled" data-level="8" id="read"><span class="secno">8. </span><span class="content">Reading an event log</span><a class="self-link" href="#read"></a></h2>
+    An event log must be 
+   <h3 class="heading settled" data-level="8.1" id="read-all"><span class="secno">8.1. </span><span class="content">Reading all events of a resource</span><a class="self-link" href="#read-all"></a></h3>
+   <h3 class="heading settled" data-level="8.2" id="read-all①"><span class="secno">8.2. </span><span class="content">Reading events tied to specific resource versions</span><a class="self-link" href="#read-all①"></a></h3>
+   <h3 class="heading settled" data-level="8.3" id="read-all②"><span class="secno">8.3. </span><span class="content">Reading all events of a resource</span><a class="self-link" href="#read-all②"></a></h3>
+   <h2 class="heading settled" data-level="9" id="events"><span class="secno">9. </span><span class="content">Events</span><a class="self-link" href="#events"></a></h2>
+    In this section, we go over the specific requirements for <strong>Events</strong> stored in the <strong>Event Log</strong>. 
+   <h2 class="heading settled" data-level="10" id="append①"><span class="secno">10. </span><span class="content">Implementation</span><a class="self-link" href="#append①"></a></h2>
+    In this section, we provide implementation examples 
+   <p>map LDP Container => EventLog
+ldp:contains => events</p>
+   <h3 class="heading settled" data-level="10.1" id="implementation-solid"><span class="secno">10.1. </span><span class="content">Solid Platform Implementation</span><a class="self-link" href="#implementation-solid"></a></h3>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
@@ -1610,9 +1691,27 @@ Parts of this work may be from another specification document.  If so, those par
 
 })();
 </script>
+  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
+  <ul class="index">
+   <li><a href="#actor">Actor</a><span>, in §3</span>
+   <li><a href="#artefact">Artefact</a><span>, in §3</span>
+   <li><a href="#artefact-lifecycle-event-log">Artefact Lifecycle Event Log</a><span>, in §3</span>
+   <li><a href="#dashboard">Dashboard</a><span>, in §3</span>
+   <li><a href="#data-pod">Data Pod</a><span>, in §3</span>
+   <li><a href="#inbox">Inbox</a><span>, in §3</span>
+   <li><a href="#maintainer">Maintainer</a><span>, in §3</span>
+   <li><a href="#policy">Policy</a><span>, in §3</span>
+   <li><a href="#service-hub">Service Hub</a><span>, in §3</span>
+  </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+  </dl>
+  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-spec-overview">[SPEC-OVERVIEW]
+   <dd>Miel Vander Sande. <a href="http://mellonscholarlycommunication.github.io/spec-overview/">Overview of the ResearcherPod specifications</a>. Editor’s Draft. URL: <a href="http://mellonscholarlycommunication.github.io/spec-overview/">http://mellonscholarlycommunication.github.io/spec-overview/</a>
   </dl>
