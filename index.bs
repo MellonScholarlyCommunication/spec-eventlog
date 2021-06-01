@@ -55,6 +55,130 @@ This document is one of the specifications produced by the **ResearcherPod** and
 Introduction {#intro}
 =====================
 
-Introduction here.
+In a [Solid decentralized network](https://solidproject.org/), the **Event Log** is a data model that defines a log of all events related to a specific resource or a  collection of resources.
+This document outlines the requirements of such an **Event Log** data model.
 
-Test build: d929bb9
+# Definitions
+
+This document uses the following defined terms from [[spec-overview]]:
+
+- <dfn export>Actor</dfn>
+- <dfn export>Artefact</dfn>
+- <dfn export>Maintainer</dfn>
+- <dfn export>Data Pod</dfn>
+- <dfn export>Inbox</dfn>
+- <dfn export>Artefact Lifecycle Event Log</dfn>
+- <dfn export>Service Hub</dfn>
+- <dfn export>Policy</dfn>
+- <dfn export>Dashboard</dfn>
+
+High-level overview {#high-level}
+=================================
+The **Event Log** protocol defines the approach to store and retrieve events of online resources published over the Web.
+Any Web resource can advertise an event log by EITHER providing a LINK header: 
+<pre>Link: &lt;/EventLog&gt;; rel="eventlog".</pre>
+In this document, we assume all actors have the correct permissions set for all actions unless explicitly specified.
+
+<img alt="..." src="images/protocol_based_versioning.svg" class="myimg">
+
+
+Creating an event log {#create}
+===============================
+On any resource published over the Web with a URI, an **Event Log** MAY be created.
+To create an event log, an **Event Log** object MUST be created that is available on the network with a URI.
+The URI of this created object MUST provide a LINK header to the Event Log resource.
+
+
+Appending to an event log {#append}
+===================================
+Any actor in the network with the correct permissions MUST be able to append events to the Event Log.
+The Event Log MAY impose constraints on the events that can be appended to the Event Log (e.g., SHACL, Web Annotation Protocol) via an HTTP Link header or body of the resource with a rel value of http://www.w3.org/ns/ldp#constrainedBy.
+Actors adding an event to the Event Log should comply with constraint specifications or the Event Log may reject their event and return an appropriate 4xx error code.
+
+
+Discovering an event log {#create}
+==================================
+Any actor in the network can discover the event log of a resource by retrieving the resource and dereferencing the LINK header pointing to the Event Log resource.
+On retrival of the event log, the individual events contained in the event log can be discovered 
+- Protocol based approach (e.g. TimeMap?)
+- RDF based approach (e.g. ldp:contains?)
+
+
+Reading an event log {#read}
+============================
+An event log must be 
+
+## Reading all events of a resource ## {#read-all}
+
+## Reading events tied to specific resource versions ## {#read-all}
+
+## Reading all events of a resource ## {#read-all}
+
+
+
+
+
+Events {#events}
+========================
+In this section, we go over the specific requirements for **Events** stored in the **Event Log**.
+
+
+Implementation {#append}
+========================
+In this section, we provide implementation examples 
+
+map LDP Container => EventLog
+ldp:contains => events
+
+
+## Solid Platform Implementation ## {#implementation-solid}
+
+
+
+
+
+
+<pre class=biblio>
+{
+	"solid-oidc": {
+		"authors": [
+			"Aaron Coburn (Inrupt)",
+			"elf Pavlik",
+			"Dmitri Zagidulin"
+		],
+		"href": "https://solid.github.io/authentication-panel/solid-oidc/",
+		"title": "SOLID-OIDC",
+		"status": "Editor’s Draft",
+		"publisher": "Solid project",
+		"deliveredBy": [
+			"https://www.w3.org/community/solid/"
+		]
+	},
+	"solid-protocol": {
+		"authors": [
+			"Sarven Capadisli",
+			"Tim Berners-Lee",
+			"Ruben Verborgh",
+			"Kjetil Kjernsmo",
+			"Justin Bingham",
+			"Dmitri Zagidulin"
+		],
+		"href": "https://solidproject.org/TR/protocol/",
+		"title": "The Solid Protocol",
+		"status": "Editor’s Draft",
+		"publisher": "Solid project",
+		"deliveredBy": [
+			"https://www.w3.org/community/solid/"
+		]
+	},
+  "spec-overview": {
+		"authors": [
+      "Miel Vander Sande"
+    ],
+		"href": "http://mellonscholarlycommunication.github.io/spec-overview/",
+		"title": "Overview of the ResearcherPod specifications",
+		"status": "Editor’s Draft",
+		"publisher": "ResearcherPod project"
+	}
+}
+</pre>
