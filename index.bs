@@ -183,9 +183,9 @@ Choosing the most appropriate target resource from which to begin discovery is a
 
 Senders and creators do the following to discover the event log URL:
 
-- make an HTTP HEAD or GET request on the target URL, and use the Link header with a rel value of http://www.example.com/eventlog.
-- make an HTTP GET request on the target URL to retrieve an HTML representation that contains a link HTML element with a rel value of http://www.example.com/eventlog. The href value of that link element is the event log.
-- make an HTTP GET request on the target URL to retrieve an RDF representation, whose encoded RDF graph contains a relation of type http://www.example.com/eventlog. The subject of that relation is target and the object is the event log.
+- make an HTTP HEAD or GET request on the target URL, and use the Link header with a rel value of https://w3id.org/ldes#eventStream.
+- make an HTTP GET request on the target URL to retrieve an HTML representation that contains a link HTML element with a rel value of https://w3id.org/ldes#eventStream. The href value of that link element is the event log.
+- make an HTTP GET request on the target URL to retrieve an RDF representation, whose encoded RDF graph contains a relation of type https://w3id.org/ldes#eventStream. The subject of that relation is target and the object is the event log.
 
 
 Any actor in the network with READ access to a resource MUST be able to discover any event log advertised by this resource.
@@ -199,7 +199,7 @@ An event log can be discovered with multiple approaches, depending on the way th
 Any resource using an event log to store related events MAY advertise this event log using an in-body link.
 In the case of a resource using an RDF format, the link to the event log MUST be defined as a triple 
 <pre>
-	<resourceURI> <https://example.com/eveng>  as can be defined using  using a Link header OR with an in-body link.
+	<resourceURI> <https://w3id.org/ldes#eventStream>  as can be defined using  using a Link header OR with an in-body link.
 </pre>
 
 ## RDF Resource ## {#discovery-rdf}
