@@ -1,5 +1,5 @@
 <pre class='metadata'>
-Title: Artefact Lifecycle Event Log
+Title: Artefact Lifecycle event log
 Shortname: eventlog
 Level: 1
 Status: LS
@@ -8,7 +8,7 @@ Editor: Miel Vander Sande, meemoo - [Flemish Institute for Archiving](https://me
 Editor: Patrick Hochstenbach, Ghent University, patrick.hochstenbach@ugent.be
 Editor: Ruben Dedecker, Ghent University, ruben.dedecker@ugent.be
 Editor: Jeroen Werbrouck, Ghent University, Jeroen.Werbrouck@ugent.be
-Abstract: This document specifies the requirements for implementing and hosting an Artefact Lifecycle Event Log.
+Abstract: This document specifies the requirements for implementing and hosting an Artefact Lifecycle event log.
 Markup Shorthands: markdown yes
 </pre>
 
@@ -49,14 +49,14 @@ This document is one of the specifications produced by the **ResearcherPod** and
 2. [Orchestrator](/spec-orchestrator/) 
 3. [Data Pod](/spec-datapod/)
 4. [Rule language](/spec-rulelanguage/)
-5. [Artefact Lifecycle Event Log](/spec-eventlog/) (this document)
+5. [Artefact Lifecycle event log](/spec-eventlog/) (this document)
 6. [Notifications](/spec-notifications/)
 
 Introduction {#intro}
 =====================
-
-In a [Solid decentralized network](https://solidproject.org/), the **Event Log** is a data model that defines a log of all events related to a specific resource or a  collection of resources.
-This document outlines the requirements of such an **Event Log** data model.
+An event log is a collection of events that describes the lifecycle of one or more resources.
+It builds upon the [Linked Data Event Streams specification](https://semiceu.github.io/LinkedDataEventStreams/eventstreams.html)
+This document outlines the requirements for an event log.
 
 # Definitions
 
@@ -67,41 +67,159 @@ This document uses the following defined terms from [[spec-overview]]:
 - <dfn export>Maintainer</dfn>
 - <dfn export>Data Pod</dfn>
 - <dfn export>Inbox</dfn>
-- <dfn export>Artefact Lifecycle Event Log</dfn>
+- <dfn export>Artefact Lifecycle event log</dfn>
 - <dfn export>Service Hub</dfn>
 - <dfn export>Policy</dfn>
 - <dfn export>Dashboard</dfn>
 
 High-level overview {#high-level}
 =================================
-The **Event Log** protocol defines the approach to store and retrieve events of online resources published over the Web.
+An event log is a collection of immutable events that form the lifecycle of one or more resources.
+An Event log is advertised by resources as described in [](#discovery).
+Events can be retrieved for a resource by discoverying the event log of a resource, and retrieving all defined events 
+Events can be added to the event log, and can be retrieved
+
+
+The event log protocol defines the approach to store and retrieve events of online resources published over the Web.
 Any Web resource can advertise an event log by EITHER providing a LINK header: 
 <pre>Link: &lt;/EventLog&gt;; rel="eventlog".</pre>
 In this document, we assume all actors have the correct permissions set for all actions unless explicitly specified.
 
 <img alt="..." src="images/protocol_based_versioning.svg" class="myimg">
 
-
-Creating an event log {#create}
+Creation {#create}
 ===============================
-On any resource published over the Web with a URI, an **Event Log** MAY be created.
-To create an event log, an **Event Log** object MUST be created that is available on the network with a URI.
-The URI of this created object MUST provide a LINK header to the Event Log resource.
+For every resource published over a network, an event log can be created.
+An event log is defined as a [Linked Data Event Stream (LDES)](https://semiceu.github.io/LinkedDataEventStreams/eventstreams.html), a collection of immutable objects, each object being described using a set of RDF triples0.
 
+<div class="example">
+<u><b>/EventLog</b></u>
+```
+<> a ldes:EventStream ;
+	tree:shape <EventShape.shacl> ; 
+	tree:member </Events/1>, </Events/2>, ... ;
+	tree:view <?page=1> .
+
+<#node> a tree:Node ;
+    tree:relation [
+        a tree:GreaterThanOrEqualToRelation ;
+        tree:path dct:issued ;
+        tree:node </pages/1#node> ;
+        tree:value "2020-10-10T10:00:00Z"^^xsd:dateTime
+     ] .
+```
+<hr>
+<u><b>/pages/1</b></u>
+```
+</EventLog> a ldes:EventStream ;
+	tree:shape <EventShape.shacl> ; 
+	tree:member </Events/3>, </Events/4>, ... ;
+
+<#node> a tree:Node ;
+	void:subset </EventLog>;
+```
+</div>
+
+Note: This example shows the event log as a Linked Data Event Stream, ordered according to the <code>dct:issued</code> value of the Events.
+
+
+Linking {#linking}
+===============================
+There are multiple ways for a resource to advertise their event log.
+
+## Adding an in-body link ## {#create-in-body-link}
+In case the original resource is an RDF resource, a link to the event log MAY be added to the resource body by adding a triple:
+</br>
+<code>
+	&lt;resourceURI&gt; &lt;https://mydatapod.com/EventLog&gt; &lt;eventLogURI&gt;.
+</code>
+</br>
+In case the original resource is an HTML resource, a link to the event log MAY be added as a Link element in the HTML body as follows:
+</br>
+<code>
+	&lt;link href="https://mydatapod.com/EventLog" rel="eventlog"&gt;
+</code>
+
+## Adding a Link Header ## {#create-link-header}
+On any Web resource, a Link header to the event log MAY be added of the form: 
+</br>
+<code>Link: &lt;/EventLog&gt;; rel="eventlog".</code>
+</br>
+
+## From a separate file ## {#create-link-seheaderparate-file}
+Certain data formats use specific files to aggregate metadata or serve as an entrypoint for multiple resources.
+These files MUST advertise any connected eventlog using EITHER an [in-body link](create-in-body-link) OR using a [Link header](create-link-header).
+
+
+## Using Shape Trees ## {#create-link-seheaderparate-file}
+In the Solid ecosystem, event logs SHOULD be added to the Solid data pod [Shape Tree](https://shapetrees.org/).
+This enables applications to discover the location of event logs in the data pod.
+
+<div class="example">
+```
+// The Events folder contains eventstream containers
+<#Events> st:expectsType st:ShapeTreeContainer ;
+	st:contains <#EventStream> ; 
+
+
+// An Event Stream contains Events
+<#EventStream> tree:expectsType st:ShapeTreeContainer ;
+	st:contains <#Event> ;
+	
+// An Event is Validated by a base Event shape
+<#Event> tree:expectsType st:ShapeTreeResource ;
+	st:validatedBy <EventShape> ;
+
+<EventShape> { ... }
+```
+</div>
+
+
+Discovery {#discovery}
+================================
+An <em>event log</em>, the data structure where events can be appended and read, can be discovered from any resrouce.
+The starting point for the discovery is the resource that the event is about: the <em>target</em>.
+Choosing the most appropriate target resource from which to begin discovery is at the discretion of the creator or consumer, since any resource (RDF or non-RDF) may have its own event log.
+
+Senders and creators do the following to discover the event log URL:
+
+- make an HTTP HEAD or GET request on the target URL, and use the Link header with a rel value of http://www.example.com/eventlog.
+- make an HTTP GET request on the target URL to retrieve an HTML representation that contains a link HTML element with a rel value of http://www.example.com/eventlog. The href value of that link element is the event log.
+- make an HTTP GET request on the target URL to retrieve an RDF representation, whose encoded RDF graph contains a relation of type http://www.example.com/eventlog. The subject of that relation is target and the object is the event log.
+
+
+Any actor in the network with READ access to a resource MUST be able to discover any event log advertised by this resource.
+As event logs can be 
+Discovering an event log may require multiple approaches to be tried depending on the way they are implemented by the server.
+A client discovering an event log SHOULD try all approaches to discover an event log for a resource.
+
+An event log can be discovered with multiple approaches, depending on the way they are implemented.
+
+## In-Body Link ## {#discovery-in-resource}
+Any resource using an event log to store related events MAY advertise this event log using an in-body link.
+In the case of a resource using an RDF format, the link to the event log MUST be defined as a triple 
+<pre>
+	<resourceURI> <https://example.com/eveng>  as can be defined using  using a Link header OR with an in-body link.
+</pre>
+
+## RDF Resource ## {#discovery-rdf}
+Any RDF resource using an event log to store related events MUST advertise this event log EITHER using a Link header OR with an in-body link.
+
+
+
+
+
+Events {#events}
+================
+An Event in the event log MUST contain the following properties:
+- id: This must be a URI
 
 Appending to an event log {#append}
 ===================================
-Any actor in the network with the correct permissions MUST be able to append events to the Event Log.
-The Event Log MAY impose constraints on the events that can be appended to the Event Log (e.g., SHACL, Web Annotation Protocol) via an HTTP Link header or body of the resource with a rel value of http://www.w3.org/ns/ldp#constrainedBy.
-Actors adding an event to the Event Log should comply with constraint specifications or the Event Log may reject their event and return an appropriate 4xx error code.
+Any actor in the network with the correct permissions MUST be able to append events to the event log.
+The event log MAY impose constraints on the events that can be appended to the event log (e.g., SHACL, Web Annotation Protocol) via an HTTP Link header or body of the resource with a rel value of http://www.w3.org/ns/ldp#constrainedBy.
+Actors adding an event to the event log should comply with constraint specifications or the event log may reject their event and return an appropriate 4xx error code.
 
-
-Discovering an event log {#create}
-==================================
-Any actor in the network can discover the event log of a resource by retrieving the resource and dereferencing the LINK header pointing to the Event Log resource.
-On retrival of the event log, the individual events contained in the event log can be discovered 
-- Protocol based approach (e.g. TimeMap?)
-- RDF based approach (e.g. ldp:contains?)
 
 
 Reading an event log {#read}
@@ -120,7 +238,7 @@ An event log must be
 
 Events {#events}
 ========================
-In this section, we go over the specific requirements for **Events** stored in the **Event Log**.
+In this section, we go over the specific requirements for **Events** stored in the event log.
 
 
 Implementation {#append}
