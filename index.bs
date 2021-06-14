@@ -101,6 +101,9 @@ Within this document, the following namespace prefix bindings are used:
 <tr>
 <td>acl
 <td>http://www.w3.org/ns/auth/acl#
+<tr>
+<td>hydra
+<td>http://www.w3.org/ns/hydra/core#
 </table>
 
 Note: All required URIs for any term that currently has no namespace are defined as: <code>https://ournamespace.org/&lt;TERM&gt;</code>
@@ -115,6 +118,8 @@ as well as additional requirements are defined for managing authorization, and l
 Creation {#creating}
 ===============================
 For any resource in a network an Event Log can be created.
+An Event Log MUST be made available in RDF turtle format, but may support other data formats through content negotiation.
+
 Ay platform implementing the Event Log mechanism for storing events related to a resource MUST support the following functionality:
 - A created Event Log MUST support functionality to make the Event Log discoverable from the resource in accordance to [](#linking). If an Event Log is created for a specific resource, this [linking](#linking) step MUST happen at creation time of the Event Log.
 - A created Event Log MUST be consumable for authorized actors in the network in accordance to [](#consuming).
@@ -302,14 +307,59 @@ In case an external resource is discovered this way, the actor SHOULD try the [d
 ## Discovery through Shape Trees ## {#discovery-shape-tree}
 Any implementation MAY support the discovery of an Event Log through [shape trees](https://shapetrees.org/) defined in the data platform.
 
+Appending to an Event Log {#producing}
+======================================
+To find the Event Log URI for a resource, an actor must first go through the [discovery](#discovery) step.
+On discovery of an Event Log URI, the actor can start appending to the Event Log.
+To append an event to the Event Log, the actor MUST send a POST request to the Event Log URI.
+In case [authorization](#authorization) is enabled for the Event Log, the actor MUST have [append permissions](#authorization-append) to execute this action.
+
+Before appending an event to the Event Log, the client SHOULD try to discover if [validation](#validation) is enabled for the Event Log. In case validation is enabled, the client SHOULD try to validate the event first on the client with the discovered validation link. 
+
+Any event that is successfully posted and validated MUST be added to the Event Log.
+The permissions for the event SHOULD per default be inherited from the Event Log permissions.
+
+On a successful POST request, the event MUST be added on a URI <em>eventURI</em> and MUST be defined in the body of its Event Log with URI <em>eventLogURI</em> using an RDF triple of the form:
+<pre>
+	&lt;eventLogURI&gt; ldp:contains &lt;eventURI&gt; .
+</pre>
+
+## Pagination ## {#producing-pagination}
+The Event Log MAY make use of pagination.
+Any used pagination system MUST make sure that ALL events in the Event Log can be retrieved by following the available <em>next</em> links.
+These links MUST be provided either as a Link header of the form:
+<pre>
+	Link: &lt;nextPageLocation&gt;; rel="next"
+</pre>
+or in the body of the Event Log / a retrieved page of the Event Log as a data triple:
+<pre>
+	&lt;eventLogURI&gt; hydra:next &lt;nextPageLocation&gt; .
+</pre>
+Any implementation MAY provide additional pagination support or filtering possibilities, and SHOULD advertise these using the appropriate mechanisms detailed by their specifications. 
+
 
 Consuming an Event Log {#consuming}
 ===================================
+First any actor wishing to consume the Events linked to a resource MUST discover any Event Log linked to the resource accoring to [](#discovery).
+On discovery of an Event Log URI, the actor MUST make a GET request to the Event Log URI with a Content-Type header of the form:
+<pre>
+Accept: text/turtle
+</pre>
+On a succesful GET request on the Event Log URI <code>eventLogURI</code>, the actor can discover the URIs of the available events by processing the Event Log body for all data triples of the form:
+<pre>
+	&lt;eventLogURI&gt; ldp:contains &lt;eventURI&gt; .
+</pre>
+The consumer implementation MAY include alternate approaches to retrieving events from an Event Log, but MUST support this retrieval method.
 
 
-Appending to an Event Log {#producing}
-======================================
-
+## Pagination ## {#consuming-pagination}
+Any consumer implementation MUST support pagination through following advertised <em>next</em> links.
+On a GET request to an Event Log / Event Log page on URI <code>eventLogPageURI</code> with an Accept header of type <code>text/turtle</code>, the consumer MUST process the server response for a Link header with a rel value of <code>"next"</code>.
+The response body MUST be processed to discover any data triples of the form:
+<pre>
+	&lt;eventLogPageURI&gt; hydra:next &lt;nextPageLocation&gt; .
+</pre>
+Any implementation MAY support additional advertised pagination or filtering approaches, but MUST support this approach for consuming a paginated Event Log.
 
 
 Events {#events}
@@ -318,6 +368,7 @@ In this section, we go over the specific requirements for **Events** stored in t
 An Event in the Event Log MUST contain the following properties:
 - id: This must be a URI
 
+TODO:: This needs some more discussion
 
 Implementation {#implementation}
 ========================
