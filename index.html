@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="e92eacb32974e1fef531e54370b5533c5c287760" name="document-revision">
+  <meta content="bb641f10e6f814189fc266a9b753229534ad0738" name="document-revision">
 <style>
 table {
   margin: 25px auto;
@@ -1402,7 +1402,7 @@ dfn > a.self-link::before      { content: "#"; }</style>
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Artefact Lifecycle Event Log</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-06-13">13 June 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-06-14">14 June 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1419,7 +1419,7 @@ dfn > a.self-link::before      { content: "#"; }</style>
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 13 June 2021,
+In addition, as of 14 June 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1471,8 +1471,16 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#discovery-link-external-file"><span class="secno">10.3</span> <span class="content">Discovery through external resource</span></a>
       <li><a href="#discovery-shape-tree"><span class="secno">10.4</span> <span class="content">Discovery through Shape Trees</span></a>
      </ol>
-    <li><a href="#consuming"><span class="secno">11</span> <span class="content">Consuming an Event Log</span></a>
-    <li><a href="#producing"><span class="secno">12</span> <span class="content">Appending to an Event Log</span></a>
+    <li>
+     <a href="#producing"><span class="secno">11</span> <span class="content">Appending to an Event Log</span></a>
+     <ol class="toc">
+      <li><a href="#producing-pagination"><span class="secno">11.1</span> <span class="content">Pagination</span></a>
+     </ol>
+    <li>
+     <a href="#consuming"><span class="secno">12</span> <span class="content">Consuming an Event Log</span></a>
+     <ol class="toc">
+      <li><a href="#consuming-pagination"><span class="secno">12.1</span> <span class="content">Pagination</span></a>
+     </ol>
     <li><a href="#events"><span class="secno">13</span> <span class="content">Events</span></a>
     <li>
      <a href="#implementation"><span class="secno">14</span> <span class="content">Implementation</span></a>
@@ -1561,6 +1569,9 @@ Given the permission, actors can retrieve the available lifecycle events from th
      <tr>
       <td>acl 
       <td>http://www.w3.org/ns/auth/acl# 
+     <tr>
+      <td>hydra 
+      <td>http://www.w3.org/ns/hydra/core# 
    </table>
    <p class="note" role="note"><span>Note:</span> All required URIs for any term that currently has no namespace are defined as: <code>https://ournamespace.org/&lt;TERM></code></p>
    <h2 class="heading settled" data-level="5" id="high-level"><span class="secno">5. </span><span class="content">High-level overview</span><a class="self-link" href="#high-level"></a></h2>
@@ -1569,14 +1580,15 @@ It details the approach for <a href="#creating">creating an Event Log</a> for a 
 as well as additional requirements are defined for managing authorization, and limiting the shapes of events that can be appended to the Event Log of a resource. 
    <h2 class="heading settled" data-level="6" id="creating"><span class="secno">6. </span><span class="content">Creation</span><a class="self-link" href="#creating"></a></h2>
     For any resource in a network an Event Log can be created.
-Ay platform implementing the Event Log mechanism for storing events related to a resource MUST support the following functionality: 
+An Event Log MUST be made available in RDF turtle format, but may support other data formats through content negotiation. 
+   <p>Ay platform implementing the Event Log mechanism for storing events related to a resource MUST support the following functionality:</p>
    <ul>
     <li data-md>
      <p>A created Event Log MUST support functionality to make the Event Log discoverable from the resource in accordance to <a href="#linking">§ 7 Linking</a>. If an Event Log is created for a specific resource, this <a href="#linking">linking</a> step MUST happen at creation time of the Event Log.</p>
     <li data-md>
-     <p>A created Event Log MUST be consumable for authorized actors in the network in accordance to <a href="#consuming">§ 11 Consuming an Event Log</a>.</p>
+     <p>A created Event Log MUST be consumable for authorized actors in the network in accordance to <a href="#consuming">§ 12 Consuming an Event Log</a>.</p>
     <li data-md>
-     <p>A created Event Log MUST support the appending of Events by producers in accordance to <a href="#producing">§ 12 Appending to an Event Log</a>.</p>
+     <p>A created Event Log MUST support the appending of Events by producers in accordance to <a href="#producing">§ 11 Appending to an Event Log</a>.</p>
     <li data-md>
      <p>A created Event Log MAY support the authorization mechanism as defined in <a href="#authorization">§ 8 Authorization</a> to authorize actors in the network to read an Event Log, append to an Event Log or change the permissions for an Event Log. The permissions required to create an Event Log will depend on the permissions of the platform in which the Event Log is created, and are out of scope for this document.</p>
     <li data-md>
@@ -1721,8 +1733,43 @@ The actor must search in the response headers for a Link header with a rel value
    <p>In case an external resource is discovered this way, the actor SHOULD try the <a href="#discovery">discovery</a> steps on this external resource.</p>
    <h3 class="heading settled" data-level="10.4" id="discovery-shape-tree"><span class="secno">10.4. </span><span class="content">Discovery through Shape Trees</span><a class="self-link" href="#discovery-shape-tree"></a></h3>
     Any implementation MAY support the discovery of an Event Log through <a href="https://shapetrees.org/">shape trees</a> defined in the data platform. 
-   <h2 class="heading settled" data-level="11" id="consuming"><span class="secno">11. </span><span class="content">Consuming an Event Log</span><a class="self-link" href="#consuming"></a></h2>
-   <h2 class="heading settled" data-level="12" id="producing"><span class="secno">12. </span><span class="content">Appending to an Event Log</span><a class="self-link" href="#producing"></a></h2>
+   <h2 class="heading settled" data-level="11" id="producing"><span class="secno">11. </span><span class="content">Appending to an Event Log</span><a class="self-link" href="#producing"></a></h2>
+    To find the Event Log URI for a resource, an actor must first go through the <a href="#discovery">discovery</a> step.
+On discovery of an Event Log URI, the actor can start appending to the Event Log.
+To append an event to the Event Log, the actor MUST send a POST request to the Event Log URI.
+In case <a href="#authorization">authorization</a> is enabled for the Event Log, the actor MUST have <a href="#authorization-append">append permissions</a> to execute this action. 
+   <p>Before appending an event to the Event Log, the client SHOULD try to discover if <a href="#validation">validation</a> is enabled for the Event Log. In case validation is enabled, the client SHOULD try to validate the event first on the client with the discovered validation link.</p>
+   <p>Any event that is successfully posted and validated MUST be added to the Event Log.
+The permissions for the event SHOULD per default be inherited from the Event Log permissions.</p>
+   <p>On a successful POST request, the event MUST be added on a URI <em>eventURI</em> and MUST be defined in the body of its Event Log with URI <em>eventLogURI</em> using an RDF triple of the form:</p>
+<pre>&lt;eventLogURI> ldp:contains &lt;eventURI> .
+</pre>
+   <h3 class="heading settled" data-level="11.1" id="producing-pagination"><span class="secno">11.1. </span><span class="content">Pagination</span><a class="self-link" href="#producing-pagination"></a></h3>
+    The Event Log MAY make use of pagination.
+Any used pagination system MUST make sure that ALL events in the Event Log can be retrieved by following the available <em>next</em> links.
+These links MUST be provided either as a Link header of the form: 
+<pre>Link: &lt;nextPageLocation>; rel="next"
+</pre>
+   <p>or in the body of the Event Log / a retrieved page of the Event Log as a data triple:</p>
+<pre>&lt;eventLogURI> hydra:next &lt;nextPageLocation> .
+</pre>
+   <p>Any implementation MAY provide additional pagination support or filtering possibilities, and SHOULD advertise these using the appropriate mechanisms detailed by their specifications.</p>
+   <h2 class="heading settled" data-level="12" id="consuming"><span class="secno">12. </span><span class="content">Consuming an Event Log</span><a class="self-link" href="#consuming"></a></h2>
+    First any actor wishing to consume the Events linked to a resource MUST discover any Event Log linked to the resource accoring to <a href="#discovery">§ 10 Discovery</a>.
+On discovery of an Event Log URI, the actor MUST make a GET request to the Event Log URI with a Content-Type header of the form: 
+<pre>Accept: text/turtle
+</pre>
+   <p>On a succesful GET request on the Event Log URI <code>eventLogURI</code>, the actor can discover the URIs of the available events by processing the Event Log body for all data triples of the form:</p>
+<pre>&lt;eventLogURI> ldp:contains &lt;eventURI> .
+</pre>
+   <p>The consumer implementation MAY include alternate approaches to retrieving events from an Event Log, but MUST support this retrieval method.</p>
+   <h3 class="heading settled" data-level="12.1" id="consuming-pagination"><span class="secno">12.1. </span><span class="content">Pagination</span><a class="self-link" href="#consuming-pagination"></a></h3>
+    Any consumer implementation MUST support pagination through following advertised <em>next</em> links.
+On a GET request to an Event Log / Event Log page on URI <code>eventLogPageURI</code> with an Accept header of type <code>text/turtle</code>, the consumer MUST process the server response for a Link header with a rel value of <code>"next"</code>.
+The response body MUST be processed to discover any data triples of the form: 
+<pre>&lt;eventLogPageURI> hydra:next &lt;nextPageLocation> .
+</pre>
+   <p>Any implementation MAY support additional advertised pagination or filtering approaches, but MUST support this approach for consuming a paginated Event Log.</p>
    <h2 class="heading settled" data-level="13" id="events"><span class="secno">13. </span><span class="content">Events</span><a class="self-link" href="#events"></a></h2>
     In this section, we go over the specific requirements for <strong>Events</strong> stored in the Event Log.
 An Event in the Event Log MUST contain the following properties: 
@@ -1730,6 +1777,7 @@ An Event in the Event Log MUST contain the following properties:
     <li data-md>
      <p>id: This must be a URI</p>
    </ul>
+   <p>TODO:: This needs some more discussion</p>
    <h2 class="heading settled" data-level="14" id="implementation"><span class="secno">14. </span><span class="content">Implementation</span><a class="self-link" href="#implementation"></a></h2>
     In this section, we provide implementation examples 
    <p>map LDP Container => EventLog
