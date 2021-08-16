@@ -51,6 +51,7 @@ This document is one of the specifications produced by the **ResearcherPod** and
 4. [Rule language](/spec-rulelanguage/)
 5. [Artefact Lifecycle Event Log](/spec-eventlog/) (this document)
 6. [Notifications](/spec-notifications/)
+7. [Collector](/spec-collector/)
 
 Introduction {#intro}
 =====================
