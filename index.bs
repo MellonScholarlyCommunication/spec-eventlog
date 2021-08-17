@@ -54,16 +54,13 @@ This document is one of the specifications produced by the **ResearcherPod** and
 
 Introduction {#intro}
 =====================
-Resources in a decentralized network can be used in a multitude of services and traverse multiple value chains in a network.
-These events form the lifecycle of a resource on the network.
-To generate, distribute and discover these lifecycle events, standardized functions are required to create a decentralized record of resource lifecycle information.
+Resources in a decentralized network can be processed by a multitude of services in the network, interacted with by many actors in the network.
+This causes the resource lifecycle and its interactions to be a series of events distributed over many actors and services in the network.
+In order to keep track of these events in the network and make them discoverable, this document introduces the *Event Log* mechanism.
 
-In this document, we design the *Event Log* mechanism.
-An Event Log is a standardized mechanism to store and discover events for related resources in a network.
-The Event Log mechanism enables actors in the network to discover an Event Log advertised by a resource.
-Given the permission, actors can retrieve the available lifecycle events from the Event Log, and append events additional lifecycle events.
+An Event Log is a standardized mechanism for the storage and discovery of [=Event=] information in a Web environment.
+It defines the creation and linking of an Event Log and the addition, discovery and retrieval process for Event information in the Event Log.
 
-This document outlines the requirements for the *Event Log* mechanism.
 
 # Definitions # {#definitions}
 
@@ -111,9 +108,9 @@ Note: All required URIs for any term that currently has no namespace are defined
 
 High-level overview {#high-level}
 =================================
-The **Event Log** is a mechanism to connect store and discover events in a network for their relevant resources.
-It details the approach for [creating an Event Log](#creating) for a resource, [discovering an Event Log](#discovery) of a resource, [consuming an Event Log](#consuming) of a resource and [appending to an Event Log](#producing) of a resource,
-as well as additional requirements are defined for managing authorization, and limiting the shapes of events that can be appended to the Event Log of a resource.
+The **Event Log** is a standardized mechanism for the storage and discovery of [=Event=] information in a Web environment. 
+It details the approach for the [creation](#creating) and [linking](#linking) of an Event Log and the process of [adding](#producing), [discovering](#discovery) and [retrieving](#consuming) Event information from an Event Log.
+Additional requirements are defined for [managing authorization](#authorization), and [validating event shapes](#validation) against an imposed base shape that must be matched to be appended to the Event Log of a resource.
 
 Creation {#creating}
 ===============================
@@ -199,86 +196,6 @@ This enables actors in the network to efficiently aggregate all Event data in th
 ```
 </div>
 
-Authorization {#authorization}
-===============================
-Any platform implementing the Event Log mechanism MAY support authorization for the following aspects of the Event Log mechanism:
-- Reading access for an Event Log
-- Append access for an Event Log
-- Update permissions for an Event Log
-- Reading access for a specific event in an Event Log
-- Update permissions for a specific event in an Event Log
-
-Any implementation of authorization for an Event Log MUST make use of [Web Access Control (WAC)](https://www.w3.org/wiki/WebAccessControl). 
-The discovery of the ACL document for a resource MUST be done according to the [ACL spec](https://www.w3.org/wiki/WebAccessControl).
-The setting of permissions for a resource happens by creating / updating the [ACL file](https://www.w3.org/wiki/WebAccessControl) for that resource.
-
-NOTE: Depending of the course of the Solid Project, this dependency on WAC may be updated to include newer approaches to auhtorization, as the goal is to maintain compatibility with the Solid Project.
-
-## Read authorization ## {#authorization-read}
-Any actor with Read permissions set for an Event Log MUST be able to discover all Events in the Event Log to which the actor has Read permissions.
-Any actor with Read permissions set for an Event Log SHOULD automatically have read permission for all the stored events, UNLESS explicitly defined otherwise by the individual events.
-The implementation MAY restrict the actor from discovering events in the Event Log for which the actor does not have Read permissions.
-Any actor without Read permissions for an Event Log SHOULD NOT be able to discover the Event in the Event Log, even if the actor has Read permissions for individual events in the Event Log.
-
-## Append authorization  ## {#authorization-append}
-Any actor with Append permissions set for an Event Log MUST be able to append Events to the Event Log.
-
-Note: The implementation MAY decide to use EITHER acl:Write OR acl:Append as the permission to append events to the Event Log, but the platform MUST support the use of POST operations on the Event Log for the chosen permission.
-
-
-## Update permissions authorization  ## {#authorization-permissions}
-Any actor with Update permissions set for an Event Log MUST be able to edit permissions for all actors for the Event Log.
-Any actor with Update permissions set for an Event Log MUST be able to edit permissions for all individual events in the Event Log UNLESS explicitly defined otherwise by the individual events.
-
-## Event specific read authorization  ## {#authorization-specific-read}
-Any actor with Read permissions set for an event MUST be able to read this event, and discover the event in the Event Log in the case of Read permissions for the Event Log.
-
-## Event specific update permissions authorization  ## {#authorization-specific-update}
-Any actor with Update permissions set for an event MUST be able edit permissions for all actors for this event.
-
-Validation {#validation}
-===============================
-Any implementation of the Event Log mechanism MAY add support for validating events that are appended to the Event Log.
-In case an actor tries to append an event to the Event Log that cannot be validated, the event MUST NOT be added to the Event Log and an appropriate 4xx error code must be returned.
-The following sections define the different possibilities for providing a shape file, located at <code>shapeFileLocation</code>, to which an event MUST validate before it can be added to the Event Log.
-If a shape file is advertised using any of the different methods described in the following sections, the server MUST validate all incoming requests to append an event to the Event Log and MUST reject all requests for which the event fails this validation step.
-
-## Validation Link Header ## {#validation-link-header}
-A request to the Event Log MAY return the following Link header:
-<pre>
-	Link: &lt;shapeFileLocation&gt;; rel=http://www.w3.org/ns/ldp#constrainedBy
-</pre>
-In this case, the server MUST validate all incoming requests to append an event to the Event Log for the advertised shape file.
-
-
-## Validation in-body Link ## {#validation-in-body-link}
-The Event Log MAY provide the following links in the resource body:
-<pre>
-	&lt;link rel='http://www.w3.org/ns/ldp#constrainedBy' href='&lt;shapeFileLocation&gt;'/&gt;
-</pre>
-in the case of an HTML resource, and 
-<pre>
-	&lt;eventLogURI&gt; &lt;http://www.w3.org/ns/ldp#constrainedBy&gt; &lt;shapeFileLocation&gt;.
-</pre>
-in case of an RDF resource.
-In this case, the server MUST validate all incoming requests to append an event to the Event Log for the advertised shape file.
-http://www.w3.org/ns/ldp#constrainedBy
-
-## Shape Tree Validation ## {#validation-shape-tree}
-In a Solid environment, the shape file to which all events in the Event Log must validate MAY be advertised using a st:validatedBy link in the [Shape Tree](https://shapetrees.org/).
-In this case, the implementation SHOULD also advertise this shape file using EITHER [a link header](#validation-link-header) or [an in-body link](#validation-in-body-link).
-<div class="example">
-```
-
-// An Event Log is a container in the Solid ecosystem containing Event resources.
-<#EventStream> tree:expectsType st:ShapeTreeContainer ;
-	st:contains <#Event> ;
-	
-// All event resources MUST validate for the advertised shape
-<#Event> tree:expectsType st:ShapeTreeResource ;
-	st:validatedBy <shapeFileLocation> ;
-```
-</div>
 
 
 Discovery {#discovery}
@@ -362,21 +279,93 @@ The response body MUST be processed to discover any data triples of the form:
 Any implementation MAY support additional advertised pagination or filtering approaches, but MUST support this approach for consuming a paginated Event Log.
 
 
-Events {#events}
-========================
-In this section, we go over the specific requirements for **Events** stored in the Event Log.
-An Event in the Event Log MUST contain the following properties:
-- id: This must be a URI
 
-TODO:: This needs some more discussion
+Authorization {#authorization}
+===============================
+Any platform implementing the Event Log mechanism MAY support authorization for the following aspects of the Event Log mechanism:
+- Reading access for an Event Log
+- Append access for an Event Log
+- Update permissions for an Event Log
+- Reading access for a specific event in an Event Log
+- Update permissions for a specific event in an Event Log
+
+Any implementation of authorization for an Event Log MUST make use of [Web Access Control (WAC)](https://www.w3.org/wiki/WebAccessControl). 
+The discovery of the ACL document for a resource MUST be done according to the [ACL spec](https://www.w3.org/wiki/WebAccessControl).
+The setting of permissions for a resource happens by creating / updating the [ACL file](https://www.w3.org/wiki/WebAccessControl) for that resource.
+
+NOTE: Depending of the course of the Solid Project, this dependency on WAC may be updated to include newer approaches to auhtorization, as the goal is to maintain compatibility with the Solid Project.
+
+## Read authorization ## {#authorization-read}
+Any actor with Read permissions set for an Event Log MUST be able to discover all Events in the Event Log to which the actor has Read permissions.
+Any actor with Read permissions set for an Event Log SHOULD automatically have read permission for all the stored events, UNLESS explicitly defined otherwise by the individual events.
+The implementation MAY restrict the actor from discovering events in the Event Log for which the actor does not have Read permissions.
+Any actor without Read permissions for an Event Log SHOULD NOT be able to discover the Event in the Event Log, even if the actor has Read permissions for individual events in the Event Log.
+
+## Append authorization  ## {#authorization-append}
+Any actor with Append permissions set for an Event Log MUST be able to append Events to the Event Log.
+
+Note: The implementation MAY decide to use EITHER acl:Write OR acl:Append as the permission to append events to the Event Log, but the platform MUST support the use of POST operations on the Event Log for the chosen permission.
+
+
+## Update permissions authorization  ## {#authorization-permissions}
+Any actor with Update permissions set for an Event Log MUST be able to edit permissions for all actors for the Event Log.
+Any actor with Update permissions set for an Event Log MUST be able to edit permissions for all individual events in the Event Log UNLESS explicitly defined otherwise by the individual events.
+
+## Event specific read authorization  ## {#authorization-specific-read}
+Any actor with Read permissions set for an event MUST be able to read this event, and discover the event in the Event Log in the case of Read permissions for the Event Log.
+
+## Event specific update permissions authorization  ## {#authorization-specific-update}
+Any actor with Update permissions set for an event MUST be able edit permissions for all actors for this event.
+
+Validation {#validation}
+===============================
+Any implementation of the Event Log mechanism MAY add support for validating events that are appended to the Event Log.
+In case an actor tries to append an event to the Event Log that cannot be validated, the event MUST NOT be added to the Event Log and an appropriate 4xx error code must be returned.
+The following sections define the different possibilities for providing a shape file, located at <code>shapeFileLocation</code>, to which an event MUST validate before it can be added to the Event Log.
+If a shape file is advertised using any of the different methods described in the following sections, the server MUST validate all incoming requests to append an event to the Event Log and MUST reject all requests for which the event fails this validation step.
+
+## Validation Link Header ## {#validation-link-header}
+A request to the Event Log MAY return the following Link header:
+<pre>
+	Link: &lt;shapeFileLocation&gt;; rel=http://www.w3.org/ns/ldp#constrainedBy
+</pre>
+In this case, the server MUST validate all incoming requests to append an event to the Event Log for the advertised shape file.
+
+
+## Validation in-body Link ## {#validation-in-body-link}
+The Event Log MAY provide the following links in the resource body:
+<pre>
+	&lt;link rel='http://www.w3.org/ns/ldp#constrainedBy' href='&lt;shapeFileLocation&gt;'/&gt;
+</pre>
+in the case of an HTML resource, and 
+<pre>
+	&lt;eventLogURI&gt; &lt;http://www.w3.org/ns/ldp#constrainedBy&gt; &lt;shapeFileLocation&gt;.
+</pre>
+in case of an RDF resource.
+In this case, the server MUST validate all incoming requests to append an event to the Event Log for the advertised shape file.
+http://www.w3.org/ns/ldp#constrainedBy
+
+## Shape Tree Validation ## {#validation-shape-tree}
+In a Solid environment, the shape file to which all events in the Event Log must validate MAY be advertised using a st:validatedBy link in the [Shape Tree](https://shapetrees.org/).
+In this case, the implementation SHOULD also advertise this shape file using EITHER [a link header](#validation-link-header) or [an in-body link](#validation-in-body-link).
+<div class="example">
+```
+
+// An Event Log is a container in the Solid ecosystem containing Event resources.
+<#EventStream> tree:expectsType st:ShapeTreeContainer ;
+	st:contains <#Event> ;
+	
+// All event resources MUST validate for the advertised shape
+<#Event> tree:expectsType st:ShapeTreeResource ;
+	st:validatedBy <shapeFileLocation> ;
+```
+</div>
+
+
 
 Implementation {#implementation}
 ========================
 In this section, we provide implementation examples 
-
-map LDP Container => EventLog
-ldp:contains => events
-
 
 ## Linked Data Event Streams and the Solid Platform ## {#implementation-solid}
 
@@ -418,6 +407,18 @@ Note: This example shows the Event Log as a Linked Data Event Stream, ordered ac
 <img alt="…" src="images/peer_review_sequence.svg" style="width: 100%">
 
 <img alt="…" src="images/review_aftermath.svg" style="width: 100%">
+
+
+
+Spec roadmap {#roadmap}
+====================================
+## September ## {#september}
+1. Work out full implementation details
+	- target the Solid ecosystem
+	- using the Event Streams Spec
+	- update images of control flows (outdated)
+
+2. Better definitions for minimal-requirements (do you need a full Solid implementation?) - low priority
 
 
 
