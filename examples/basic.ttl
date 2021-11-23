@@ -1,0 +1,35 @@
+# Namespace for Decentralized Artefact Exchange Network
+@prefix daen: <http://www.w3.org/ns/solid/daen#> . 
+@prefix sc: <http://example.org/scholcomm#> . 
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix ldp: <http://www.w3.org/ns/ldp#>.
+
+@base <http://example.org/eventlog> .
+
+<> a daen:ArtefactLifecycleEventLog;
+    dcterms:title "Artefact Lifecycle Event Log";
+    daen:isEventLogOf <http://example.org/artefacts/1>;
+    ldp:contains <#1>, <#2>, <#3>.
+
+<#1> a daen:LifecycleEvent;
+    dcterms:title "Artefact was registered.";
+    prov:startedAtTime    "2011-07-14T01:01:01Z"^^xsd:dateTime;
+    prov:endedAtTime      "2011-07-14T02:02:02Z"^^xsd:dateTime;
+    daen:artefact <http://example.org/artefacts/1>;
+    daen:executor <http://example.org/registrar>.
+
+<#2> a daen:LifecycleEvent;
+    dcterms:title "Artefact was certified.";
+    prov:startedAtTime    "2011-07-16T01:01:01Z"^^xsd:dateTime;
+    prov:endedAtTime      "2011-07-16T02:02:02Z"^^xsd:dateTime;
+    daen:artefact <http://example.org/artefacts/1>;
+    daen:executor <http://example.org/certifier>.
+
+<#3> a daen:LifecycleEvent;
+    dcterms:title "Artefact was archived.";
+    prov:startedAtTime    "2011-07-17T01:01:01Z"^^xsd:dateTime;
+    prov:endedAtTime      "2011-07-17T02:02:02Z"^^xsd:dateTime;
+    daen:artefact <http://example.org/artefacts/1>;
+    daen:executor <http://example.org/archive>.
+
