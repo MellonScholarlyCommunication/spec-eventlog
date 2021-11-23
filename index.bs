@@ -4,7 +4,7 @@ Shortname: eventlog
 Level: 1
 Status: LS
 URL: https://mellonscholarlycommunication.github.io/spec-eventlog
-Editor: Miel Vander Sande, meemoo - [Flemish Institute for Archiving](https://meemoo.be), miel.vandersande@meemoo.be
+Editor: Miel Vander Sande, [meemoo - Flemish Institute for Archives](https://meemoo.be), miel.vandersande@meemoo.be
 Editor: Patrick Hochstenbach, Ghent University, patrick.hochstenbach@ugent.be
 Editor: Ruben Dedecker, Ghent University, ruben.dedecker@ugent.be
 Editor: Jeroen Werbrouck, Ghent University, Jeroen.Werbrouck@ugent.be
@@ -55,27 +55,22 @@ This document is one of the specifications produced by the **ResearcherPod** and
 
 Introduction {#intro}
 =====================
-Resources in a decentralized network can be processed by a multitude of services in the network, interacted with by many actors in the network.
-This causes the resource lifecycle and its interactions to be a series of events distributed over many actors and services in the network.
-In order to keep track of these events in the network and make them discoverable, this document introduces the *Event Log* mechanism.
+In a decentralized network,
+an artefact can be shared between actors and processed by a multitude of services,
+each appending to the artefact's lifecycle.
+Hence, for each artefact, a series of lifecycle events is distributed over the network.
+This document introduces the *Artefact Lifecycle Event Log*, 
+a mechanism to ensure the recording and discovery of these events.
 
-An Event Log is a standardized mechanism for the storage and discovery of [=Event=] information in a Web environment.
-It defines the creation and linking of an Event Log and the addition, discovery and retrieval process for Event information in the Event Log.
+An [=Artefact Lifecycle Event Log=] is an artefact-centric, append-only, public Web resource that exposes a series of lifecycle events.
+Events are recorded in a standardized format to ensure network-wide interoperability.
+In most common cases, the [=Artefact Lifecycle Event Log=] is an [[LDP]] Resource that is part of a Solid data pod.
+This document describes
 
-
-# Definitions # {#definitions}
-
-This document uses the following defined terms from [[spec-overview]]:
-
-- <dfn export>Actor</dfn>
-- <dfn export>Artefact</dfn>
-- <dfn export>Maintainer</dfn>
-- <dfn export>Data Pod</dfn>
-- <dfn export>Inbox</dfn>
-- <dfn export>Artefact Lifecycle Event Log</dfn>
-- <dfn export>Service Hub</dfn>
-- <dfn export>Policy</dfn>
-- <dfn export>Dashboard</dfn>
+- the resource definition of the [=Artefact Lifecycle Event Log=];
+- the creation and linking process;
+- a data format for noting lifecycle events;
+- the addition, discovery and retrieval process for Event information in the log.
 
 # Document Conventions # {#conventions}
 
@@ -102,18 +97,144 @@ Within this document, the following namespace prefix bindings are used:
 <tr>
 <td>hydra
 <td>http://www.w3.org/ns/hydra/core#
+<tr>
+<td>daen
+<td>http://www.w3.org/ns/solid/daen#
 </table>
 
 Note: All required URIs for any term that currently has no namespace are defined as: <code>https://ournamespace.org/&lt;TERM&gt;</code>
 
+Applications of the Artefact Lifecycle Event Log
+================================================
+
+A [=Decentralized Artefact Exchange Network=] can support communities in the exchange of digital artefacts and services without the need of a central authority.
+Data about these exchanges is therefore distributed over every actor in the network.
+This intensifies an actor's control over its data and severly reduces data duplication, 
+but also makes it more difficult to get a clear picture about an artefact's history.
+There is no longer a single go-to trusted authority that records and certifies who applied what services to an artefact and when.
+In a [=Decentralized Artefact Exchange Network=], 
+this information needs to be collected from different actors with varying levels of trust.
+The [=Artefact Lifecycle Event Log=] provides basic groundwork for publishing artefact lifecycles and thus supporting this collection process. 
+
+In short,
+an [=Artefact Lifecycle Event Log=] registers lifecycle events that the [=Decentralized Artefact Exchange Network=] instance desires to be to be publicly disclosed.
+This is determined by the nature of the network, the use cases it supports, and how lifecycle information is employed.
+Typically, a network instance requires these events to be common knowledge to guarentee its well-functioning. 
+For instance, a food network might desire the publication of a completed health inspection process.
+It is therefore assumed that the dominant fraction of participating actors will experience sufficient incentive to host a [=Decentralized Artefact Exchange Network=] available to all actors in the network; and accurately record the selected lifecycle events.
+This pragmatic approach is needed because no decentralized design can force actors to comply,
+while maintaining truly scalable.
+
+This document offers a minimal semantic data model to construct and publish artefact lifecycle events, which serves as a basis for technical interoperability, 
+It is expected that a community that employs an instance of a [=Decentralized Artefact Exchange Network=], extends this model with domain-specific event types that provide more meaning and understanding within the network instance.
+A community can also leverage lifecycle information as they see fit, resulting in one or more applications of the [=Artefact Lifecycle Event Logs=].
+Some probable applications are given below: 
+
+- **Establishing trust in the integrity of an artefact**
+
+In some domains, 
+an artefact's value depends on its reconstructed lifecycle and whether this lifecycle can be trusted.
+For instance, 
+in scholarly communication, 
+a publication gains status after it has been certified by a certification service (eg. by a peer review process).
+Such lifecycle event should be registered in the [=Artefact Lifecycle Event Logs=] of both parties.
+When reconstructing the artefact's lifecycle to assess its integrity, 
+encountering such events in multiple places increases the trust.
+
+- **Discovering entities on the network**
+
+A process that collects decentralized information needs a way to navigate the network and discover new artefacts.
+Given the potential size of the network, 
+many data pods are still unknown when this process starts.
+Discovering unknown pods relies on existing links between actors and artefacts.
+Therefore, an [=Artefact Lifecycle Event Log=] can be used to find these links and serve as a routing mechanism.
+For instance, 
+in a digital heritage network, 
+
+- **Gaining insight in the provenance of artefacts**
+
+Issue: todo
+
+
 
 High-level overview {#high-level}
 =================================
-The **Event Log** is a standardized mechanism for the storage and discovery of [=Event=] information in a Web environment. 
-It details the approach for the [creation](#creating) and [linking](#linking) of an Event Log and the process of [adding](#producing), [discovering](#discovery) and [retrieving](#consuming) Event information from an Event Log.
-Additional requirements are defined for [managing authorization](#authorization), and [validating event shapes](#validation) against an imposed base shape that must be matched to be appended to the Event Log of a resource.
+The <dfn>Artefact Lifecycle Event Log</dfn> is a standardized mechanism for the storage and discovery of artefact lifecycle event information. 
 
-Creation {#creating}
+
+Data format
+=================================
+
+Linked Data Platform BasicContainer (LDP-DC)
+
+
+<pre class=include-code>
+path: examples/basic.ttl
+highlight: turtle
+show: 
+</pre>
+
+
+## Types
+
+
+
+<table>
+<tr>
+<th>Type
+<th>Description
+<tr>
+<td><a href="">daen:ArtefactLifecycleEventLog</a>
+<td>The 
+<tr>
+<td><a href="">daen:LifecycleEvent</a>
+<td>
+<tr>
+<td><a href="">daen:Maintainer</a>
+<td>
+<tr>
+<td><a href="">daen:ServiceHub</a>
+<td>
+</table>
+
+
+:ArtefactLifecycleEventLog rdfs:subClassOf prov:Collection
+
+:LifecycleEvent rdfs:subClassOf prov:Activity
+
+
+
+## Vocabulary
+
+```
+:log a prov:Collection.
+
+:ev1
+   a prov:Activity;
+   prov:startedAtTime    "2011-07-14T01:01:01Z"^^xsd:dateTime;
+   prov:wasAssociatedWith :Bob;
+   prov:used              :Artefact;
+   prov:endedAtTime      "2011-07-14T02:02:02Z"^^xsd:dateTime.
+
+```
+
+
+
+## List of events
+
+
+
+
+
+
+
+
+
+
+
+
+
+Creating a log {#creating}
 ===============================
 For any resource in a network an Event Log can be created.
 An Event Log MUST be made available in RDF turtle format, but may support other data formats through content negotiation.
@@ -124,10 +245,6 @@ Ay platform implementing the Event Log mechanism for storing events related to a
 - A created Event Log MUST support the appending of Events by producers in accordance to [](#producing).
 - A created Event Log MAY support the authorization mechanism as defined in [](#authorization) to authorize actors in the network to read an Event Log, append to an Event Log or change the permissions for an Event Log. The permissions required to create an Event Log will depend on the permissions of the platform in which the Event Log is created, and are out of scope for this document.
 - A created Event Log MAY support validating Events before they can be added to the Event Log in accordance to [](#validation).
-
-
-
-
 
 Linking {#linking}
 ===============================
