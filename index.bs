@@ -149,13 +149,9 @@ many data pods are still unknown when this process starts.
 Discovering unknown pods relies on existing links between actors and artefacts.
 Therefore, an [=Artefact Lifecycle Event Log=] can be used to find these links and serve as a routing mechanism.
 For instance, 
-in a digital heritage network, 
-
-- **Gaining insight in the provenance of artefacts**
-
-Issue: todo
-
-
+in a digital heritage network,
+a portal wants to discover relevant data stored in pods controlled by cultural heritage institutions.
+No knowing the location of these pods beforehand, the portal might consult the eventlog of a registry service hub first, to finds links to all datasets that were registered there.
 
 High-level overview {#high-level}
 =================================
