@@ -58,18 +58,20 @@ Introduction {#intro}
 In a decentralized network,
 an artefact can be shared between actors and processed by a multitude of services,
 each appending to the artefact's lifecycle.
-Hence, for each artefact, a series of lifecycle events is distributed over the network.
-This document introduces the *Artefact Lifecycle Event Log*, 
-a mechanism to ensure the recording and discovery of these events.
+For each artefact, a series of lifecycle events is therrefore distributed over the network.
+This document introduces the [=Artefact Lifecycle Event Log=], 
+a data format and protocol for the recording and discovery of these events,
+in order to serve mostly applications related to network governance.
 
 An [=Artefact Lifecycle Event Log=] is an artefact-centric, append-only, public Web resource that exposes a series of lifecycle events.
-Events are recorded in a standardized format to ensure network-wide interoperability.
-In most common cases, the [=Artefact Lifecycle Event Log=] is an [[LDP]] Resource that is part of a Solid data pod.
+To ensure network-wide interoperability, events are recorded using a data vocabulary encoded in [[rdf11-concepts|RDF]].
+In most common cases, 
+the [=Artefact Lifecycle Event Log=] is an [[LDP]] Resource that is part of a [[solid-protocol#data-pod| Solid Data Pod]].
 This document describes
 
-- the resource definition of the [=Artefact Lifecycle Event Log=];
+- a data vocabulary compatible with [[prov-o|PROV-O]] and [[activitystreams-vocabulary|Activity Streams 2.0]] for describing lifecycle event and log information;
+- the Web resource definition of the [=Artefact Lifecycle Event Log=];
 - the creation and linking process;
-- a data format for noting lifecycle events;
 - the addition, discovery and retrieval process for Event information in the log.
 
 # Document Conventions # {#conventions}
@@ -130,7 +132,7 @@ It is expected that a community that employs an instance of a [=Decentralized Ar
 A community can also leverage lifecycle information as they see fit, resulting in one or more applications of the [=Artefact Lifecycle Event Logs=].
 Some probable applications are given below: 
 
-- **Establishing trust in the integrity of an artefact**
+## Establishing trust in the integrity of an artefact
 
 In some domains, 
 an artefact's value depends on its reconstructed lifecycle and whether this lifecycle can be trusted.
@@ -141,7 +143,7 @@ Such lifecycle event should be registered in the [=Artefact Lifecycle Event Logs
 When reconstructing the artefact's lifecycle to assess its integrity, 
 encountering such events in multiple places increases the trust.
 
-- **Discovering entities on the network**
+## Discovering entities on the network
 
 A process that collects decentralized information needs a way to navigate the network and discover new artefacts.
 Given the potential size of the network, 
@@ -153,26 +155,44 @@ in a digital heritage network,
 a portal wants to discover relevant data stored in pods controlled by cultural heritage institutions.
 No knowing the location of these pods beforehand, the portal might consult the eventlog of a registry service hub first, to finds links to all datasets that were registered there.
 
-High-level overview {#high-level}
+Overview {#overview}
 =================================
-The <dfn>Artefact Lifecycle Event Log</dfn> is a standardized mechanism for the storage and discovery of artefact lifecycle event information. 
+A [=Artefact Lifecycle Event Log=] is a Web resource that is accessible by all actors inside a single network.
+When requested, it returns an ordered list of notable lifecycle events descriptions, each containing the what, who and when of the event. 
+Lifecycle events are described in the artefact lifecycle data vocabulary (defined in [[#vocabulary]]). 
+An actor can store new descriptions by updating this resource.
+The log maintains a chronological order; new events are appended to the end of the log.
 
+While not mandatory, each actor in the network is expected to host a [=Artefact Lifecycle Event Log=] resource per known artefact to allow effective network governance.
+As a result, a single [=Artefact Lifecycle Event Log=] corresponds to one or more [=artefacts=] in the network, 
+while an [=artefact=] can correspond to multiple [=Artefact Lifecycle Event Logs=].
+The [=Artefact Lifecycle Event Log=]'s URL can be discovered by following a link from an [=artefact=] resource (defined in [[#discovery]]).
 
-Data format
+<figure>
+	<img src="images/logs.png" width="100%" />
+	<figcaption>
+	Alice and Bob have data pods that contain two resources: an artefact and an Artefact Lifecycle Event Log. 
+	Service Hubs also host a Artefact Lifecycle Event Log resource. 
+	Since Service Hub B certifies artefacts, the lifecycle event that Alice's artefact A has been certified is in the logs of both Alice and Service Hub B.
+	Also, Bob made a comment on Alice's Artefact B, hence both actor's logs contain the lifecycle event that artefact A has been commented on by Bob.
+	</figcaption>
+</figure>
+
+Vocabulary {#vocabulary}
 =================================
 
-Linked Data Platform BasicContainer (LDP-DC)
+An [=Artefact Lifecycle Event Log=] can be described using a minimal data vocabulary, 
+introducing a number of high level semantic types and properties.
+The <dfn>Artefact Lifecycle Event Vocabulary</dfn> can be used to construct an [[rdf-primer|RDF 1.1]] representation of the log and the lifecycle events it contains.
+The data vocabulary is fully compatible with [[prov-o|PROV-O]] and the object types from [[activitystreams-vocabulary|Activity Streams 2.0]].
+An overview is given in the figure below.
 
-
-<pre class=include-code>
-path: examples/basic.ttl
-highlight: turtle
-show: 
-</pre>
-
-
-## Types
-
+<figure>
+	<img src="images/classes.svg" width="100%" />
+	<figcaption>
+	A diagram of the Artefact Lifecycle Event Vocabulary
+	</figcaption>
+</figure>
 
 
 <table>
@@ -192,6 +212,45 @@ show:
 <td><a href="">daen:ServiceHub</a>
 <td>
 </table>
+
+<table>
+<tr>
+<th>Property
+<th>Description
+<tr>
+<td><a href="">daen:ArtefactLifecycleEventLog</a>
+<td>The 
+<tr>
+<td><a href="">daen:LifecycleEvent</a>
+<td>
+<tr>
+<td><a href="">daen:Maintainer</a>
+<td>
+<tr>
+<td><a href="">daen:ServiceHub</a>
+<td>
+</table>
+
+
+<figure>
+	<img src="images/model.svg" width="100%" />
+	<figcaption>
+	Basic use of the Artefact Lifecycle Event Vocabulary
+	</figcaption>
+</figure>
+
+<pre class=include-code>
+path: examples/basic.ttl
+highlight: turtle
+show: 
+</pre>
+
+
+## Types
+
+
+
+
 
 
 :ArtefactLifecycleEventLog rdfs:subClassOf prov:Collection
@@ -562,7 +621,7 @@ Spec roadmap {#roadmap}
 			"Justin Bingham",
 			"Dmitri Zagidulin"
 		],
-		"href": "https://solidproject.org/TR/protocol/",
+		"href": "https://solidproject.org/TR/protocol",
 		"title": "The Solid Protocol",
 		"status": "Editor’s Draft",
 		"publisher": "Solid project",
