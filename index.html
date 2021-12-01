@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="ada74bda774019cb3959e053bbbbafe595bc087b" name="document-revision">
+  <meta content="bfde9694ed87c4ec355f647d258a1e9a7cca9dd2" name="document-revision">
 <style>
 table {
   margin: 25px auto;
@@ -1342,43 +1342,6 @@ figcaption {
 figcaption:not(.no-marker)::before {
     content: "Figure " counter(figure) " ";
 }</style>
-<style>/* style-dfn-panel */
-
-.dfn-panel {
-    position: absolute;
-    z-index: 35;
-    height: auto;
-    width: -webkit-fit-content;
-    width: fit-content;
-    max-width: 300px;
-    max-height: 500px;
-    overflow: auto;
-    padding: 0.5em 0.75em;
-    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
-    border: outset 0.2em;
-}
-.dfn-panel:not(.on) { display: none; }
-.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
-.dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
-.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
-.dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0; }
-.dfn-panel li { list-style: inside; }
-.dfn-panel.activated {
-    display: inline-block;
-    position: fixed;
-    left: .5em;
-    bottom: 2em;
-    margin: 0 auto;
-    max-width: calc(100vw - 1.5em - .4em - .5em);
-    max-height: 30vh;
-}
-
-.dfn-paneled { cursor: pointer; }
-</style>
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -1497,14 +1460,13 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Artefact Lifecycle Event Log</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-11-26">26 November 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-12-01">1 December 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
      <dd><a class="u-url" href="https://mellonscholarlycommunication.github.io/spec-eventlog">https://mellonscholarlycommunication.github.io/spec-eventlog</a>
      <dt>Issue Tracking:
      <dd><a href="https://github.com/MellonScholarlyCommunication/spec-eventlog/issues/">GitHub</a>
-     <dd><a href="#issues-index">Inline In Spec</a>
      <dt class="editor">Editors:
      <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:miel.vandersande@meemoo.be">Miel Vander Sande</a> (<span class="p-org org"><a href="https://meemoo.be">meemoo - Flemish Institute for Archives</a></span>)
      <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:patrick.hochstenbach@ugent.be">Patrick Hochstenbach</a> (<span class="p-org org"><a href="https://knows.idlab.ugent.be">IDLab - Ghent University</a></span>)
@@ -1515,7 +1477,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 26 November 2021,
+In addition, as of 1 December 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1532,13 +1494,18 @@ Parts of this work may be from another specification document.  If so, those par
     <li><a href="#set"><span class="secno">1</span> <span class="content">Set of documents</span></a>
     <li><a href="#intro"><span class="secno">2</span> <span class="content">Introduction</span></a>
     <li><a href="#conventions"><span class="secno">3</span> <span class="content">Document Conventions</span></a>
-    <li><a href="#applications-of-the-artefact-lifecycle-event-log"><span class="secno">4</span> <span class="content">Applications of the Artefact Lifecycle Event Log</span></a>
-    <li><a href="#high-level"><span class="secno">5</span> <span class="content">High-level overview</span></a>
     <li>
-     <a href="#data-format"><span class="secno">6</span> <span class="content">Data format</span></a>
+     <a href="#applications-of-the-artefact-lifecycle-event-log"><span class="secno">4</span> <span class="content">Applications of the Artefact Lifecycle Event Log</span></a>
+     <ol class="toc">
+      <li><a href="#establishing-trust-in-the-integrity-of-an-artefact"><span class="secno">4.1</span> <span class="content">Establishing trust in the integrity of an artefact</span></a>
+      <li><a href="#discovering-entities-on-the-network"><span class="secno">4.2</span> <span class="content">Discovering entities on the network</span></a>
+     </ol>
+    <li><a href="#overview"><span class="secno">5</span> <span class="content">Overview</span></a>
+    <li>
+     <a href="#vocabulary"><span class="secno">6</span> <span class="content">Vocabulary</span></a>
      <ol class="toc">
       <li><a href="#types"><span class="secno">6.1</span> <span class="content">Types</span></a>
-      <li><a href="#vocabulary"><span class="secno">6.2</span> <span class="content">Vocabulary</span></a>
+      <li><a href="#vocabulary①"><span class="secno">6.2</span> <span class="content">Vocabulary</span></a>
       <li><a href="#list-of-events"><span class="secno">6.3</span> <span class="content">List of events</span></a>
      </ol>
     <li><a href="#creating"><span class="secno">7</span> <span class="content">Creating a log</span></a>
@@ -1607,7 +1574,6 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
       <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
      </ol>
-    <li><a href="#issues-index"><span class="secno"></span> <span class="content">Issues Index</span></a>
    </ol>
   </nav>
   <main>
@@ -1633,20 +1599,22 @@ Parts of this work may be from another specification document.  If so, those par
     In a decentralized network,
 an artefact can be shared between actors and processed by a multitude of services,
 each appending to the artefact’s lifecycle.
-Hence, for each artefact, a series of lifecycle events is distributed over the network.
-This document introduces the <em>Artefact Lifecycle Event Log</em>, 
-a mechanism to ensure the recording and discovery of these events. 
-   <p>An <a data-link-type="dfn" href="#artefact-lifecycle-event-log" id="ref-for-artefact-lifecycle-event-log">Artefact Lifecycle Event Log</a> is an artefact-centric, append-only, public Web resource that exposes a series of lifecycle events.
-Events are recorded in a standardized format to ensure network-wide interoperability.
-In most common cases, the <a data-link-type="dfn" href="#artefact-lifecycle-event-log" id="ref-for-artefact-lifecycle-event-log①">Artefact Lifecycle Event Log</a> is an <a data-link-type="biblio" href="#biblio-ldp">[LDP]</a> Resource that is part of a Solid data pod.
+For each artefact, a series of lifecycle events is therrefore distributed over the network.
+This document introduces the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, 
+a data format and protocol for the recording and discovery of these events,
+in order to serve mostly applications related to network governance. 
+   <p>An <a data-link-type="dfn">Artefact Lifecycle Event Log</a> is an artefact-centric, append-only, public Web resource that exposes a series of lifecycle events.
+To ensure network-wide interoperability, events are recorded using a data vocabulary encoded in <a data-link-type="biblio" href="#biblio-rdf11-concepts">RDF</a>.
+In most common cases, 
+the <a data-link-type="dfn">Artefact Lifecycle Event Log</a> is an <a data-link-type="biblio" href="#biblio-ldp">[LDP]</a> Resource that is part of a <a href="https://solidproject.org/TR/protocol#data-pod"> Solid Data Pod</a>.
 This document describes</p>
    <ul>
     <li data-md>
-     <p>the resource definition of the <a data-link-type="dfn" href="#artefact-lifecycle-event-log" id="ref-for-artefact-lifecycle-event-log②">Artefact Lifecycle Event Log</a>;</p>
+     <p>a data vocabulary compatible with <a data-link-type="biblio" href="#biblio-prov-o">PROV-O</a> and <a data-link-type="biblio" href="#biblio-activitystreams-vocabulary">Activity Streams 2.0</a> for describing lifecycle event and log information;</p>
+    <li data-md>
+     <p>the Web resource definition of the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>;</p>
     <li data-md>
      <p>the creation and linking process;</p>
-    <li data-md>
-     <p>a data format for noting lifecycle events;</p>
     <li data-md>
      <p>the addition, discovery and retrieval process for Event information in the log.</p>
    </ul>
@@ -1686,9 +1654,9 @@ but also makes it more difficult to get a clear picture about an artefact’s hi
 There is no longer a single go-to trusted authority that records and certifies who applied what services to an artefact and when.
 In a <a data-link-type="dfn">Decentralized Artefact Exchange Network</a>, 
 this information needs to be collected from different actors with varying levels of trust.
-The <a data-link-type="dfn" href="#artefact-lifecycle-event-log" id="ref-for-artefact-lifecycle-event-log③">Artefact Lifecycle Event Log</a> provides basic groundwork for publishing artefact lifecycles and thus supporting this collection process.</p>
+The <a data-link-type="dfn">Artefact Lifecycle Event Log</a> provides basic groundwork for publishing artefact lifecycles and thus supporting this collection process.</p>
    <p>In short,
-an <a data-link-type="dfn" href="#artefact-lifecycle-event-log" id="ref-for-artefact-lifecycle-event-log④">Artefact Lifecycle Event Log</a> registers lifecycle events that the <a data-link-type="dfn">Decentralized Artefact Exchange Network</a> instance desires to be to be publicly disclosed.
+an <a data-link-type="dfn">Artefact Lifecycle Event Log</a> registers lifecycle events that the <a data-link-type="dfn">Decentralized Artefact Exchange Network</a> instance desires to be to be publicly disclosed.
 This is determined by the nature of the network, the use cases it supports, and how lifecycle information is employed.
 Typically, a network instance requires these events to be common knowledge to guarentee its well-functioning. 
 For instance, a food network might desire the publication of a completed health inspection process.
@@ -1697,40 +1665,94 @@ This pragmatic approach is needed because no decentralized design can force acto
 while maintaining truly scalable.</p>
    <p>This document offers a minimal semantic data model to construct and publish artefact lifecycle events, which serves as a basis for technical interoperability,
 It is expected that a community that employs an instance of a <a data-link-type="dfn">Decentralized Artefact Exchange Network</a>, extends this model with domain-specific event types that provide more meaning and understanding within the network instance.
-A community can also leverage lifecycle information as they see fit, resulting in one or more applications of the <a data-link-type="dfn" href="#artefact-lifecycle-event-log" id="ref-for-artefact-lifecycle-event-log⑤">Artefact Lifecycle Event Logs</a>.
+A community can also leverage lifecycle information as they see fit, resulting in one or more applications of the <a data-link-type="dfn">Artefact Lifecycle Event Logs</a>.
 Some probable applications are given below:</p>
-   <ul>
-    <li data-md>
-     <p><strong>Establishing trust in the integrity of an artefact</strong></p>
-   </ul>
+   <h3 class="heading settled" data-level="4.1" id="establishing-trust-in-the-integrity-of-an-artefact"><span class="secno">4.1. </span><span class="content">Establishing trust in the integrity of an artefact</span><a class="self-link" href="#establishing-trust-in-the-integrity-of-an-artefact"></a></h3>
    <p>In some domains,
 an artefact’s value depends on its reconstructed lifecycle and whether this lifecycle can be trusted.
 For instance, 
 in scholarly communication, 
 a publication gains status after it has been certified by a certification service (eg. by a peer review process).
-Such lifecycle event should be registered in the <a data-link-type="dfn" href="#artefact-lifecycle-event-log" id="ref-for-artefact-lifecycle-event-log⑥">Artefact Lifecycle Event Logs</a> of both parties.
+Such lifecycle event should be registered in the <a data-link-type="dfn">Artefact Lifecycle Event Logs</a> of both parties.
 When reconstructing the artefact’s lifecycle to assess its integrity, 
 encountering such events in multiple places increases the trust.</p>
-   <ul>
-    <li data-md>
-     <p><strong>Discovering entities on the network</strong></p>
-   </ul>
+   <h3 class="heading settled" data-level="4.2" id="discovering-entities-on-the-network"><span class="secno">4.2. </span><span class="content">Discovering entities on the network</span><a class="self-link" href="#discovering-entities-on-the-network"></a></h3>
    <p>A process that collects decentralized information needs a way to navigate the network and discover new artefacts.
 Given the potential size of the network, 
 many data pods are still unknown when this process starts.
 Discovering unknown pods relies on existing links between actors and artefacts.
-Therefore, an <a data-link-type="dfn" href="#artefact-lifecycle-event-log" id="ref-for-artefact-lifecycle-event-log⑦">Artefact Lifecycle Event Log</a> can be used to find these links and serve as a routing mechanism.
+Therefore, an <a data-link-type="dfn">Artefact Lifecycle Event Log</a> can be used to find these links and serve as a routing mechanism.
 For instance, 
-in a digital heritage network,</p>
-   <ul>
-    <li data-md>
-     <p><strong>Gaining insight in the provenance of artefacts</strong></p>
-   </ul>
-   <p class="issue" id="issue-ea5cb8ff"><a class="self-link" href="#issue-ea5cb8ff"></a> todo</p>
-   <h2 class="heading settled" data-level="5" id="high-level"><span class="secno">5. </span><span class="content">High-level overview</span><a class="self-link" href="#high-level"></a></h2>
-    The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="artefact-lifecycle-event-log">Artefact Lifecycle Event Log</dfn> is a standardized mechanism for the storage and discovery of artefact lifecycle event information. 
-   <h2 class="heading settled" data-level="6" id="data-format"><span class="secno">6. </span><span class="content">Data format</span><a class="self-link" href="#data-format"></a></h2>
-   <p>Linked Data Platform BasicContainer (LDP-DC)</p>
+in a digital heritage network,
+a portal wants to discover relevant data stored in pods controlled by cultural heritage institutions.
+No knowing the location of these pods beforehand, the portal might consult the eventlog of a registry service hub first, to finds links to all datasets that were registered there.</p>
+   <h2 class="heading settled" data-level="5" id="overview"><span class="secno">5. </span><span class="content">Overview</span><a class="self-link" href="#overview"></a></h2>
+    A <a data-link-type="dfn">Artefact Lifecycle Event Log</a> is a Web resource that is accessible by all actors inside a single network.
+When requested, it returns an ordered list of notable lifecycle events descriptions, each containing the what, who and when of the event. 
+Lifecycle events are described in the artefact lifecycle data vocabulary (defined in <a href="#vocabulary">§ 6 Vocabulary</a>). 
+An actor can store new descriptions by updating this resource.
+The log maintains a chronological order; new events are appended to the end of the log. 
+   <p>While not mandatory, each actor in the network is expected to host a <a data-link-type="dfn">Artefact Lifecycle Event Log</a> resource per known artefact to allow effective network governance.
+As a result, a single <a data-link-type="dfn">Artefact Lifecycle Event Log</a> corresponds to one or more <a data-link-type="dfn">artefacts</a> in the network, 
+while an <a data-link-type="dfn">artefact</a> can correspond to multiple <a data-link-type="dfn">Artefact Lifecycle Event Logs</a>.
+The <a data-link-type="dfn">Artefact Lifecycle Event Log</a>'s URL can be discovered by following a link from an <a data-link-type="dfn">artefact</a> resource (defined in <a href="#discovery">§ 9 Discovery</a>).</p>
+   <figure>
+     <img src="images/logs.png" width="100%"> 
+    <figcaption> Alice and Bob have data pods that contain two resources: an artefact and an Artefact Lifecycle Event Log. 
+	Service Hubs also host a Artefact Lifecycle Event Log resource. 
+	Since Service Hub B certifies artefacts, the lifecycle event that Alice’s artefact A has been certified is in the logs of both Alice and Service Hub B.
+	Also, Bob made a comment on Alice’s Artefact B, hence both actor’s logs contain the lifecycle event that artefact A has been commented on by Bob. </figcaption>
+   </figure>
+   <h2 class="heading settled" data-level="6" id="vocabulary"><span class="secno">6. </span><span class="content">Vocabulary</span><a class="self-link" href="#vocabulary"></a></h2>
+   <p>An <a data-link-type="dfn">Artefact Lifecycle Event Log</a> can be described using a minimal data vocabulary,
+introducing a number of high level semantic types and properties.
+The <dfn data-dfn-type="dfn" data-noexport id="artefact-lifecycle-event-vocabulary">Artefact Lifecycle Event Vocabulary<a class="self-link" href="#artefact-lifecycle-event-vocabulary"></a></dfn> can be used to construct an <a data-link-type="biblio" href="#biblio-rdf-primer">RDF 1.1</a> representation of the log and the lifecycle events it contains.
+The data vocabulary is fully compatible with <a data-link-type="biblio" href="#biblio-prov-o">PROV-O</a> and the object types from <a data-link-type="biblio" href="#biblio-activitystreams-vocabulary">Activity Streams 2.0</a>.
+An overview is given in the figure below.</p>
+   <figure>
+     <img src="images/classes.svg" width="100%"> 
+    <figcaption> A diagram of the Artefact Lifecycle Event Vocabulary </figcaption>
+   </figure>
+   <table>
+    <tbody>
+     <tr>
+      <th>Type 
+      <th>Description 
+     <tr>
+      <td><a href>daen:ArtefactLifecycleEventLog</a> 
+      <td>The 
+     <tr>
+      <td><a href>daen:LifecycleEvent</a> 
+      <td>
+     <tr>
+      <td><a href>daen:Maintainer</a> 
+      <td>
+     <tr>
+      <td><a href>daen:ServiceHub</a> 
+      <td>
+   </table>
+   <table>
+    <tbody>
+     <tr>
+      <th>Property 
+      <th>Description 
+     <tr>
+      <td><a href>daen:ArtefactLifecycleEventLog</a> 
+      <td>The 
+     <tr>
+      <td><a href>daen:LifecycleEvent</a> 
+      <td>
+     <tr>
+      <td><a href>daen:Maintainer</a> 
+      <td>
+     <tr>
+      <td><a href>daen:ServiceHub</a> 
+      <td>
+   </table>
+   <figure>
+     <img src="images/model.svg" width="100%"> 
+    <figcaption> Basic use of the Artefact Lifecycle Event Vocabulary </figcaption>
+   </figure>
 <pre class="include-code highlight" data-code-show path="examples/basic.ttl"><c- c># Namespace for Decentralized Artefact Exchange Network</c->
 <c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
 <c- k>@prefix</c-> <c- nn>sc:</c-> <c- g>&lt;http://example.org/scholcomm#></c-> <c- p>.</c-> 
@@ -1767,27 +1789,9 @@ in a digital heritage network,</p>
     <c- nn>daen:</c-><c- f>executor</c-> <c- g>&lt;http://example.org/archive></c-><c- p>.</c->
 </pre>
    <h3 class="heading settled" data-level="6.1" id="types"><span class="secno">6.1. </span><span class="content">Types</span><a class="self-link" href="#types"></a></h3>
-   <table>
-    <tbody>
-     <tr>
-      <th>Type 
-      <th>Description 
-     <tr>
-      <td><a href>daen:ArtefactLifecycleEventLog</a> 
-      <td>The 
-     <tr>
-      <td><a href>daen:LifecycleEvent</a> 
-      <td>
-     <tr>
-      <td><a href>daen:Maintainer</a> 
-      <td>
-     <tr>
-      <td><a href>daen:ServiceHub</a> 
-      <td>
-   </table>
    <p>:ArtefactLifecycleEventLog rdfs:subClassOf prov:Collection</p>
    <p>:LifecycleEvent rdfs:subClassOf prov:Activity</p>
-   <h3 class="heading settled" data-level="6.2" id="vocabulary"><span class="secno">6.2. </span><span class="content">Vocabulary</span><a class="self-link" href="#vocabulary"></a></h3>
+   <h3 class="heading settled" data-level="6.2" id="vocabulary①"><span class="secno">6.2. </span><span class="content">Vocabulary</span><a class="self-link" href="#vocabulary①"></a></h3>
 <pre>:log a prov:Collection.
 
 :ev1
@@ -2192,7 +2196,7 @@ for the valuable input during this project.</p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li><a href="#artefact-lifecycle-event-log">Artefact Lifecycle Event Log</a><span>, in §5</span>
+   <li><a href="#artefact-lifecycle-event-vocabulary">Artefact Lifecycle Event Vocabulary</a><span>, in §6</span>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
@@ -2202,73 +2206,14 @@ for the valuable input during this project.</p>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
+   <dt id="biblio-activitystreams-vocabulary">[ACTIVITYSTREAMS-VOCABULARY]
+   <dd>James Snell; Evan Prodromou. <a href="https://www.w3.org/TR/activitystreams-vocabulary/">Activity Vocabulary</a>. 23 May 2017. REC. URL: <a href="https://www.w3.org/TR/activitystreams-vocabulary/">https://www.w3.org/TR/activitystreams-vocabulary/</a>
    <dt id="biblio-ldp">[LDP]
    <dd>Steve Speicher; John Arwe; Ashok Malhotra. <a href="https://www.w3.org/TR/ldp/">Linked Data Platform 1.0</a>. 26 February 2015. REC. URL: <a href="https://www.w3.org/TR/ldp/">https://www.w3.org/TR/ldp/</a>
+   <dt id="biblio-prov-o">[PROV-O]
+   <dd>Timothy Lebo; Satya Sahoo; Deborah McGuinness. <a href="https://www.w3.org/TR/prov-o/">PROV-O: The PROV Ontology</a>. 30 April 2013. REC. URL: <a href="https://www.w3.org/TR/prov-o/">https://www.w3.org/TR/prov-o/</a>
+   <dt id="biblio-rdf-primer">[RDF-PRIMER]
+   <dd>Frank Manola; Eric Miller. <a href="https://www.w3.org/TR/rdf-primer/">RDF Primer</a>. 10 February 2004. REC. URL: <a href="https://www.w3.org/TR/rdf-primer/">https://www.w3.org/TR/rdf-primer/</a>
+   <dt id="biblio-rdf11-concepts">[RDF11-CONCEPTS]
+   <dd>Richard Cyganiak; David Wood; Markus Lanthaler. <a href="https://www.w3.org/TR/rdf11-concepts/">RDF 1.1 Concepts and Abstract Syntax</a>. 25 February 2014. REC. URL: <a href="https://www.w3.org/TR/rdf11-concepts/">https://www.w3.org/TR/rdf11-concepts/</a>
   </dl>
-  <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
-  <div style="counter-reset:issue">
-   <div class="issue"> todo<a href="#issue-ea5cb8ff"> ↵ </a></div>
-  </div>
-  <aside class="dfn-panel" data-for="artefact-lifecycle-event-log">
-   <b><a href="#artefact-lifecycle-event-log">#artefact-lifecycle-event-log</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-artefact-lifecycle-event-log">2. Introduction</a> <a href="#ref-for-artefact-lifecycle-event-log①">(2)</a> <a href="#ref-for-artefact-lifecycle-event-log②">(3)</a>
-    <li><a href="#ref-for-artefact-lifecycle-event-log③">4. Applications of the Artefact Lifecycle Event Log</a> <a href="#ref-for-artefact-lifecycle-event-log④">(2)</a> <a href="#ref-for-artefact-lifecycle-event-log⑤">(3)</a> <a href="#ref-for-artefact-lifecycle-event-log⑥">(4)</a> <a href="#ref-for-artefact-lifecycle-event-log⑦">(5)</a>
-   </ul>
-  </aside>
-<script>/* script-dfn-panel */
-
-document.body.addEventListener("click", function(e) {
-    var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
-    // Find the dfn element or panel, if any, that was clicked on.
-    var el = e.target;
-    var target;
-    var hitALink = false;
-    while(el.parentElement) {
-        if(el.tagName == "A") {
-            // Clicking on a link in a <dfn> shouldn't summon the panel
-            hitALink = true;
-        }
-        if(el.classList.contains("dfn-paneled")) {
-            target = "dfn";
-            break;
-        }
-        if(el.classList.contains("dfn-panel")) {
-            target = "dfn-panel";
-            break;
-        }
-        el = el.parentElement;
-    }
-    if(target != "dfn-panel") {
-        // Turn off any currently "on" or "activated" panels.
-        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(function(el){
-            el.classList.remove("on");
-            el.classList.remove("activated");
-        });
-    }
-    if(target == "dfn" && !hitALink) {
-        // open the panel
-        var dfnPanel = document.querySelector(".dfn-panel[data-for='" + el.id + "']");
-        if(dfnPanel) {
-            dfnPanel.classList.add("on");
-            var rect = el.getBoundingClientRect();
-            dfnPanel.style.left = window.scrollX + rect.right + 5 + "px";
-            dfnPanel.style.top = window.scrollY + rect.top + "px";
-            var panelRect = dfnPanel.getBoundingClientRect();
-            var panelWidth = panelRect.right - panelRect.left;
-            if(panelRect.right > document.body.scrollWidth && (rect.left - (panelWidth + 5)) > 0) {
-                // Reposition, because the panel is overflowing
-                dfnPanel.style.left = window.scrollX + rect.left - (panelWidth + 5) + "px";
-            }
-        } else {
-            console.log("Couldn't find .dfn-panel[data-for='" + el.id + "']");
-        }
-    } else if(target == "dfn-panel") {
-        // Switch it to "activated" state, which pins it.
-        el.classList.add("activated");
-        el.style.left = null;
-        el.style.top = null;
-    }
-
-});
-</script>
