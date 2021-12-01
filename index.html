@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="bfde9694ed87c4ec355f647d258a1e9a7cca9dd2" name="document-revision">
+  <meta content="97e9df244560aecb995541f7847f680375a8838c" name="document-revision">
 <style>
 table {
   margin: 25px auto;
@@ -1717,7 +1717,10 @@ An overview is given in the figure below.</p>
     <tbody>
      <tr>
       <th>Type 
-      <th>Description 
+      <th>Definition 
+     <tr>
+      <td><a href>daen:Artefact</a> 
+      <td>The 
      <tr>
       <td><a href>daen:ArtefactLifecycleEventLog</a> 
       <td>The 
@@ -1735,19 +1738,39 @@ An overview is given in the figure below.</p>
     <tbody>
      <tr>
       <th>Property 
-      <th>Description 
+      <th>Definition 
+      <th>Domain 
+      <th>Range 
      <tr>
+      <td><a href>daen:eventLog</a> 
+      <td>
+      <td><a href>daen:Artefact</a> 
       <td><a href>daen:ArtefactLifecycleEventLog</a> 
-      <td>The 
      <tr>
+      <td><a href>daen:isEventLogOf</a> 
+      <td>
+      <td><a href>daen:ArtefactLifecycleEventLog</a> 
+      <td><a href>daen:Artefact</a> 
+     <tr>
+      <td><a href>ldp:contains</a> 
+      <td>
+      <td><a href>daen:ArtefactLifecycleEventLog</a> 
       <td><a href>daen:LifecycleEvent</a> 
-      <td>
      <tr>
+      <td><a href>daen:artefact</a> 
+      <td>
+      <td><a href>daen:LifecycleEvent</a> 
+      <td><a href>daen:Artefact</a> 
+     <tr>
+      <td><a href>daen:maintainer</a> 
+      <td>
+      <td><a href>daen:LifecycleEvent</a> 
       <td><a href>daen:Maintainer</a> 
-      <td>
      <tr>
-      <td><a href>daen:ServiceHub</a> 
+      <td><a href>daen:executor</a> 
       <td>
+      <td><a href>daen:LifecycleEvent</a> 
+      <td><a href>daen:Maintainer</a> | <a href>daen:ServiceHub</a> 
    </table>
    <figure>
      <img src="images/model.svg" width="100%"> 
