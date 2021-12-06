@@ -1,35 +1,37 @@
 # Namespace for Decentralized Artefact Exchange Network
 @prefix daen: <http://www.w3.org/ns/solid/daen#> . 
-@prefix sc: <http://example.org/scholcomm#> . 
-@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dct: <http://purl.org/dc/terms/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix ldp: <http://www.w3.org/ns/ldp#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 
 @base <http://example.org/eventlog> .
 
 <> a daen:ArtefactLifecycleEventLog;
-    dcterms:title "Artefact Lifecycle Event Log";
+    dct:title "Artefact Lifecycle Event Log";
     daen:isEventLogOf <http://example.org/artefacts/1>;
     ldp:contains <#1>, <#2>, <#3>.
 
 <#1> a daen:LifecycleEvent;
-    dcterms:title "Artefact was registered.";
+    dct:title "Artefact was registered.";
     prov:startedAtTime    "2011-07-14T01:01:01Z"^^xsd:dateTime;
     prov:endedAtTime      "2011-07-14T02:02:02Z"^^xsd:dateTime;
-    daen:artefact <http://example.org/artefacts/1>;
-    daen:executor <http://example.org/registrar>.
+    daen:artefact <https://example.org/artefacts/1>;
+    daen:executor <https://registar.org/>;
+    # Link to new artefact that was generated; the proof of registration
+    prov:generated <https://registar.org/registration/23813178>.
 
 <#2> a daen:LifecycleEvent;
-    dcterms:title "Artefact was certified.";
+    dct:title "Artefact was certified.";
     prov:startedAtTime    "2011-07-16T01:01:01Z"^^xsd:dateTime;
     prov:endedAtTime      "2011-07-16T02:02:02Z"^^xsd:dateTime;
-    daen:artefact <http://example.org/artefacts/1>;
-    daen:executor <http://example.org/certifier>.
+    daen:artefact <https://example.org/artefacts/1>;
+    daen:executor <https://certifier.org>.
 
 <#3> a daen:LifecycleEvent;
-    dcterms:title "Artefact was archived.";
+    dct:title "Artefact was archived.";
     prov:startedAtTime    "2011-07-17T01:01:01Z"^^xsd:dateTime;
     prov:endedAtTime      "2011-07-17T02:02:02Z"^^xsd:dateTime;
-    daen:artefact <http://example.org/artefacts/1>;
-    daen:executor <http://example.org/archive>.
+    daen:artefact <https://example.org/artefacts/1>;
+    daen:executor <https://archive.org>.
 

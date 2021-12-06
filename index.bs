@@ -81,27 +81,36 @@ Within this document, the following namespace prefix bindings are used:
 <table>
 <thead>
 <tr>
-<th>Prefix
-<th>Namespace
+	<th>Prefix
+	<th>Namespace
 <tbody>
 <tr>
-<td>as
-<td>https://www.w3.org/ns/activitystreams#
+	<td>as
+	<td>https://www.w3.org/ns/activitystreams#
 <tr>
-<td>ldes
-<td>https://w3id.org/ldes#
+	<td>daen
+	<td>http://www.w3.org/ns/solid/daen#
 <tr>
-<td>st
-<td>http://www.w3.org/ns/st#
+	<td>ldp
+	<td>http://www.w3.org/ns/ldp#
 <tr>
-<td>acl
-<td>http://www.w3.org/ns/auth/acl#
+	<td>prov
+	<td>http://www.w3.org/ns/prov#
 <tr>
-<td>hydra
-<td>http://www.w3.org/ns/hydra/core#
+	<td>dcat
+	<td>http://www.w3.org/ns/dcat#
 <tr>
-<td>daen
-<td>http://www.w3.org/ns/solid/daen#
+	<td>ldes
+	<td>https://w3id.org/ldes#
+<tr>
+	<td>st
+	<td>http://www.w3.org/ns/st#
+<tr>
+	<td>acl
+	<td>http://www.w3.org/ns/auth/acl#
+<tr>
+	<td>hydra
+	<td>http://www.w3.org/ns/hydra/core#
 </table>
 
 Note: All required URIs for any term that currently has no namespace are defined as: <code>https://ournamespace.org/&lt;TERM&gt;</code>
@@ -159,14 +168,21 @@ Overview {#overview}
 =================================
 A [=Artefact Lifecycle Event Log=] is a Web resource that is accessible by all actors inside a single network.
 When requested, it returns an ordered list of notable lifecycle events descriptions, each containing the what, who and when of the event. 
-Lifecycle events are described in the artefact lifecycle data vocabulary (defined in [[#vocabulary]]). 
 An actor can store new descriptions by updating this resource.
 The log maintains a chronological order; new events are appended to the end of the log.
+Hence, it MUST support producers appending events as described in [[#producing]].
+It MAY also validate [=Lifecycle Events=] before they are added in accordance to [[#validation]].
+
+An [=Artefact Lifecycle Event Log=] MUST be consumable for authorized actors in the network in accordance to [[#consuming]].
+Its URL MUST be discoverable through one of the methods described in [[#discovery]].
+Actors in the network MAY be authorized to read, append or change the permissions according to the authorization mechanism in [[#authorization]]. 
+Lifecycle events MUST be described in the artefact lifecycle data vocabulary as defined in [[#vocabulary]].
+An [=Artefact Lifecycle Event Log=] MUST be available in the [[turtle]] format, 
+but it MAY support other data formats as well through content negotiation.
 
 While not mandatory, each actor in the network is expected to host a [=Artefact Lifecycle Event Log=] resource per known artefact to allow effective network governance.
-As a result, a single [=Artefact Lifecycle Event Log=] corresponds to one or more [=artefacts=] in the network, 
-while an [=artefact=] can correspond to multiple [=Artefact Lifecycle Event Logs=].
-The [=Artefact Lifecycle Event Log=]'s URL can be discovered by following a link from an [=artefact=] resource (defined in [[#discovery]]).
+As a result, a single [=Artefact Lifecycle Event Log=] MUST correspond to at least one [=artefact=] in the network, 
+while an [=artefact=] MAY correspond to multiple [=Artefact Lifecycle Event Logs=].
 
 <figure>
 	<img src="images/logs.png" width="100%" />
@@ -194,78 +210,239 @@ An overview is given in the figure below.
 	</figcaption>
 </figure>
 
+## Types
 
-<table>
-<tr>
-<th>Type
-<th>Definition
-<tr>
-<td><a href="">daen:Artefact</a>
-<td>The 
-<tr>
-<td><a href="">daen:ArtefactLifecycleEventLog</a>
-<td>The 
-<tr>
-<td><a href="">daen:LifecycleEvent</a>
-<td>
-<tr>
-<td><a href="">daen:Maintainer</a>
-<td>
-<tr>
-<td><a href="">daen:ServiceHub</a>
-<td>
-</table>
+The following table lists the [=Artefact Lifecycle Event Vocabulary=] types.
+These semantic types that distinguish the different resources and actors that are involved in an artefact's lifecycle. 
 
-<table>
-<tr>
-<th>Property
-<th>Definition
-<th>Domain
-<th>Range
-<tr>
-<td><a href="">daen:eventLog</a>
-<td>
-<td><a href="">daen:Artefact</a>
-<td><a href="">daen:ArtefactLifecycleEventLog</a>
+: Base URI: 
+:: `http://www.w3.org/ns/solid/daen#`
+: Preferred prefix: 
+:: `daen`
+: Classes: 
+:: <a href="#type-artefact">daen:Artefact</a> | <a href="#type-lifecycle-event">daen:LifecycleEvent</a> | <a href="#type-lifecycle-event-log">daen:ArtefactLifecycleEventLog</a> | <a href="#type-maintainer">daen:Maintainer</a> | <a href="#type-service-hub">daen:ServiceHub</a>
 
-<tr>
-<td><a href="">daen:isEventLogOf</a>
-<td>
-<td><a href="">daen:ArtefactLifecycleEventLog</a>
-<td><a href="">daen:Artefact</a>
+### Type: <a href="http://www.w3.org/ns/solid/daen#Artefact">daen:Artefact</a> ### {#type-artefact}
 
-<tr>
-<td><a href="">ldp:contains</a>
-<td>
-<td><a href="">daen:ArtefactLifecycleEventLog</a>
-<td><a href="">daen:LifecycleEvent</a>
+**URI:** http://www.w3.org/ns/solid/daen#Artefact
 
-<tr>
-<td><a href="">daen:artefact</a>
-<td> 
-<td><a href="">daen:LifecycleEvent</a>
-<td><a href="">daen:Artefact</a>
+A Web resource and [[spec-overview#artefact|Artefact]] that is the object of interaction between [=actors=] and retains a lifecycle within the network.
 
-<tr>
-<td><a href="">daen:maintainer</a>
-<td>
-<td><a href="">daen:LifecycleEvent</a>
-<td><a href="">daen:Maintainer</a>
+**Example:**
 
-<tr>
-<td><a href="">daen:executor</a>
-<td>
-<td><a href="">daen:LifecycleEvent</a>
-<td><a href="">daen:Maintainer</a> | <a href="">daen:ServiceHub</a>
-</table>
+<pre class=include-code>
+path: examples/Artefact.ttl
+highlight: turtle
+show: 
+</pre>
 
+: Subclass of:
+:: <a href="https://www.w3.org/ns/activitystreams#Object">as:Object</a>, <a href="https://www.w3.org/TR/prov-o/#Entity">prov:Entity</a>
+: Properties:
+:: <a href="">daen:eventLog</a> 
+
+
+### Type: <a href="http://www.w3.org/ns/solid/daen#LifecycleEvent">daen:LifecycleEvent</a> ### {#type-lifecycle-event}
+
+**URI:** `http://www.w3.org/ns/solid/daen#LifecycleEvent`
+
+A [[spec-overview#artefact-lifecycle-event|Artefact Lifecycle Event]] that impacted the lifecycle of a certain [[spec-overview#artefact|Artefact]] and is of value to the well-functioning of the network. 
+They often result from an [=actor=] performing a service pertaining to that [[spec-overview#artefact|Artefact]]. 
+
+**Example:**
+
+<pre class=include-code>
+path: examples/LifecycleEvent.ttl
+highlight: turtle
+show: 
+</pre>
+
+: Subclass of:
+:: <a href="https://www.w3.org/TR/prov-o/#Activity">prov:Activity</a>
+: Properties:
+:: <a href="">daen:executor</a>, <a href="">daen:artefact</a>
+
+### Type: <a href="http://www.w3.org/ns/solid/daen#ArtefactLifecycleEventLog">daen:ArtefactLifecycleEventLog</a> ### {#type-lifecycle-event-log}
+
+**URI:** `http://www.w3.org/ns/solid/daen#ArtefactLifecycleEventLog`
+
+A Web resource and [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]] that exposes an ordered collection of [[spec-overview#artefact-lifecycle-event|Artefact Lifecycle Events]] resources that pertain to certain [[spec-overview#artefact|Artefact]].
+
+**Example:**
+
+<pre class=include-code>
+path: examples/ArtefactLifecycleEventLog.ttl
+highlight: turtle
+show: 
+</pre>
+
+: Subclass of:
+:: 
+: Properties:
+:: <a href="">daen:isEventLogOf</a>, <a href="">ldp:contains</a>, <a href="">daen:maintainer</a>
+
+### Type: <a href="http://www.w3.org/ns/solid/daen#Maintainer">daen:Maintainer</a>  ### {#type-maintainer}
+
+**URI:** `http://www.w3.org/ns/solid/daen#Maintainer`
+
+A [[spec-overview#actor|Actor]], [[spec-overview#maintainer|Maintainer]] and [[spec-overview#human-agent|Human Agent]] that participates on the network and generates activities pertaining to the lifecycle of an [[spec-overview#artefact|Artefact]].
+
+**Example:**
+
+<pre class=include-code>
+path: examples/Maintainer.ttl
+highlight: turtle
+show: 
+</pre>
+
+: Subclass of:
+:: <a href="https://www.w3.org/TR/prov-o/#Agent">prov:Agent</a>, <a href="https://www.w3.org/ns/activitystreams#Person">as:Person</a>, <a href="https://www.w3.org/ns/activitystreams#Organization">as:Organization</a>
+: Properties:
+::
+
+### Type: <a href="http://www.w3.org/ns/solid/daen#ServiceHub">daen:ServiceHub</a> ### {#type-service-hub}
+
+**URI:** `http://www.w3.org/ns/solid/daen#ServiceHub`
+
+A [[spec-overview#actor|Actor]] and [[spec-overview#service-hub|Service Hub]] that performs services pertaining to the lifecycle of an [[spec-overview#artefact|Artefact]].
+
+**Example:**
+
+<pre class=include-code>
+path: examples/ServiceHub.ttl
+highlight: turtle
+show: 
+</pre>
+
+: Subclass of:
+:: <a href="https://www.w3.org/TR/prov-o/#Agent">prov:Agent</a>, <a href="https://www.w3.org/ns/activitystreams#Service">as:Service</a>, <a href="http://www.w3.org/ns/dcat#DataService">dcat:DataService</a>
+: Properties:
+::
+
+## Properties
+
+The following table lists the [=Artefact Lifecycle Event Vocabulary=] properties.
+These describe the relationship between the different resources and actors that are involved in an artefact's lifecycle.
 
 <figure>
 	<img src="images/model.svg" width="100%" />
 	<figcaption>
-	Basic use of the Artefact Lifecycle Event Vocabulary
+	A diagram of the Artefact Lifecycle Event Vocabulary
 	</figcaption>
 </figure>
+
+: Base URI: 
+:: `http://www.w3.org/ns/solid/daen#`
+: Preferred prefix: 
+:: `daen`
+: Properties: 
+:: <a href="">daen:eventLog</a> | <a href="">daen:isEventLogOf</a> | <a href="">daen:artefact</a> | <a href="">daen:maintainer</a> | <a href="">daen:executor</a>
+: External properties: 
+:: <a href="">ldp:contains</a> | <a href="">prov:contains</a>
+
+### Property: <a href="">daen:eventLog</a>
+
+**URI:** `http://www.w3.org/ns/solid/daen#eventLog`
+
+The [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]] that represents the lifecycle of an [[spec-overview#artefact|Artefact]].
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:Artefact</a>
+: In range:
+:: <a href="">daen:ArtefactLifecycleEventLog</a>
+
+### Property: <a href="">daen:isEventLogOf</a>
+
+**URI:** `http://www.w3.org/ns/solid/daen#isEventLogOf`
+
+The [[spec-overview#artefact|Artefact]] which lifecycle is represented by t[[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]] of this .
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:ArtefactLifecycleEventLog</a>
+: In range:
+:: <a href="">daen:Artefact</a>
+
+### Property: <a href="">daen:artefact</a>
+
+**URI:** `http://www.w3.org/ns/solid/daen#artefact`
+
+The artefact whose lifecycle the [[spec-overview#lifecycle-event|Lifecycle Event]] belongs to.
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="">daen:Artefact</a>
+
+### Property: <a href="">daen:maintainer</a>
+
+**URI:** `http://www.w3.org/ns/solid/daen#maintainer`
+
+The [[spec-overview#maintainer|Maintainer]] who maintains the [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]] resource.
+
+: Subproperty of:
+:: <a href="">prov:</a>
+: In domain:
+:: <a href="">daen:ArtefactLifecycleEventLog</a>
+: In range:
+:: <a href="">daen:Maintainer</a>
+
+### Property: <a href="">daen:executor</a>
+
+**URI:** `http://www.w3.org/ns/solid/daen#executor`
+
+The [[spec-overview#maintainer|Maintainer]] or [[spec-overview#service-hub|Service Hub]] who executed the event.
+
+: Subproperty of:
+:: <a href="">prov:</a>
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="">daen:Maintainer</a> | <a href="">daen:ServiceHub</a>
+
+
+<table>
+<tr>
+	<td><a href="">ldp:contains</a>
+	<td>`http://www.w3.org/ns/ldp#contains`
+	<td>The [[spec-overview#lifecycle-event|Lifecycle Event]] that is contained by this [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]].
+	<td><a href="">daen:ArtefactLifecycleEventLog</a>
+	<td><a href="">daen:LifecycleEvent</a>
+<tr>
+	<td><a href="">prov:generated</a>
+	<td>`http://www.w3.org/ns/prov#generated`
+	<td>An secondary [[spec-overview#artefact|Artefact]] that resulted from this [[spec-overview#lifecycle-event|Lifecycle Event]]. 
+	<td><a href="">daen:LifecycleEvent</a>
+	<td><a href="">daen:Artefact</a>
+
+<tr>
+	<td><a href="">prov:startedAtTime</a>
+	<td>`http://www.w3.org/ns/prov#startedAtTime`
+	<td>The moment the [[spec-overview#lifecycle-event|Lifecycle Event]] started.
+	<td><a href="">daen:LifecycleEvent</a>
+	<td><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a>
+<tr>
+	<td><a href="">prov:endedAtTime</a>
+	<td>`http://www.w3.org/ns/prov#endedAtTime`
+	<td>The moment the [[spec-overview#lifecycle-event|Lifecycle Event]] ended.
+	<td><a href="">daen:LifecycleEvent</a>
+	<td><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a>
+
+<tr>
+	<td><a href="">dct:title</a>
+	<td>`http://purl.org/dc/terms/title`
+	<td>The title of the [[spec-overview#lifecycle-event|Lifecycle Event]].
+	<td><a href="">daen:LifecycleEvent</a> | <a href="">daen:ArtefactLifecycleEventLog</a>
+	<td><a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a>
+
+</table>
+
+## Full example
 
 <pre class=include-code>
 path: examples/basic.ttl
@@ -274,89 +451,60 @@ show:
 </pre>
 
 
-## Types
-
-
-
-
-
-
-:ArtefactLifecycleEventLog rdfs:subClassOf prov:Collection
-
-:LifecycleEvent rdfs:subClassOf prov:Activity
-
-
-
-## Vocabulary
-
-```
-:log a prov:Collection.
-
-:ev1
-   a prov:Activity;
-   prov:startedAtTime    "2011-07-14T01:01:01Z"^^xsd:dateTime;
-   prov:wasAssociatedWith :Bob;
-   prov:used              :Artefact;
-   prov:endedAtTime      "2011-07-14T02:02:02Z"^^xsd:dateTime.
-
-```
-
-
-
-## List of events
-
-
-
-
-
-
-
-
-
-
-
-
-
-Creating a log {#creating}
+Discovering an Artefact Lifecycle Event Log {#discovery}
 ===============================
-For any resource in a network an Event Log can be created.
-An Event Log MUST be made available in RDF turtle format, but may support other data formats through content negotiation.
 
-Ay platform implementing the Event Log mechanism for storing events related to a resource MUST support the following functionality:
-- A created Event Log MUST support functionality to make the Event Log discoverable from the resource in accordance to [](#linking). If an Event Log is created for a specific resource, this [linking](#linking) step MUST happen at creation time of the Event Log.
-- A created Event Log MUST be consumable for authorized actors in the network in accordance to [](#consuming).
-- A created Event Log MUST support the appending of Events by producers in accordance to [](#producing).
-- A created Event Log MAY support the authorization mechanism as defined in [](#authorization) to authorize actors in the network to read an Event Log, append to an Event Log or change the permissions for an Event Log. The permissions required to create an Event Log will depend on the permissions of the platform in which the Event Log is created, and are out of scope for this document.
-- A created Event Log MAY support validating Events before they can be added to the Event Log in accordance to [](#validation).
+Issue: text of section needs cleanup
 
-Linking {#linking}
-===============================
-This section describes the ways with which a resource can advertise a linked Event Log. These links can then be used by consumers to discover any linked Event Log to the resource and any related events, as well as by producers to append a new event to any Event Log linked by the resource.
-This section describes all ways with which a resource can advertise a linked Event Log.
-Any implementation of an Event Log MUST support at least [creating an in-body link](#create-in-body-link) in case of RDF or HTML resources OR [creating a Link header](#create-link-header).
+An [=artefact=] can advertise an [=Artefact Lifecycle Event Log=]'s location in multiple  . 
 
-## Adding an in-body link ## {#create-in-body-link}
+An Event Log for any resource can be discovered by iterating over all approaches with which an Event Log can be Linked to a resource.
+Any implementation discovering an Event Log MUST support the discovery of [in-body links](#discovery-in-body-link) AND [Link headers](#discovery-link-header) and MAY support discovering Event Logs through for the additional linking methods.
+Any implementation MAY choose the order of execution for the different discovery steps.
+
+
+Any implementation of an Event Log MUST support at least creating an in-body link in case of RDF or HTML resources OR creating a Link header.
+
+## Discovery through in-body link ## {#discovery-in-body-link}
+
+Any implementation MUST support discovery of an Event Log through an in-body link.
+For this, the actor MUST make an HTTP HEAD or GET request on the target URL.
+- In case of an HTML resource, the actor MUST look for a link element in the resource body with a rel value of `http://www.w3.org/ns/solid/daen#eventLog`.
+- In case of an RDF resource, the actor MUST look for a data triple with a predicate value of `http://www.w3.org/ns/solid/daen#eventLog`. The object of this data triple is the URI of the EventLog.
+
 In the case that the resource linking the Event log is an RDF or HTML resource, an Event Log implementation MAY choose to link the event log through a link in the resource body.
 
 In case of an RDF resource located at <code>resourceURI</code>, any implementation linking an Event Log located at <code>eventLogURI</code> through an in-body link MUST add the following data triple to the document body:
 </br>
 <pre>
-	&lt;resourceURI&gt; &lt;https://ournamespace.org/eventLog&gt; &lt;eventLogURI&gt;.
+	&lt;resourceURI&gt; &lt;http://www.w3.org/ns/solid/daen#eventLog&gt; &lt;eventLogURI&gt;.
 </pre>
 
 In case of an HTML resource located at <code>resourceURI</code>, any implementation linking an Event Log located at <code>eventLogURI</code> through an in-body link MUST add use a Link element in the HTML body as follows:
 <pre>
-	&lt;link href="https://ournamespace.org/eventLog" rel="eventlog"&gt;
+	&lt;link href="http://www.w3.org/ns/solid/daen#eventLog" rel="eventlog"&gt;
 </pre>
 
-## Adding a Link Header ## {#create-link-header}
-Any resource with a linked Event Log that does not advertise this Event Log through an [in-body link](#create-in-body-link) MUST advertise this Event Log through a Link header in the server response as follows: 
+## Discovery through Link Header ## {#discovery-link-header}
+
+Any implementation MUST support discovery of an Event Log advertised through a Link header.
+For this, the actor MUST make an HTTP HEAD or GET request on the target URL, and search for the Link header with a rel value of https://ournamespace.org/eventLog in the server response.
+
+Any resource with a linked Event Log that does not advertise this Event Log through an in-body link MUST advertise this Event Log through a Link header in the server response as follows: 
 <pre>
 	Link: &lt;/EventLog&gt;; rel="eventlog".
 </pre>
 
 
-## From an external resource ## {#create-link-external-file}
+## Discovery through external resource ## {#discovery-link-external-file}
+
+Any implementation MAY support the discovery of an Event Log through an external resource.
+In this case, the actor MUST make an HTTP HEAD or GET request on the target URL.
+The actor must search in the response headers for a Link header with a rel value of <em>meta</em> and in the response body for a link element with a rel value of  <em>meta</em> in the case of a HTML resource, or for a data triple with a predite value of <em>rdf:seeAlso</em> in case of an RDF resource.
+
+In case an external resource is discovered this way, the actor SHOULD try the [discovery](#discovery) steps on this external resource.
+
+
 Certain data formats may use an external resource to aggregate metadata and/or serve as an entrypoint for multiple resources.
 The implementer MAY choose to aggregate the Event Log entities advertised by the aggregated resources in the aggregation resource, and advertise them from this resource OR the implementer may choose to advertise a single Event Log instane from the aggregation resource for all aggregated resources. 
 
@@ -375,7 +523,9 @@ in case of an RDF resource OR using a [Link header](create-link-header) of the f
 
 
 
-## Using Shape Trees ## {#create-link-shape-tree}
+## Discovery through Shape Trees ## {#discovery-shape-tree}
+Any implementation MAY support the discovery of an Event Log through [shape trees](https://shapetrees.org/) defined in the data platform.
+
 In the Solid ecosystem, All created Event Log SHOULD be discoverable in the data pod through the pod [Shape Tree](https://shapetrees.org/).
 This enables actors in the network to efficiently aggregate all Event data in the data pod for which they have Read permissions.
 
@@ -397,33 +547,6 @@ This enables actors in the network to efficiently aggregate all Event data in th
 ```
 </div>
 
-
-
-Discovery {#discovery}
-================================
-An Event Log for any resource can be discovered by iterating over all approaches with which an Event Log can be Linked to a resource.
-Any implementation discovering an Event Log MUST support the discovery of [in-body links](#discovery-in-body-link) AND [Link headers](#discovery-link-header) and MAY support discovering Event Logs through for the additional linking methods.
-Any implementation MAY choose the order of execution for the different discovery steps.
-
-## Discovery through in-body link ## {#discovery-in-body-link}
-Any implementation MUST support discovery of an Event Log through an in-body link.
-For this, the actor MUST make an HTTP HEAD or GET request on the target URL.
-- In case of an HTML resource, the actor MUST look for a link element in the resource body with a rel value of https://ournamespace.org/eventLog.
-- In case of an RDF resource, the actor MUST look for a data triple with a predicate value of https://ournamespace.org/eventLog. The object of this data triple is the URI of the EventLog.
-
-## Discovery through Link Header ## {#discovery-link-header}
-Any implementation MUST support discovery of an Event Log advertised through a Link header.
-For this, the actor MUST make an HTTP HEAD or GET request on the target URL, and search for the Link header with a rel value of https://ournamespace.org/eventLog in the server response.
-
-## Discovery through external resource ## {#discovery-link-external-file}
-Any implementation MAY support the discovery of an Event Log through an external resource.
-In this case, the actor MUST make an HTTP HEAD or GET request on the target URL.
-The actor must search in the response headers for a Link header with a rel value of <em>meta</em> and in the response body for a link element with a rel value of  <em>meta</em> in the case of a HTML resource, or for a data triple with a predite value of <em>rdf:seeAlso</em> in case of an RDF resource.
-
-In case an external resource is discovered this way, the actor SHOULD try the [discovery](#discovery) steps on this external resource.
-
-## Discovery through Shape Trees ## {#discovery-shape-tree}
-Any implementation MAY support the discovery of an Event Log through [shape trees](https://shapetrees.org/) defined in the data platform.
 
 Appending to an Event Log {#producing}
 ======================================
@@ -478,7 +601,6 @@ The response body MUST be processed to discover any data triples of the form:
 	&lt;eventLogPageURI&gt; hydra:next &lt;nextPageLocation&gt; .
 </pre>
 Any implementation MAY support additional advertised pagination or filtering approaches, but MUST support this approach for consuming a paginated Event Log.
-
 
 
 Authorization {#authorization}
@@ -563,6 +685,7 @@ In this case, the implementation SHOULD also advertise this shape file using EIT
 </div>
 
 
+Issue: move section below to new document?
 
 Implementation {#implementation}
 ========================
@@ -659,7 +782,10 @@ Spec roadmap {#roadmap}
 	},
   "spec-overview": {
 		"authors": [
-      "Miel Vander Sande"
+      "Miel Vander Sande",
+      "Patrick Hochstenbach",
+      "Ruben Dedecker",
+      "Jeroen Werbrouck"
     ],
 		"href": "http://mellonscholarlycommunication.github.io/spec-overview/",
 		"title": "Overview of the ResearcherPod specifications",

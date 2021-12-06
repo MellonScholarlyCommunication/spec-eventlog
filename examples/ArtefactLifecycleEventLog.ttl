@@ -1,0 +1,10 @@
+@prefix daen: <http://www.w3.org/ns/solid/daen#> . 
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix ldp: <http://www.w3.org/ns/ldp#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+<> a daen:ArtefactLifecycleEventLog;
+    dct:title "Artefact Lifecycle Event Log";
+    daen:isEventLogOf <http://example.org/artefacts/1>;
+    ldp:contains <#1>, <#2>, <#3>.
