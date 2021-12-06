@@ -1,0 +1,8 @@
+<#1> a daen:LifecycleEvent;
+    daen:artefact <http://example.org/artefacts/1>;
+    prov:endedAtTime      "2011-07-14T02:02:02Z"^^xsd:dateTime;
+    daen:executor <http://registar.org> ;
+    prov:generated <http://registar.org/registration/23813178>; 
+       <https://w3id.org/security/v2/proof> [
+         ...signature...
+    ].
