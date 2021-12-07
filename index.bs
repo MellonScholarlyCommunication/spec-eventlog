@@ -405,6 +405,7 @@ The [[spec-overview#maintainer|Maintainer]] or [[spec-overview#service-hub|Servi
 : In range:
 :: <a href="">daen:Maintainer</a> | <a href="">daen:ServiceHub</a>
 
+### External properties
 
 <table>
 <tr>
