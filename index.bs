@@ -442,7 +442,8 @@ The [[spec-overview#maintainer|Maintainer]] or [[spec-overview#service-hub|Servi
 
 </table>
 
-## Full example
+
+<div class='example'>
 
 <pre class=include-code>
 path: examples/basic.ttl
@@ -450,84 +451,91 @@ highlight: turtle
 show: 
 </pre>
 
+</div>
+
 
 Discovering an Artefact Lifecycle Event Log {#discovery}
 ===============================
 
-Issue: text of section needs cleanup
+An [=Artefact Lifecycle Event Log=] resource can be discovered with multiple methods:
 
-An [=artefact=] can advertise an [=Artefact Lifecycle Event Log=]'s location in multiple  . 
+1. [=Actors=] issue a request to any resource to retrieve the [=Artefact Lifecycle Event Log=]'s URL from a link ([[#discovery-link]]).
+2. [=Actors=] use [[shapetrees]] description to pinpoint the [=Artefact Lifecycle Event Log=]'s URL ([[#discovery-shapetrees]])  
 
-An Event Log for any resource can be discovered by iterating over all approaches with which an Event Log can be Linked to a resource.
-Any implementation discovering an Event Log MUST support the discovery of [in-body links](#discovery-in-body-link) AND [Link headers](#discovery-link-header) and MAY support discovering Event Logs through for the additional linking methods.
-Any implementation MAY choose the order of execution for the different discovery steps.
+Issue: how to pinpoint what resources can lead to such link? Who is hosting them? 
 
+Any [=artefact=] resource MUST support the first discovery method. They MAY support the additional [[shapetrees]] method.
+[=Actors=] MAY choose the order in which they try these discovery methods
 
-Any implementation of an Event Log MUST support at least creating an in-body link in case of RDF or HTML resources OR creating a Link header.
+## Discovery via link ## {#discovery-link}
 
-## Discovery through in-body link ## {#discovery-in-body-link}
+An [=actor=] MUST try at least one of the following:
 
-Any implementation MUST support discovery of an Event Log through an in-body link.
-For this, the actor MUST make an HTTP HEAD or GET request on the target URL.
-- In case of an HTML resource, the actor MUST look for a link element in the resource body with a rel value of `http://www.w3.org/ns/solid/daen#eventLog`.
-- In case of an RDF resource, the actor MUST look for a data triple with a predicate value of `http://www.w3.org/ns/solid/daen#eventLog`. The object of this data triple is the URI of the EventLog.
+ - make an HTTP HEAD or GET request on the target URL, and use the `Link` header with a `rel` value of `http://www.w3.org/ns/solid/daen#eventLog`.
+ - make an HTTP GET request on the target URL to retrieve an [[rdf11-primer|RDF 1.1]] representation, whose encoded RDF graph contains a relation of type `http://www.w3.org/ns/solid/daen#eventLog`. The subject of that relation is the target and the object is the [=Artefact Lifecycle Event Log=].
+ - make an HTTP GET request on the target URL to retrieve an [[html]] representation, whose HTML body contains a link element with a rel value of `http://www.w3.org/ns/solid/daen#eventLog`. The value of the `href` attribute is the [=Artefact Lifecycle Event Log=].
 
-In the case that the resource linking the Event log is an RDF or HTML resource, an Event Log implementation MAY choose to link the event log through a link in the resource body.
+An [=actor=] may be carried out in either order, but if the one fails to result in an [=Artefact Lifecycle Event Log=] the alternatives MUST be tried. 
+A resource MAY advertise multiple [=Artefact Lifecycle Event Log=] resources, for example an [=artefact=] aiding in the discovery of its lifecycle distributed over the network. A [=Artefact Lifecycle Event Log=] MAY be used by multiple resources, for example using a single [=Artefact Lifecycle Event Log=] to collect the [=Lifecycle Events=] from all [=Artefacts=] in a data pod.
 
-In case of an RDF resource located at <code>resourceURI</code>, any implementation linking an Event Log located at <code>eventLogURI</code> through an in-body link MUST add the following data triple to the document body:
-</br>
-<pre>
-	&lt;resourceURI&gt; &lt;http://www.w3.org/ns/solid/daen#eventLog&gt; &lt;eventLogURI&gt;.
-</pre>
+<div class='example'>
+In case of an RDF resource located at `resourceURI`, any implementation linking an Event Log located at `eventLogURI` through an in-body link MUST add the following data triple to the document body:
 
-In case of an HTML resource located at <code>resourceURI</code>, any implementation linking an Event Log located at <code>eventLogURI</code> through an in-body link MUST add use a Link element in the HTML body as follows:
-<pre>
-	&lt;link href="http://www.w3.org/ns/solid/daen#eventLog" rel="eventlog"&gt;
-</pre>
+``` turtle
+@prefix daen: <http://www.w3.org/ns/solid/daen#> . 
 
-## Discovery through Link Header ## {#discovery-link-header}
+<resourceURI> daen:eventLog <eventLogURI>.
+```
+</div>
 
-Any implementation MUST support discovery of an Event Log advertised through a Link header.
-For this, the actor MUST make an HTTP HEAD or GET request on the target URL, and search for the Link header with a rel value of https://ournamespace.org/eventLog in the server response.
+<div class='example'>
+In case of an HTML resource located at `resourceURI`, any implementation linking an Event Log located at `eventLogURI` through an in-body link MUST add use a Link element in the HTML body as follows:
+``` html
+	<link href="http://www.w3.org/ns/solid/daen#eventLog" rel="eventlog" />;
+```
+</div>
 
+<div class='example'>
 Any resource with a linked Event Log that does not advertise this Event Log through an in-body link MUST advertise this Event Log through a Link header in the server response as follows: 
-<pre>
-	Link: &lt;/EventLog&gt;; rel="eventlog".
-</pre>
+```
+	Link: </EventLog>; rel="http://www.w3.org/ns/solid/daen#eventLog".
+```
+</div>
 
+Issue: get more specifics on the method below
 
-## Discovery through external resource ## {#discovery-link-external-file}
+Certain data formats may use an external resource to aggregate metadata and/or serve as an entrypoint for multiple resources.
+The implementer MAY choose to aggregate the [=Artefact Lifecycle Event Log=] entities advertised by the aggregated resources in the aggregation resource, 
+and advertise them from this resource.
+Alternatively, the implementer may choose to advertise a single [=Artefact Lifecycle Event Log=] instance from the aggregation resource for all aggregated resources. 
 
 Any implementation MAY support the discovery of an Event Log through an external resource.
 In this case, the actor MUST make an HTTP HEAD or GET request on the target URL.
-The actor must search in the response headers for a Link header with a rel value of <em>meta</em> and in the response body for a link element with a rel value of  <em>meta</em> in the case of a HTML resource, or for a data triple with a predite value of <em>rdf:seeAlso</em> in case of an RDF resource.
+The actor must search in the response headers for a Link header with a `rel` value of `meta` and in the response body for a link element with a rel value of `meta` in the case of a [[html]] representation, 
+or for a data triple with a predicate value of `rdf:seeAlso` in case of an [[rdf11-primer|RDF 1.1]] encoding.
 
-In case an external resource is discovered this way, the actor SHOULD try the [discovery](#discovery) steps on this external resource.
+<div class='example'>
+The aggregation resource located at `aggregationResourceURI` MUST be linked for all aggregated resources through EITHER an in-body link of the form:
 
-
-Certain data formats may use an external resource to aggregate metadata and/or serve as an entrypoint for multiple resources.
-The implementer MAY choose to aggregate the Event Log entities advertised by the aggregated resources in the aggregation resource, and advertise them from this resource OR the implementer may choose to advertise a single Event Log instane from the aggregation resource for all aggregated resources. 
-
-In case of the latter, the aggregation resource located at <code>aggregationResourceURI</code> MUST be linked for all aggregated resources through EITHER an [in-body link](create-in-body-link) of the form:
-<pre>
-	&lt;link rel='meta' href='&lt;aggregationResourceURI&gt;' /&gt;
-</pre> 
+``` html
+<link rel='meta' href='{aggregationResourceURI}' />
+``` 
 in case of a HTML resource and 
-<pre>
-	&lt;resourceURI&gt; &lt;rdf:seeAlso&gt; &lt;aggregationResourceURI&gt;.
-</pre> 
-in case of an RDF resource OR using a [Link header](create-link-header) of the form:
-<pre>
-   Link: &lt;aggregationResourceURI&gt;; rel=meta
-</pre>
 
+``` turtle
+<resourceURI> rdf:seeAlso <aggregationResourceURI> .
+``` 
+in case of an RDF encoding OR using a `Link` header of the form:
 
+``` http
+Link: &lt;aggregationResourceURI&gt;; rel=meta
+```
 
-## Discovery through Shape Trees ## {#discovery-shape-tree}
-Any implementation MAY support the discovery of an Event Log through [shape trees](https://shapetrees.org/) defined in the data platform.
+## Discovery via Shape Trees ## {#discovery-shapetrees}
+Any implementation MAY support the discovery of an [=Artefact Lifecycle Event Log=] through [[shapetrees]]  defined in the data platform.
 
-In the Solid ecosystem, All created Event Log SHOULD be discoverable in the data pod through the pod [Shape Tree](https://shapetrees.org/).
-This enables actors in the network to efficiently aggregate all Event data in the data pod for which they have Read permissions.
+In the [[solid-protocol|Solid]] ecosystem, All created Event Log SHOULD be discoverable in the data pod through the pod's [[shapetrees#tree|Shape Tree]].
+This enables actors in the network to efficiently aggregate all [=Lifecycle Event=] data in the data pod for which they have Read permissions.
 
 <div class="example">
 ```
@@ -780,7 +788,7 @@ Spec roadmap {#roadmap}
 			"https://www.w3.org/community/solid/"
 		]
 	},
-  "spec-overview": {
+    "spec-overview": {
 		"authors": [
       "Miel Vander Sande",
       "Patrick Hochstenbach",
@@ -791,6 +799,19 @@ Spec roadmap {#roadmap}
 		"title": "Overview of the ResearcherPod specifications",
 		"status": "Editor’s Draft",
 		"publisher": "ResearcherPod project"
+	},
+	"shapetrees": {
+		"authors": [
+			"Eric Prud'hommeaux", 
+			"Justin Bingham"
+		],
+		"href": "https://shapetrees.org/TR/specification/",
+		"title": "Shape Trees Specification",
+		"status": "Editor’s Draft",
+		"publisher": "Solid project",
+		"deliveredBy": [
+			"https://www.w3.org/community/solid/"
+		]
 	}
 }
 </pre>
