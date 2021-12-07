@@ -113,8 +113,6 @@ Within this document, the following namespace prefix bindings are used:
 	<td>http://www.w3.org/ns/hydra/core#
 </table>
 
-Note: All required URIs for any term that currently has no namespace are defined as: <code>https://ournamespace.org/&lt;TERM&gt;</code>
-
 Applications of the Artefact Lifecycle Event Log
 ================================================
 
@@ -180,7 +178,7 @@ Lifecycle events MUST be described in the artefact lifecycle data vocabulary as 
 An [=Artefact Lifecycle Event Log=] MUST be available in the [[turtle]] format, 
 but it MAY support other data formats as well through content negotiation.
 
-While not mandatory, each actor in the network is expected to host a [=Artefact Lifecycle Event Log=] resource per known artefact to allow effective network governance.
+While not mandatory, each actor in the network is expected to host a [=Artefact Lifecycle Event Log=] per known artefact to allow effective network governance.
 As a result, a single [=Artefact Lifecycle Event Log=] MUST correspond to at least one [=artefact=] in the network, 
 while an [=artefact=] MAY correspond to multiple [=Artefact Lifecycle Event Logs=].
 
@@ -209,6 +207,8 @@ An overview is given in the figure below.
 	A diagram of the Artefact Lifecycle Event Vocabulary
 	</figcaption>
 </figure>
+
+Issue: add a high level explanation
 
 ## Types
 
@@ -458,7 +458,7 @@ show:
 Discovering an Artefact Lifecycle Event Log {#discovery}
 ===============================
 
-An [=Artefact Lifecycle Event Log=] resource can be discovered with multiple methods:
+An [=Artefact Lifecycle Event Log=] can be discovered with multiple methods:
 
 1. [=Actors=] issue a request to any resource to retrieve the [=Artefact Lifecycle Event Log=]'s URL from a link ([[#discovery-link]]).
 2. [=Actors=] use [[shapetrees]] description to pinpoint the [=Artefact Lifecycle Event Log=]'s URL ([[#discovery-shapetrees]])  
@@ -529,14 +529,14 @@ in case of a HTML resource and
 in case of an RDF encoding OR using a `Link` header of the form:
 
 ``` http
-Link: &lt;aggregationResourceURI&gt;; rel=meta
+Link: <aggregationResourceURI>; rel=meta
 ```
 </div>
 
 ## Discovery via Shape Trees ## {#discovery-shapetrees}
 Any implementation MAY support the discovery of an [=Artefact Lifecycle Event Log=] through [[shapetrees]]  defined in the data platform.
 
-In the [[solid-protocol|Solid]] ecosystem, All created Event Log SHOULD be discoverable in the data pod through the pod's [[shapetrees#tree|Shape Tree]].
+In the [[solid-protocol|Solid]] ecosystem, All created [=Artefact Lifecycle Event Log=] resources SHOULD be discoverable in the data pod through the pod's [[shapetrees#tree|Shape Tree]].
 This enables actors in the network to efficiently aggregate all [=Lifecycle Event=] data in the data pod for which they have Read permissions.
 
 <div class="example">
@@ -558,133 +558,145 @@ This enables actors in the network to efficiently aggregate all [=Lifecycle Even
 </div>
 
 
-Appending to an Event Log {#producing}
+Appending to an Artefact Lifecycle Event Log {#producing}
 ======================================
-To find the Event Log URI for a resource, an actor must first go through the [discovery](#discovery) step.
-On discovery of an Event Log URI, the actor can start appending to the Event Log.
-To append an event to the Event Log, the actor MUST send a POST request to the Event Log URI.
-In case [authorization](#authorization) is enabled for the Event Log, the actor MUST have [append permissions](#authorization-append) to execute this action.
 
-Before appending an event to the Event Log, the client SHOULD try to discover if [validation](#validation) is enabled for the Event Log. In case validation is enabled, the client SHOULD try to validate the event first on the client with the discovered validation link. 
+An actor can append [=Lifecycle Events=] by sending a `POST` request to the [=Artefact Lifecycle Event Log=].
 
-Any event that is successfully posted and validated MUST be added to the Event Log.
-The permissions for the event SHOULD per default be inherited from the Event Log permissions.
+In case [authorization](#authorization) is enabled for the [=Artefact Lifecycle Event Log=], the actor MUST have [append permissions](#authorization-append) to execute this action.
 
-On a successful POST request, the event MUST be added on a URI <em>eventURI</em> and MUST be defined in the body of its Event Log with URI <em>eventLogURI</em> using an RDF triple of the form:
-<pre>
-	&lt;eventLogURI&gt; ldp:contains &lt;eventURI&gt; .
-</pre>
+Before appending an event to the [=Artefact Lifecycle Event Log=], the client SHOULD try to discover if [validation](#validation) is enabled for the [=Artefact Lifecycle Event Log=]. In case validation is enabled, the client SHOULD try to validate the event first on the client with the discovered validation link. 
+
+Any event that is successfully posted and validated MUST be added to the [=Artefact Lifecycle Event Log=].
+The permissions for the event SHOULD per default be inherited from the [=Artefact Lifecycle Event Log=] permissions.
+
+On a successful POST request, the event MUST be added on a URI <em>eventURI</em> and MUST be defined in the body of its [=Artefact Lifecycle Event Log=] with URI <em>eventLogURI</em> using an RDF triple of the form:
+
+```
+<eventLogURI> ldp:contains <eventURI> .
+```
 
 ## Pagination ## {#producing-pagination}
-The Event Log MAY make use of pagination.
-Any used pagination system MUST make sure that ALL events in the Event Log can be retrieved by following the available <em>next</em> links.
+
+A [=Artefact Lifecycle Event Log=] MAY make use of pagination.
+Any used pagination system MUST make sure that ALL events in the [=Artefact Lifecycle Event Log=] can be retrieved by following the available <em>next</em> links.
 These links MUST be provided either as a Link header of the form:
-<pre>
-	Link: &lt;nextPageLocation&gt;; rel="next"
-</pre>
-or in the body of the Event Log / a retrieved page of the Event Log as a data triple:
-<pre>
-	&lt;eventLogURI&gt; hydra:next &lt;nextPageLocation&gt; .
-</pre>
+```
+Link: <nextPageLocation>; rel="next"
+```
+or in the body of the [=Artefact Lifecycle Event Log=] / a retrieved page of the [=Artefact Lifecycle Event Log=] as a data triple:
+```
+<eventLogURI> hydra:next <nextPageLocation> .
+```
 Any implementation MAY provide additional pagination support or filtering possibilities, and SHOULD advertise these using the appropriate mechanisms detailed by their specifications. 
 
 
-Consuming an Event Log {#consuming}
+Consuming an Artefact Lifecycle Event Log {#consuming}
 ===================================
-First any actor wishing to consume the Events linked to a resource MUST discover any Event Log linked to the resource accoring to [](#discovery).
-On discovery of an Event Log URI, the actor MUST make a GET request to the Event Log URI with a Content-Type header of the form:
-<pre>
-Accept: text/turtle
-</pre>
-On a succesful GET request on the Event Log URI <code>eventLogURI</code>, the actor can discover the URIs of the available events by processing the Event Log body for all data triples of the form:
-<pre>
-	&lt;eventLogURI&gt; ldp:contains &lt;eventURI&gt; .
-</pre>
-The consumer implementation MAY include alternate approaches to retrieving events from an Event Log, but MUST support this retrieval method.
+
+An actor can consume a [=Artefact Lifecycle Event Log=] by sending a GET request.
+
+On a succesful GET request on the Event Log URI `eventLogURI`, the actor can discover the URIs of the available events by processing the [=Artefact Lifecycle Event Log=] body for all data triples of the form:
+
+```
+	<eventLogURI> ldp:contains <eventURI> .
+```
+The consumer implementation MAY include alternate approaches to retrieving events from an [=Artefact Lifecycle Event Log=], but MUST support this retrieval method.
 
 
 ## Pagination ## {#consuming-pagination}
+
 Any consumer implementation MUST support pagination through following advertised <em>next</em> links.
-On a GET request to an Event Log / Event Log page on URI <code>eventLogPageURI</code> with an Accept header of type <code>text/turtle</code>, the consumer MUST process the server response for a Link header with a rel value of <code>"next"</code>.
+On a GET request to an [=Artefact Lifecycle Event Log=] / [=Artefact Lifecycle Event Log=] page on URI `eventLogPageURI` with an Accept header of type `text/turtle`, the consumer MUST process the server response for a Link header with a rel value of `"next"`.
 The response body MUST be processed to discover any data triples of the form:
-<pre>
-	&lt;eventLogPageURI&gt; hydra:next &lt;nextPageLocation&gt; .
-</pre>
-Any implementation MAY support additional advertised pagination or filtering approaches, but MUST support this approach for consuming a paginated Event Log.
+
+```
+<eventLogPageURI> hydra:next <nextPageLocation> .
+```
+Any implementation MAY support additional advertised pagination or filtering approaches, but MUST support this approach for consuming a paginated [=Artefact Lifecycle Event Log=].
 
 
 Authorization {#authorization}
 ===============================
-Any platform implementing the Event Log mechanism MAY support authorization for the following aspects of the Event Log mechanism:
-- Reading access for an Event Log
-- Append access for an Event Log
-- Update permissions for an Event Log
-- Reading access for a specific event in an Event Log
-- Update permissions for a specific event in an Event Log
 
-Any implementation of authorization for an Event Log MUST make use of [Web Access Control (WAC)](https://www.w3.org/wiki/WebAccessControl). 
+Any platform implementing the [=Artefact Lifecycle Event Log=] mechanism MAY support authorization for the following aspects of the [=Artefact Lifecycle Event Log=] mechanism:
+- Reading access for an [=Artefact Lifecycle Event Log=]
+- Append access for an [=Artefact Lifecycle Event Log=]
+- Update permissions for an [=Artefact Lifecycle Event Log=]
+- Reading access for a specific event in an [=Artefact Lifecycle Event Log=]
+- Update permissions for a specific event in an [=Artefact Lifecycle Event Log=]
+
+Any implementation of authorization for an [=Artefact Lifecycle Event Log=] MUST make use of [Web Access Control (WAC)](https://www.w3.org/wiki/WebAccessControl). 
 The discovery of the ACL document for a resource MUST be done according to the [ACL spec](https://www.w3.org/wiki/WebAccessControl).
 The setting of permissions for a resource happens by creating / updating the [ACL file](https://www.w3.org/wiki/WebAccessControl) for that resource.
 
 NOTE: Depending of the course of the Solid Project, this dependency on WAC may be updated to include newer approaches to auhtorization, as the goal is to maintain compatibility with the Solid Project.
 
 ## Read authorization ## {#authorization-read}
-Any actor with Read permissions set for an Event Log MUST be able to discover all Events in the Event Log to which the actor has Read permissions.
-Any actor with Read permissions set for an Event Log SHOULD automatically have read permission for all the stored events, UNLESS explicitly defined otherwise by the individual events.
-The implementation MAY restrict the actor from discovering events in the Event Log for which the actor does not have Read permissions.
-Any actor without Read permissions for an Event Log SHOULD NOT be able to discover the Event in the Event Log, even if the actor has Read permissions for individual events in the Event Log.
+
+Any actor with Read permissions set for an [=Artefact Lifecycle Event Log=] MUST be able to discover all Events in the [=Artefact Lifecycle Event Log=] to which the actor has Read permissions.
+Any actor with Read permissions set for an [=Artefact Lifecycle Event Log=] SHOULD automatically have read permission for all the stored events, UNLESS explicitly defined otherwise by the individual events.
+The implementation MAY restrict the actor from discovering events in the [=Artefact Lifecycle Event Log=] for which the actor does not have Read permissions.
+Any actor without Read permissions for an [=Artefact Lifecycle Event Log=] SHOULD NOT be able to discover the Event in the [=Artefact Lifecycle Event Log=], even if the actor has Read permissions for individual events in the [=Artefact Lifecycle Event Log=].
 
 ## Append authorization  ## {#authorization-append}
-Any actor with Append permissions set for an Event Log MUST be able to append Events to the Event Log.
 
-Note: The implementation MAY decide to use EITHER acl:Write OR acl:Append as the permission to append events to the Event Log, but the platform MUST support the use of POST operations on the Event Log for the chosen permission.
+Any actor with Append permissions set for an [=Artefact Lifecycle Event Log=] MUST be able to append Events to the [=Artefact Lifecycle Event Log=].
 
+Note: The implementation MAY decide to use EITHER acl:Write OR acl:Append as the permission to append events to the [=Artefact Lifecycle Event Log=], but the platform MUST support the use of POST operations on the [=Artefact Lifecycle Event Log=] for the chosen permission.
 
 ## Update permissions authorization  ## {#authorization-permissions}
-Any actor with Update permissions set for an Event Log MUST be able to edit permissions for all actors for the Event Log.
-Any actor with Update permissions set for an Event Log MUST be able to edit permissions for all individual events in the Event Log UNLESS explicitly defined otherwise by the individual events.
+
+Any actor with Update permissions set for an [=Artefact Lifecycle Event Log=] MUST be able to edit permissions for all actors for the [=Artefact Lifecycle Event Log=].
+Any actor with Update permissions set for an [=Artefact Lifecycle Event Log=] MUST be able to edit permissions for all individual events in the [=Artefact Lifecycle Event Log=] UNLESS explicitly defined otherwise by the individual events.
 
 ## Event specific read authorization  ## {#authorization-specific-read}
-Any actor with Read permissions set for an event MUST be able to read this event, and discover the event in the Event Log in the case of Read permissions for the Event Log.
+Any actor with Read permissions set for an event MUST be able to read this event, and discover the event in the [=Artefact Lifecycle Event Log=] in the case of Read permissions for the [=Artefact Lifecycle Event Log=].
 
 ## Event specific update permissions authorization  ## {#authorization-specific-update}
 Any actor with Update permissions set for an event MUST be able edit permissions for all actors for this event.
 
 Validation {#validation}
 ===============================
-Any implementation of the Event Log mechanism MAY add support for validating events that are appended to the Event Log.
-In case an actor tries to append an event to the Event Log that cannot be validated, the event MUST NOT be added to the Event Log and an appropriate 4xx error code must be returned.
-The following sections define the different possibilities for providing a shape file, located at <code>shapeFileLocation</code>, to which an event MUST validate before it can be added to the Event Log.
-If a shape file is advertised using any of the different methods described in the following sections, the server MUST validate all incoming requests to append an event to the Event Log and MUST reject all requests for which the event fails this validation step.
+Any implementation of the [=Artefact Lifecycle Event Log=] mechanism MAY add support for validating events that are appended to the [=Artefact Lifecycle Event Log=].
+In case an actor tries to append an event to the [=Artefact Lifecycle Event Log=] that cannot be validated, the event MUST NOT be added to the [=Artefact Lifecycle Event Log=] and an appropriate 4xx error code must be returned.
+The following sections define the different possibilities for providing a shape file, located at `shapeFileLocation`, to which an event MUST validate before it can be added to the [=Artefact Lifecycle Event Log=].
+If a shape file is advertised using any of the different methods described in the following sections, the server MUST validate all incoming requests to append an event to the [=Artefact Lifecycle Event Log=] and MUST reject all requests for which the event fails this validation step.
 
 ## Validation Link Header ## {#validation-link-header}
-A request to the Event Log MAY return the following Link header:
-<pre>
-	Link: &lt;shapeFileLocation&gt;; rel=http://www.w3.org/ns/ldp#constrainedBy
-</pre>
-In this case, the server MUST validate all incoming requests to append an event to the Event Log for the advertised shape file.
+
+A request to the [=Artefact Lifecycle Event Log=] MAY return the following Link header:
+
+```
+Link: <shapeFileLocation>; rel=http://www.w3.org/ns/ldp#constrainedBy
+```
+In this case, the server MUST validate all incoming requests to append an event to the [=Artefact Lifecycle Event Log=] for the advertised shape file.
 
 
 ## Validation in-body Link ## {#validation-in-body-link}
-The Event Log MAY provide the following links in the resource body:
-<pre>
-	&lt;link rel='http://www.w3.org/ns/ldp#constrainedBy' href='&lt;shapeFileLocation&gt;'/&gt;
-</pre>
+
+The [=Artefact Lifecycle Event Log=] MAY provide the following links in the resource body:
+```
+<link rel='http://www.w3.org/ns/ldp#constrainedBy' href='{shapeFileLocation}'/>
+```
 in the case of an HTML resource, and 
-<pre>
-	&lt;eventLogURI&gt; &lt;http://www.w3.org/ns/ldp#constrainedBy&gt; &lt;shapeFileLocation&gt;.
-</pre>
+
+```
+<eventLogURI> <http://www.w3.org/ns/ldp#constrainedBy> <shapeFileLocation>.
+```
+
 in case of an RDF resource.
-In this case, the server MUST validate all incoming requests to append an event to the Event Log for the advertised shape file.
+In this case, the server MUST validate all incoming requests to append an event to the [=Artefact Lifecycle Event Log=] for the advertised shape file.
 http://www.w3.org/ns/ldp#constrainedBy
 
 ## Shape Tree Validation ## {#validation-shape-tree}
-In a Solid environment, the shape file to which all events in the Event Log must validate MAY be advertised using a st:validatedBy link in the [Shape Tree](https://shapetrees.org/).
+
+In a Solid environment, the shape file to which all events in the [=Artefact Lifecycle Event Log=] must validate MAY be advertised using a st:validatedBy link in the [Shape Tree](https://shapetrees.org/).
 In this case, the implementation SHOULD also advertise this shape file using EITHER [a link header](#validation-link-header) or [an in-body link](#validation-in-body-link).
 <div class="example">
 ```
 
-// An Event Log is a container in the Solid ecosystem containing Event resources.
+// An Artefact Lifecycle Event Log is a container in the Solid ecosystem containing Event resources.
 <#EventStream> tree:expectsType st:ShapeTreeContainer ;
 	st:contains <#Event> ;
 	
@@ -734,7 +746,7 @@ An Event Log is defined as a [Linked Data Event Stream (LDES)](https://semiceu.g
 ```
 </div>
 
-Note: This example shows the Event Log as a Linked Data Event Stream, ordered according to the <code>dct:issued</code> value of the Events.
+Note: This example shows the [=Artefact Lifecycle Event Log=] as a Linked Data Event Stream, ordered according to the `dct:issued` value of the Events.
 
 
 
