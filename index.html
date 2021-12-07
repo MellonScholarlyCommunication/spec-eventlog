@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="dc82c3190158719199b48b55d08f5945a6a49c42" name="document-revision">
+  <meta content="e2c5318c9e97437b9ed65a174eeb495f33664293" name="document-revision">
 <style>
 table {
   margin: 25px auto;
@@ -2106,8 +2106,8 @@ Alternatively, the implementer may choose to advertise a single <a data-link-typ
 In this case, the actor MUST make an HTTP HEAD or GET request on the target URL.
 The actor must search in the response headers for a Link header with a <code>rel</code> value of <code>meta</code> and in the response body for a link element with a rel value of <code>meta</code> in the case of a <a data-link-type="biblio" href="#biblio-html">[html]</a> representation, 
 or for a data triple with a predicate value of <code>rdf:seeAlso</code> in case of an <a data-link-type="biblio" href="#biblio-rdf11-primer">RDF 1.1</a> encoding.</p>
-   <div class="example" id="example-9779517a">
-    <a class="self-link" href="#example-9779517a"></a> The aggregation resource located at <code>aggregationResourceURI</code> MUST be linked for all aggregated resources through EITHER an in-body link of the form: 
+   <div class="example" id="example-18cb9644">
+    <a class="self-link" href="#example-18cb9644"></a> The aggregation resource located at <code>aggregationResourceURI</code> MUST be linked for all aggregated resources through EITHER an in-body link of the form: 
 <pre class="language-html highlight"><c- p>&lt;</c-><c- f>link</c-> <c- e>rel</c-><c- o>=</c-><c- s>'meta'</c-> <c- e>href</c-><c- o>=</c-><c- s>'{aggregationResourceURI}'</c-> <c- p>/></c->
 </pre>
     in case of a HTML resource and 
@@ -2116,12 +2116,13 @@ or for a data triple with a predicate value of <code>rdf:seeAlso</code> in case 
     in case of an RDF encoding OR using a <code>Link</code> header of the form: 
 <pre class="language-http highlight">Link: &amp;lt;aggregationResourceURI&amp;gt;; rel=meta
 </pre>
-    <h3 class="heading settled" data-level="7.2" id="discovery-shapetrees"><span class="secno">7.2. </span><span class="content">Discovery via Shape Trees</span><a class="self-link" href="#discovery-shapetrees"></a></h3>
-     Any implementation MAY support the discovery of an <a data-link-type="dfn">Artefact Lifecycle Event Log</a> through <a data-link-type="biblio" href="#biblio-shapetrees">[shapetrees]</a> defined in the data platform. 
-    <p>In the <a data-link-type="biblio" href="#biblio-solid-protocol">Solid</a> ecosystem, All created Event Log SHOULD be discoverable in the data pod through the pod’s <a href="https://shapetrees.org/TR/specification/#tree">Shape Tree</a>.
+   </div>
+   <h3 class="heading settled" data-level="7.2" id="discovery-shapetrees"><span class="secno">7.2. </span><span class="content">Discovery via Shape Trees</span><a class="self-link" href="#discovery-shapetrees"></a></h3>
+    Any implementation MAY support the discovery of an <a data-link-type="dfn">Artefact Lifecycle Event Log</a> through <a data-link-type="biblio" href="#biblio-shapetrees">[shapetrees]</a> defined in the data platform. 
+   <p>In the <a data-link-type="biblio" href="#biblio-solid-protocol">Solid</a> ecosystem, All created Event Log SHOULD be discoverable in the data pod through the pod’s <a href="https://shapetrees.org/TR/specification/#tree">Shape Tree</a>.
 This enables actors in the network to efficiently aggregate all <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events②">Lifecycle Event</a> data in the data pod for which they have Read permissions.</p>
-    <div class="example" id="example-b81aa415">
-     <a class="self-link" href="#example-b81aa415"></a> 
+   <div class="example" id="example-b81aa415">
+    <a class="self-link" href="#example-b81aa415"></a> 
 <pre>// The Events folder contains EventLog containers
 &lt;#Events> st:expectsType st:ShapeTreeContainer ;
 	st:contains &lt;#EventStream> ; 
@@ -2136,102 +2137,102 @@ This enables actors in the network to efficiently aggregate all <a data-link-typ
 
 &lt;EventShape> { ... }
 </pre>
-    </div>
-    <h2 class="heading settled" data-level="8" id="producing"><span class="secno">8. </span><span class="content">Appending to an Event Log</span><a class="self-link" href="#producing"></a></h2>
-     To find the Event Log URI for a resource, an actor must first go through the <a href="#discovery">discovery</a> step.
+   </div>
+   <h2 class="heading settled" data-level="8" id="producing"><span class="secno">8. </span><span class="content">Appending to an Event Log</span><a class="self-link" href="#producing"></a></h2>
+    To find the Event Log URI for a resource, an actor must first go through the <a href="#discovery">discovery</a> step.
 On discovery of an Event Log URI, the actor can start appending to the Event Log.
 To append an event to the Event Log, the actor MUST send a POST request to the Event Log URI.
 In case <a href="#authorization">authorization</a> is enabled for the Event Log, the actor MUST have <a href="#authorization-append">append permissions</a> to execute this action. 
-    <p>Before appending an event to the Event Log, the client SHOULD try to discover if <a href="#validation">validation</a> is enabled for the Event Log. In case validation is enabled, the client SHOULD try to validate the event first on the client with the discovered validation link.</p>
-    <p>Any event that is successfully posted and validated MUST be added to the Event Log.
+   <p>Before appending an event to the Event Log, the client SHOULD try to discover if <a href="#validation">validation</a> is enabled for the Event Log. In case validation is enabled, the client SHOULD try to validate the event first on the client with the discovered validation link.</p>
+   <p>Any event that is successfully posted and validated MUST be added to the Event Log.
 The permissions for the event SHOULD per default be inherited from the Event Log permissions.</p>
-    <p>On a successful POST request, the event MUST be added on a URI <em>eventURI</em> and MUST be defined in the body of its Event Log with URI <em>eventLogURI</em> using an RDF triple of the form:</p>
+   <p>On a successful POST request, the event MUST be added on a URI <em>eventURI</em> and MUST be defined in the body of its Event Log with URI <em>eventLogURI</em> using an RDF triple of the form:</p>
 <pre>&lt;eventLogURI> ldp:contains &lt;eventURI> .
 </pre>
-    <h3 class="heading settled" data-level="8.1" id="producing-pagination"><span class="secno">8.1. </span><span class="content">Pagination</span><a class="self-link" href="#producing-pagination"></a></h3>
-     The Event Log MAY make use of pagination.
+   <h3 class="heading settled" data-level="8.1" id="producing-pagination"><span class="secno">8.1. </span><span class="content">Pagination</span><a class="self-link" href="#producing-pagination"></a></h3>
+    The Event Log MAY make use of pagination.
 Any used pagination system MUST make sure that ALL events in the Event Log can be retrieved by following the available <em>next</em> links.
 These links MUST be provided either as a Link header of the form: 
 <pre>Link: &lt;nextPageLocation>; rel="next"
 </pre>
-    <p>or in the body of the Event Log / a retrieved page of the Event Log as a data triple:</p>
+   <p>or in the body of the Event Log / a retrieved page of the Event Log as a data triple:</p>
 <pre>&lt;eventLogURI> hydra:next &lt;nextPageLocation> .
 </pre>
-    <p>Any implementation MAY provide additional pagination support or filtering possibilities, and SHOULD advertise these using the appropriate mechanisms detailed by their specifications.</p>
-    <h2 class="heading settled" data-level="9" id="consuming"><span class="secno">9. </span><span class="content">Consuming an Event Log</span><a class="self-link" href="#consuming"></a></h2>
-     First any actor wishing to consume the Events linked to a resource MUST discover any Event Log linked to the resource accoring to <a href="#discovery">§ 7 Discovering an Artefact Lifecycle Event Log</a>.
+   <p>Any implementation MAY provide additional pagination support or filtering possibilities, and SHOULD advertise these using the appropriate mechanisms detailed by their specifications.</p>
+   <h2 class="heading settled" data-level="9" id="consuming"><span class="secno">9. </span><span class="content">Consuming an Event Log</span><a class="self-link" href="#consuming"></a></h2>
+    First any actor wishing to consume the Events linked to a resource MUST discover any Event Log linked to the resource accoring to <a href="#discovery">§ 7 Discovering an Artefact Lifecycle Event Log</a>.
 On discovery of an Event Log URI, the actor MUST make a GET request to the Event Log URI with a Content-Type header of the form: 
 <pre>Accept: text/turtle
 </pre>
-    <p>On a succesful GET request on the Event Log URI <code>eventLogURI</code>, the actor can discover the URIs of the available events by processing the Event Log body for all data triples of the form:</p>
+   <p>On a succesful GET request on the Event Log URI <code>eventLogURI</code>, the actor can discover the URIs of the available events by processing the Event Log body for all data triples of the form:</p>
 <pre>&lt;eventLogURI> ldp:contains &lt;eventURI> .
 </pre>
-    <p>The consumer implementation MAY include alternate approaches to retrieving events from an Event Log, but MUST support this retrieval method.</p>
-    <h3 class="heading settled" data-level="9.1" id="consuming-pagination"><span class="secno">9.1. </span><span class="content">Pagination</span><a class="self-link" href="#consuming-pagination"></a></h3>
-     Any consumer implementation MUST support pagination through following advertised <em>next</em> links.
+   <p>The consumer implementation MAY include alternate approaches to retrieving events from an Event Log, but MUST support this retrieval method.</p>
+   <h3 class="heading settled" data-level="9.1" id="consuming-pagination"><span class="secno">9.1. </span><span class="content">Pagination</span><a class="self-link" href="#consuming-pagination"></a></h3>
+    Any consumer implementation MUST support pagination through following advertised <em>next</em> links.
 On a GET request to an Event Log / Event Log page on URI <code>eventLogPageURI</code> with an Accept header of type <code>text/turtle</code>, the consumer MUST process the server response for a Link header with a rel value of <code>"next"</code>.
 The response body MUST be processed to discover any data triples of the form: 
 <pre>&lt;eventLogPageURI> hydra:next &lt;nextPageLocation> .
 </pre>
-    <p>Any implementation MAY support additional advertised pagination or filtering approaches, but MUST support this approach for consuming a paginated Event Log.</p>
-    <h2 class="heading settled" data-level="10" id="authorization"><span class="secno">10. </span><span class="content">Authorization</span><a class="self-link" href="#authorization"></a></h2>
-     Any platform implementing the Event Log mechanism MAY support authorization for the following aspects of the Event Log mechanism: 
-    <ul>
-     <li data-md>
-      <p>Reading access for an Event Log</p>
-     <li data-md>
-      <p>Append access for an Event Log</p>
-     <li data-md>
-      <p>Update permissions for an Event Log</p>
-     <li data-md>
-      <p>Reading access for a specific event in an Event Log</p>
-     <li data-md>
-      <p>Update permissions for a specific event in an Event Log</p>
-    </ul>
-    <p>Any implementation of authorization for an Event Log MUST make use of <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control (WAC)</a>.
+   <p>Any implementation MAY support additional advertised pagination or filtering approaches, but MUST support this approach for consuming a paginated Event Log.</p>
+   <h2 class="heading settled" data-level="10" id="authorization"><span class="secno">10. </span><span class="content">Authorization</span><a class="self-link" href="#authorization"></a></h2>
+    Any platform implementing the Event Log mechanism MAY support authorization for the following aspects of the Event Log mechanism: 
+   <ul>
+    <li data-md>
+     <p>Reading access for an Event Log</p>
+    <li data-md>
+     <p>Append access for an Event Log</p>
+    <li data-md>
+     <p>Update permissions for an Event Log</p>
+    <li data-md>
+     <p>Reading access for a specific event in an Event Log</p>
+    <li data-md>
+     <p>Update permissions for a specific event in an Event Log</p>
+   </ul>
+   <p>Any implementation of authorization for an Event Log MUST make use of <a href="https://www.w3.org/wiki/WebAccessControl">Web Access Control (WAC)</a>.
 The discovery of the ACL document for a resource MUST be done according to the <a href="https://www.w3.org/wiki/WebAccessControl">ACL spec</a>.
 The setting of permissions for a resource happens by creating / updating the <a href="https://www.w3.org/wiki/WebAccessControl">ACL file</a> for that resource.</p>
-    <p class="note" role="note"><span>NOTE:</span> Depending of the course of the Solid Project, this dependency on WAC may be updated to include newer approaches to auhtorization, as the goal is to maintain compatibility with the Solid Project.</p>
-    <h3 class="heading settled" data-level="10.1" id="authorization-read"><span class="secno">10.1. </span><span class="content">Read authorization</span><a class="self-link" href="#authorization-read"></a></h3>
-     Any actor with Read permissions set for an Event Log MUST be able to discover all Events in the Event Log to which the actor has Read permissions.
+   <p class="note" role="note"><span>NOTE:</span> Depending of the course of the Solid Project, this dependency on WAC may be updated to include newer approaches to auhtorization, as the goal is to maintain compatibility with the Solid Project.</p>
+   <h3 class="heading settled" data-level="10.1" id="authorization-read"><span class="secno">10.1. </span><span class="content">Read authorization</span><a class="self-link" href="#authorization-read"></a></h3>
+    Any actor with Read permissions set for an Event Log MUST be able to discover all Events in the Event Log to which the actor has Read permissions.
 Any actor with Read permissions set for an Event Log SHOULD automatically have read permission for all the stored events, UNLESS explicitly defined otherwise by the individual events.
 The implementation MAY restrict the actor from discovering events in the Event Log for which the actor does not have Read permissions.
 Any actor without Read permissions for an Event Log SHOULD NOT be able to discover the Event in the Event Log, even if the actor has Read permissions for individual events in the Event Log. 
-    <h3 class="heading settled" data-level="10.2" id="authorization-append"><span class="secno">10.2. </span><span class="content">Append authorization</span><a class="self-link" href="#authorization-append"></a></h3>
-     Any actor with Append permissions set for an Event Log MUST be able to append Events to the Event Log. 
-    <p class="note" role="note"><span>Note:</span> The implementation MAY decide to use EITHER acl:Write OR acl:Append as the permission to append events to the Event Log, but the platform MUST support the use of POST operations on the Event Log for the chosen permission.</p>
-    <h3 class="heading settled" data-level="10.3" id="authorization-permissions"><span class="secno">10.3. </span><span class="content">Update permissions authorization</span><a class="self-link" href="#authorization-permissions"></a></h3>
-     Any actor with Update permissions set for an Event Log MUST be able to edit permissions for all actors for the Event Log.
+   <h3 class="heading settled" data-level="10.2" id="authorization-append"><span class="secno">10.2. </span><span class="content">Append authorization</span><a class="self-link" href="#authorization-append"></a></h3>
+    Any actor with Append permissions set for an Event Log MUST be able to append Events to the Event Log. 
+   <p class="note" role="note"><span>Note:</span> The implementation MAY decide to use EITHER acl:Write OR acl:Append as the permission to append events to the Event Log, but the platform MUST support the use of POST operations on the Event Log for the chosen permission.</p>
+   <h3 class="heading settled" data-level="10.3" id="authorization-permissions"><span class="secno">10.3. </span><span class="content">Update permissions authorization</span><a class="self-link" href="#authorization-permissions"></a></h3>
+    Any actor with Update permissions set for an Event Log MUST be able to edit permissions for all actors for the Event Log.
 Any actor with Update permissions set for an Event Log MUST be able to edit permissions for all individual events in the Event Log UNLESS explicitly defined otherwise by the individual events. 
-    <h3 class="heading settled" data-level="10.4" id="authorization-specific-read"><span class="secno">10.4. </span><span class="content">Event specific read authorization</span><a class="self-link" href="#authorization-specific-read"></a></h3>
-     Any actor with Read permissions set for an event MUST be able to read this event, and discover the event in the Event Log in the case of Read permissions for the Event Log. 
-    <h3 class="heading settled" data-level="10.5" id="authorization-specific-update"><span class="secno">10.5. </span><span class="content">Event specific update permissions authorization</span><a class="self-link" href="#authorization-specific-update"></a></h3>
-     Any actor with Update permissions set for an event MUST be able edit permissions for all actors for this event. 
-    <h2 class="heading settled" data-level="11" id="validation"><span class="secno">11. </span><span class="content">Validation</span><a class="self-link" href="#validation"></a></h2>
-     Any implementation of the Event Log mechanism MAY add support for validating events that are appended to the Event Log.
+   <h3 class="heading settled" data-level="10.4" id="authorization-specific-read"><span class="secno">10.4. </span><span class="content">Event specific read authorization</span><a class="self-link" href="#authorization-specific-read"></a></h3>
+    Any actor with Read permissions set for an event MUST be able to read this event, and discover the event in the Event Log in the case of Read permissions for the Event Log. 
+   <h3 class="heading settled" data-level="10.5" id="authorization-specific-update"><span class="secno">10.5. </span><span class="content">Event specific update permissions authorization</span><a class="self-link" href="#authorization-specific-update"></a></h3>
+    Any actor with Update permissions set for an event MUST be able edit permissions for all actors for this event. 
+   <h2 class="heading settled" data-level="11" id="validation"><span class="secno">11. </span><span class="content">Validation</span><a class="self-link" href="#validation"></a></h2>
+    Any implementation of the Event Log mechanism MAY add support for validating events that are appended to the Event Log.
 In case an actor tries to append an event to the Event Log that cannot be validated, the event MUST NOT be added to the Event Log and an appropriate 4xx error code must be returned.
 The following sections define the different possibilities for providing a shape file, located at <code>shapeFileLocation</code>, to which an event MUST validate before it can be added to the Event Log.
 If a shape file is advertised using any of the different methods described in the following sections, the server MUST validate all incoming requests to append an event to the Event Log and MUST reject all requests for which the event fails this validation step. 
-    <h3 class="heading settled" data-level="11.1" id="validation-link-header"><span class="secno">11.1. </span><span class="content">Validation Link Header</span><a class="self-link" href="#validation-link-header"></a></h3>
-     A request to the Event Log MAY return the following Link header: 
+   <h3 class="heading settled" data-level="11.1" id="validation-link-header"><span class="secno">11.1. </span><span class="content">Validation Link Header</span><a class="self-link" href="#validation-link-header"></a></h3>
+    A request to the Event Log MAY return the following Link header: 
 <pre>Link: &lt;shapeFileLocation>; rel=http://www.w3.org/ns/ldp#constrainedBy
 </pre>
-    <p>In this case, the server MUST validate all incoming requests to append an event to the Event Log for the advertised shape file.</p>
-    <h3 class="heading settled" data-level="11.2" id="validation-in-body-link"><span class="secno">11.2. </span><span class="content">Validation in-body Link</span><a class="self-link" href="#validation-in-body-link"></a></h3>
-     The Event Log MAY provide the following links in the resource body: 
+   <p>In this case, the server MUST validate all incoming requests to append an event to the Event Log for the advertised shape file.</p>
+   <h3 class="heading settled" data-level="11.2" id="validation-in-body-link"><span class="secno">11.2. </span><span class="content">Validation in-body Link</span><a class="self-link" href="#validation-in-body-link"></a></h3>
+    The Event Log MAY provide the following links in the resource body: 
 <pre>&lt;link rel='http://www.w3.org/ns/ldp#constrainedBy' href='&lt;shapeFileLocation>'/>
 </pre>
-    <p>in the case of an HTML resource, and</p>
+   <p>in the case of an HTML resource, and</p>
 <pre>&lt;eventLogURI> &lt;http://www.w3.org/ns/ldp#constrainedBy> &lt;shapeFileLocation>.
 </pre>
-    <p>in case of an RDF resource.
+   <p>in case of an RDF resource.
 In this case, the server MUST validate all incoming requests to append an event to the Event Log for the advertised shape file.
 http://www.w3.org/ns/ldp#constrainedBy</p>
-    <h3 class="heading settled" data-level="11.3" id="validation-shape-tree"><span class="secno">11.3. </span><span class="content">Shape Tree Validation</span><a class="self-link" href="#validation-shape-tree"></a></h3>
-     In a Solid environment, the shape file to which all events in the Event Log must validate MAY be advertised using a st:validatedBy link in the <a href="https://shapetrees.org/">Shape Tree</a>.
+   <h3 class="heading settled" data-level="11.3" id="validation-shape-tree"><span class="secno">11.3. </span><span class="content">Shape Tree Validation</span><a class="self-link" href="#validation-shape-tree"></a></h3>
+    In a Solid environment, the shape file to which all events in the Event Log must validate MAY be advertised using a st:validatedBy link in the <a href="https://shapetrees.org/">Shape Tree</a>.
 In this case, the implementation SHOULD also advertise this shape file using EITHER <a href="#validation-link-header">a link header</a> or <a href="#validation-in-body-link">an in-body link</a>. 
-    <div class="example" id="example-b7cf52ee">
-     <a class="self-link" href="#example-b7cf52ee"></a> 
+   <div class="example" id="example-b7cf52ee">
+    <a class="self-link" href="#example-b7cf52ee"></a> 
 <pre>
 // An Event Log is a container in the Solid ecosystem containing Event resources.
 &lt;#EventStream> tree:expectsType st:ShapeTreeContainer ;
@@ -2241,14 +2242,14 @@ In this case, the implementation SHOULD also advertise this shape file using EIT
 &lt;#Event> tree:expectsType st:ShapeTreeResource ;
 	st:validatedBy &lt;shapeFileLocation> ;
 </pre>
-    </div>
-    <p class="issue" id="issue-3662116f"><a class="self-link" href="#issue-3662116f"></a> move section below to new document?</p>
-    <h2 class="heading settled" data-level="12" id="implementation"><span class="secno">12. </span><span class="content">Implementation</span><a class="self-link" href="#implementation"></a></h2>
-     In this section, we provide implementation examples 
-    <h3 class="heading settled" data-level="12.1" id="implementation-solid"><span class="secno">12.1. </span><span class="content">Linked Data Event Streams and the Solid Platform</span><a class="self-link" href="#implementation-solid"></a></h3>
-    <p>An Event Log is defined as a <a href="https://semiceu.github.io/LinkedDataEventStreams/eventstreams.html">Linked Data Event Stream (LDES)</a>, a collection of immutable objects, each object being described using a set of RDF triples.</p>
-    <div class="example" id="example-14576fe0">
-     <a class="self-link" href="#example-14576fe0"></a> <u><b>/EventLog</b></u> 
+   </div>
+   <p class="issue" id="issue-3662116f"><a class="self-link" href="#issue-3662116f"></a> move section below to new document?</p>
+   <h2 class="heading settled" data-level="12" id="implementation"><span class="secno">12. </span><span class="content">Implementation</span><a class="self-link" href="#implementation"></a></h2>
+    In this section, we provide implementation examples 
+   <h3 class="heading settled" data-level="12.1" id="implementation-solid"><span class="secno">12.1. </span><span class="content">Linked Data Event Streams and the Solid Platform</span><a class="self-link" href="#implementation-solid"></a></h3>
+   <p>An Event Log is defined as a <a href="https://semiceu.github.io/LinkedDataEventStreams/eventstreams.html">Linked Data Event Stream (LDES)</a>, a collection of immutable objects, each object being described using a set of RDF triples.</p>
+   <div class="example" id="example-14576fe0">
+    <a class="self-link" href="#example-14576fe0"></a> <u><b>/EventLog</b></u> 
 <pre>&lt;> a ldes:EventStream ;
 	tree:shape &lt;EventShape.shacl> ; 
 	tree:member &lt;/Events/1>, &lt;/Events/2>, ... ;
@@ -2262,8 +2263,8 @@ In this case, the implementation SHOULD also advertise this shape file using EIT
         tree:value "2020-10-10T10:00:00Z"^^xsd:dateTime
      ] .
 </pre>
-     <hr>
-      <u><b>/pages/1</b></u> 
+    <hr>
+     <u><b>/pages/1</b></u> 
 <pre>&lt;/EventLog> a ldes:EventStream ;
 	tree:shape &lt;EventShape.shacl> ; 
 	tree:member &lt;/Events/3>, &lt;/Events/4>, ... ;
@@ -2271,30 +2272,29 @@ In this case, the implementation SHOULD also advertise this shape file using EIT
 &lt;#node> a tree:Node ;
 	void:subset &lt;/EventLog>;
 </pre>
-    </div>
-    <p class="note" role="note"><span>Note:</span> This example shows the Event Log as a Linked Data Event Stream, ordered according to the <code>dct:issued</code> value of the Events.</p>
-    <p><img alt="…" src="images/peer_review_sequence.svg" style="width: 100%"></p>
-    <p><img alt="…" src="images/review_aftermath.svg" style="width: 100%"></p>
-    <h2 class="heading settled" data-level="13" id="roadmap"><span class="secno">13. </span><span class="content">Spec roadmap</span><a class="self-link" href="#roadmap"></a></h2>
-    <h3 class="heading settled" data-level="13.1" id="september"><span class="secno">13.1. </span><span class="content">September</span><a class="self-link" href="#september"></a></h3>
-    <ol>
-     <li data-md>
-      <p>Work out full implementation details</p>
-      <ul>
-       <li data-md>
-        <p>target the Solid ecosystem</p>
-       <li data-md>
-        <p>using the Event Streams Spec</p>
-       <li data-md>
-        <p>update images of control flows (outdated)</p>
-      </ul>
-     <li data-md>
-      <p>Better definitions for minimal-requirements (do you need a full Solid implementation?) - low priority</p>
-    </ol>
-    <h2 class="heading settled" data-level="14" id="acknowledgement"><span class="secno">14. </span><span class="content">Acknowledgement</span><a class="self-link" href="#acknowledgement"></a></h2>
-    <p>We thank Herbert Van de Sompel, <a href="https://dans.knaw.nl/nl/">DANS + Ghent University</a>, hvdsomp@gmail.com
-for the valuable input during this project.</p>
    </div>
+   <p class="note" role="note"><span>Note:</span> This example shows the Event Log as a Linked Data Event Stream, ordered according to the <code>dct:issued</code> value of the Events.</p>
+   <p><img alt="…" src="images/peer_review_sequence.svg" style="width: 100%"></p>
+   <p><img alt="…" src="images/review_aftermath.svg" style="width: 100%"></p>
+   <h2 class="heading settled" data-level="13" id="roadmap"><span class="secno">13. </span><span class="content">Spec roadmap</span><a class="self-link" href="#roadmap"></a></h2>
+   <h3 class="heading settled" data-level="13.1" id="september"><span class="secno">13.1. </span><span class="content">September</span><a class="self-link" href="#september"></a></h3>
+   <ol>
+    <li data-md>
+     <p>Work out full implementation details</p>
+     <ul>
+      <li data-md>
+       <p>target the Solid ecosystem</p>
+      <li data-md>
+       <p>using the Event Streams Spec</p>
+      <li data-md>
+       <p>update images of control flows (outdated)</p>
+     </ul>
+    <li data-md>
+     <p>Better definitions for minimal-requirements (do you need a full Solid implementation?) - low priority</p>
+   </ol>
+   <h2 class="heading settled" data-level="14" id="acknowledgement"><span class="secno">14. </span><span class="content">Acknowledgement</span><a class="self-link" href="#acknowledgement"></a></h2>
+   <p>We thank Herbert Van de Sompel, <a href="https://dans.knaw.nl/nl/">DANS + Ghent University</a>, hvdsomp@gmail.com
+for the valuable input during this project.</p>
   </main>
   <div data-fill-with="conformance">
    <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>

@@ -531,6 +531,7 @@ in case of an RDF encoding OR using a `Link` header of the form:
 ``` http
 Link: &lt;aggregationResourceURI&gt;; rel=meta
 ```
+</div>
 
 ## Discovery via Shape Trees ## {#discovery-shapetrees}
 Any implementation MAY support the discovery of an [=Artefact Lifecycle Event Log=] through [[shapetrees]]  defined in the data platform.
