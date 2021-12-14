@@ -382,7 +382,7 @@ The artefact whose lifecycle the [[spec-overview#lifecycle-event|Lifecycle Event
 
 ### Property: <a href="">daen:maintainer</a>
 
-Issue: remove this property because not needed?
+Issue: remove this property because not needed (see signatures)?
 
 **URI:** `http://www.w3.org/ns/solid/daen#maintainer`
 
