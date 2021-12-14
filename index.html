@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="0748634d8b977eefc64234d9499fc96a2d4725e7" name="document-revision">
+  <meta content="22c09eff6aada72e9f96877c1e6ce9d03b1f9639" name="document-revision">
 <style>
 table {
   margin: 25px auto;
@@ -1497,7 +1497,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Artefact Lifecycle Event Log</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-12-07">7 December 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-12-14">14 December 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1515,7 +1515,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 7 December 2021,
+In addition, as of 14 December 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1569,7 +1569,7 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#discovery-shapetrees"><span class="secno">7.2</span> <span class="content">Discovery via Shape Trees</span></a>
      </ol>
     <li>
-     <a href="#producing"><span class="secno">8</span> <span class="content">Appending to an Artefact Lifecycle Event Log</span></a>
+     <a href="#producing"><span class="secno">8</span> <span class="content">Appending Lifecycle Events</span></a>
      <ol class="toc">
       <li><a href="#producing-pagination"><span class="secno">8.1</span> <span class="content">Pagination</span></a>
      </ol>
@@ -1588,23 +1588,13 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#authorization-specific-update"><span class="secno">10.5</span> <span class="content">Event specific update permissions authorization</span></a>
      </ol>
     <li>
-     <a href="#validation"><span class="secno">11</span> <span class="content">Validation</span></a>
+     <a href="#validation"><span class="secno">11</span> <span class="content">Validating an Artefact Lifecycle Event Log</span></a>
      <ol class="toc">
       <li><a href="#validation-link-header"><span class="secno">11.1</span> <span class="content">Validation Link Header</span></a>
       <li><a href="#validation-in-body-link"><span class="secno">11.2</span> <span class="content">Validation in-body Link</span></a>
       <li><a href="#validation-shape-tree"><span class="secno">11.3</span> <span class="content">Shape Tree Validation</span></a>
      </ol>
-    <li>
-     <a href="#implementation"><span class="secno">12</span> <span class="content">Implementation</span></a>
-     <ol class="toc">
-      <li><a href="#implementation-solid"><span class="secno">12.1</span> <span class="content">Linked Data Event Streams and the Solid Platform</span></a>
-     </ol>
-    <li>
-     <a href="#roadmap"><span class="secno">13</span> <span class="content">Spec roadmap</span></a>
-     <ol class="toc">
-      <li><a href="#september"><span class="secno">13.1</span> <span class="content">September</span></a>
-     </ol>
-    <li><a href="#acknowledgement"><span class="secno">14</span> <span class="content">Acknowledgement</span></a>
+    <li><a href="#acknowledgement"><span class="secno">12</span> <span class="content">Acknowledgement</span></a>
     <li><a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -1657,11 +1647,11 @@ This document describes</p>
     <li data-md>
      <p>a data vocabulary compatible with <a data-link-type="biblio" href="#biblio-prov-o">PROV-O</a> and <a data-link-type="biblio" href="#biblio-activitystreams-vocabulary">Activity Streams 2.0</a> for describing lifecycle event and log information;</p>
     <li data-md>
-     <p>the Web resource definition of the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>;</p>
+     <p>the Web resource definition of a <a data-link-type="dfn">Artefact Lifecycle Event Log</a>;</p>
     <li data-md>
-     <p>the creation and linking process;</p>
+     <p>disco</p>
     <li data-md>
-     <p>the addition, discovery and retrieval process for Event information in the log.</p>
+     <p>the addition,  and retrieval process for <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events">Lifecycle Event</a> information in the log.</p>
    </ul>
    <h2 class="heading settled" data-level="3" id="conventions"><span class="secno">3. </span><span class="content">Document Conventions</span><a class="self-link" href="#conventions"></a></h2>
    <p>Within this document, the following namespace prefix bindings are used:</p>
@@ -1744,8 +1734,8 @@ No knowing the location of these pods beforehand, the portal might consult the e
 When requested, it returns an ordered list of notable lifecycle events descriptions, each containing the what, who and when of the event. 
 An actor can store new descriptions by updating this resource.
 The log maintains a chronological order; new events are appended to the end of the log.
-Hence, it MUST support producers appending events as described in <a href="#producing">§ 8 Appending to an Artefact Lifecycle Event Log</a>.
-It MAY also validate <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events">Lifecycle Events</a> before they are added in accordance to <a href="#validation">§ 11 Validation</a>. 
+Hence, it MUST support producers appending events as described in <a href="#producing">§ 8 Appending Lifecycle Events</a>.
+It MAY also validate <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events①">Lifecycle Events</a> before they are added in accordance to <a href="#validation">§ 11 Validating an Artefact Lifecycle Event Log</a>. 
    <p>An <a data-link-type="dfn">Artefact Lifecycle Event Log</a> MUST be consumable for authorized actors in the network in accordance to <a href="#consuming">§ 9 Consuming an Artefact Lifecycle Event Log</a>.
 Its URL MUST be discoverable through one of the methods described in <a href="#discovery">§ 7 Discovering an Artefact Lifecycle Event Log</a>.
 Actors in the network MAY be authorized to read, append or change the permissions according to the authorization mechanism in <a href="#authorization">§ 10 Authorization</a>. 
@@ -2079,7 +2069,7 @@ These describe the relationship between the different resources and actors that 
      <p>make an HTTP GET request on the target URL to retrieve an <a data-link-type="biblio" href="#biblio-html">[html]</a> representation, whose HTML body contains a link element with a rel value of <code>http://www.w3.org/ns/solid/daen#eventLog</code>. The value of the <code>href</code> attribute is the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
    </ul>
    <p>An <a data-link-type="dfn">actor</a> may be carried out in either order, but if the one fails to result in an <a data-link-type="dfn">Artefact Lifecycle Event Log</a> the alternatives MUST be tried.
-A resource MAY advertise multiple <a data-link-type="dfn">Artefact Lifecycle Event Log</a> resources, for example an <a data-link-type="dfn">artefact</a> aiding in the discovery of its lifecycle distributed over the network. A <a data-link-type="dfn">Artefact Lifecycle Event Log</a> MAY be used by multiple resources, for example using a single <a data-link-type="dfn">Artefact Lifecycle Event Log</a> to collect the <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events①">Lifecycle Events</a> from all <a data-link-type="dfn">Artefacts</a> in a data pod.</p>
+A resource MAY advertise multiple <a data-link-type="dfn">Artefact Lifecycle Event Log</a> resources, for example an <a data-link-type="dfn">artefact</a> aiding in the discovery of its lifecycle distributed over the network. A <a data-link-type="dfn">Artefact Lifecycle Event Log</a> MAY be used by multiple resources, for example using a single <a data-link-type="dfn">Artefact Lifecycle Event Log</a> to collect the <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events②">Lifecycle Events</a> from all <a data-link-type="dfn">Artefacts</a> in a data pod.</p>
    <div class="example" id="example-d0fc716c">
     <a class="self-link" href="#example-d0fc716c"></a> In case of an RDF resource located at <code>resourceURI</code>, any implementation linking an Event Log located at <code>eventLogURI</code> through an in-body link MUST add the following data triple to the document body: 
 <pre class="language-turtle highlight"><c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
@@ -2120,7 +2110,7 @@ or for a data triple with a predicate value of <code>rdf:seeAlso</code> in case 
    <h3 class="heading settled" data-level="7.2" id="discovery-shapetrees"><span class="secno">7.2. </span><span class="content">Discovery via Shape Trees</span><a class="self-link" href="#discovery-shapetrees"></a></h3>
     Any implementation MAY support the discovery of an <a data-link-type="dfn">Artefact Lifecycle Event Log</a> through <a data-link-type="biblio" href="#biblio-shapetrees">[shapetrees]</a> defined in the data platform. 
    <p>In the <a data-link-type="biblio" href="#biblio-solid-protocol">Solid</a> ecosystem, All created <a data-link-type="dfn">Artefact Lifecycle Event Log</a> resources SHOULD be discoverable in the data pod through the pod’s <a href="https://shapetrees.org/TR/specification/#tree">Shape Tree</a>.
-This enables actors in the network to efficiently aggregate all <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events②">Lifecycle Event</a> data in the data pod for which they have Read permissions.</p>
+This enables actors in the network to efficiently aggregate all <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events③">Lifecycle Event</a> data in the data pod for which they have Read permissions.</p>
    <div class="example" id="example-b81aa415">
     <a class="self-link" href="#example-b81aa415"></a> 
 <pre>// The Events folder contains EventLog containers
@@ -2138,8 +2128,8 @@ This enables actors in the network to efficiently aggregate all <a data-link-typ
 &lt;EventShape> { ... }
 </pre>
    </div>
-   <h2 class="heading settled" data-level="8" id="producing"><span class="secno">8. </span><span class="content">Appending to an Artefact Lifecycle Event Log</span><a class="self-link" href="#producing"></a></h2>
-   <p>An actor can append <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events③">Lifecycle Events</a> by sending a <code>POST</code> request to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
+   <h2 class="heading settled" data-level="8" id="producing"><span class="secno">8. </span><span class="content">Appending Lifecycle Events</span><a class="self-link" href="#producing"></a></h2>
+   <p>An actor can append <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events④">Lifecycle Events</a> by sending a <code>POST</code> request to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
    <p>In case <a href="#authorization">authorization</a> is enabled for the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, the actor MUST have <a href="#authorization-append">append permissions</a> to execute this action.</p>
    <p>Before appending an event to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, the client SHOULD try to discover if <a href="#validation">validation</a> is enabled for the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>. In case validation is enabled, the client SHOULD try to validate the event first on the client with the discovered validation link.</p>
    <p>Any event that is successfully posted and validated MUST be added to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.
@@ -2203,7 +2193,7 @@ Any actor with Update permissions set for an <a data-link-type="dfn">Artefact Li
     Any actor with Read permissions set for an event MUST be able to read this event, and discover the event in the <a data-link-type="dfn">Artefact Lifecycle Event Log</a> in the case of Read permissions for the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>. 
    <h3 class="heading settled" data-level="10.5" id="authorization-specific-update"><span class="secno">10.5. </span><span class="content">Event specific update permissions authorization</span><a class="self-link" href="#authorization-specific-update"></a></h3>
     Any actor with Update permissions set for an event MUST be able edit permissions for all actors for this event. 
-   <h2 class="heading settled" data-level="11" id="validation"><span class="secno">11. </span><span class="content">Validation</span><a class="self-link" href="#validation"></a></h2>
+   <h2 class="heading settled" data-level="11" id="validation"><span class="secno">11. </span><span class="content">Validating an Artefact Lifecycle Event Log</span><a class="self-link" href="#validation"></a></h2>
     Any implementation of the <a data-link-type="dfn">Artefact Lifecycle Event Log</a> mechanism MAY add support for validating events that are appended to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.
 In case an actor tries to append an event to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a> that cannot be validated, the event MUST NOT be added to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a> and an appropriate 4xx error code must be returned.
 The following sections define the different possibilities for providing a shape file, located at <code>shapeFileLocation</code>, to which an event MUST validate before it can be added to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.
@@ -2238,56 +2228,7 @@ In this case, the implementation SHOULD also advertise this shape file using EIT
 	st:validatedBy &lt;shapeFileLocation> ;
 </pre>
    </div>
-   <p class="issue" id="issue-3662116f"><a class="self-link" href="#issue-3662116f"></a> move section below to new document?</p>
-   <h2 class="heading settled" data-level="12" id="implementation"><span class="secno">12. </span><span class="content">Implementation</span><a class="self-link" href="#implementation"></a></h2>
-    In this section, we provide implementation examples 
-   <h3 class="heading settled" data-level="12.1" id="implementation-solid"><span class="secno">12.1. </span><span class="content">Linked Data Event Streams and the Solid Platform</span><a class="self-link" href="#implementation-solid"></a></h3>
-   <p>An Event Log is defined as a <a href="https://semiceu.github.io/LinkedDataEventStreams/eventstreams.html">Linked Data Event Stream (LDES)</a>, a collection of immutable objects, each object being described using a set of RDF triples.</p>
-   <div class="example" id="example-14576fe0">
-    <a class="self-link" href="#example-14576fe0"></a> <u><b>/EventLog</b></u> 
-<pre>&lt;> a ldes:EventStream ;
-	tree:shape &lt;EventShape.shacl> ; 
-	tree:member &lt;/Events/1>, &lt;/Events/2>, ... ;
-	tree:view &lt;?page=1> .
-
-&lt;#node> a tree:Node ;
-    tree:relation [
-        a tree:GreaterThanOrEqualToRelation ;
-        tree:path dct:issued ;
-        tree:node &lt;/pages/1#node> ;
-        tree:value "2020-10-10T10:00:00Z"^^xsd:dateTime
-     ] .
-</pre>
-    <hr>
-     <u><b>/pages/1</b></u> 
-<pre>&lt;/EventLog> a ldes:EventStream ;
-	tree:shape &lt;EventShape.shacl> ; 
-	tree:member &lt;/Events/3>, &lt;/Events/4>, ... ;
-
-&lt;#node> a tree:Node ;
-	void:subset &lt;/EventLog>;
-</pre>
-   </div>
-   <p class="note" role="note"><span>Note:</span> This example shows the <a data-link-type="dfn">Artefact Lifecycle Event Log</a> as a Linked Data Event Stream, ordered according to the <code>dct:issued</code> value of the Events.</p>
-   <p><img alt="…" src="images/peer_review_sequence.svg" style="width: 100%"></p>
-   <p><img alt="…" src="images/review_aftermath.svg" style="width: 100%"></p>
-   <h2 class="heading settled" data-level="13" id="roadmap"><span class="secno">13. </span><span class="content">Spec roadmap</span><a class="self-link" href="#roadmap"></a></h2>
-   <h3 class="heading settled" data-level="13.1" id="september"><span class="secno">13.1. </span><span class="content">September</span><a class="self-link" href="#september"></a></h3>
-   <ol>
-    <li data-md>
-     <p>Work out full implementation details</p>
-     <ul>
-      <li data-md>
-       <p>target the Solid ecosystem</p>
-      <li data-md>
-       <p>using the Event Streams Spec</p>
-      <li data-md>
-       <p>update images of control flows (outdated)</p>
-     </ul>
-    <li data-md>
-     <p>Better definitions for minimal-requirements (do you need a full Solid implementation?) - low priority</p>
-   </ol>
-   <h2 class="heading settled" data-level="14" id="acknowledgement"><span class="secno">14. </span><span class="content">Acknowledgement</span><a class="self-link" href="#acknowledgement"></a></h2>
+   <h2 class="heading settled" data-level="12" id="acknowledgement"><span class="secno">12. </span><span class="content">Acknowledgement</span><a class="self-link" href="#acknowledgement"></a></h2>
    <p>We thank Herbert Van de Sompel, <a href="https://dans.knaw.nl/nl/">DANS + Ghent University</a>, hvdsomp@gmail.com
 for the valuable input during this project.</p>
   </main>
@@ -2445,10 +2386,11 @@ for the valuable input during this project.</p>
   <aside class="dfn-panel" data-for="term-for-dfn-lifecycle-events">
    <a href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events">https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-lifecycle-events">5. Overview</a>
-    <li><a href="#ref-for-dfn-lifecycle-events①">7.1. Discovery via link</a>
-    <li><a href="#ref-for-dfn-lifecycle-events②">7.2. Discovery via Shape Trees</a>
-    <li><a href="#ref-for-dfn-lifecycle-events③">8. Appending to an Artefact Lifecycle Event Log</a>
+    <li><a href="#ref-for-dfn-lifecycle-events">2. Introduction</a>
+    <li><a href="#ref-for-dfn-lifecycle-events①">5. Overview</a>
+    <li><a href="#ref-for-dfn-lifecycle-events②">7.1. Discovery via link</a>
+    <li><a href="#ref-for-dfn-lifecycle-events③">7.2. Discovery via Shape Trees</a>
+    <li><a href="#ref-for-dfn-lifecycle-events④">8. Appending Lifecycle Events</a>
    </ul>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -2495,7 +2437,6 @@ for the valuable input during this project.</p>
    <div class="issue"> add a high level explanation<a href="#issue-859ec47b"> ↵ </a></div>
    <div class="issue"> how to pinpoint what resources can lead to such link? Who is hosting them?<a href="#issue-75f32e93"> ↵ </a></div>
    <div class="issue"> get more specifics on the method below<a href="#issue-732c4e91"> ↵ </a></div>
-   <div class="issue"> move section below to new document?<a href="#issue-3662116f"> ↵ </a></div>
   </div>
   <aside class="dfn-panel" data-for="artefact-lifecycle-event-vocabulary">
    <b><a href="#artefact-lifecycle-event-vocabulary">#artefact-lifecycle-event-vocabulary</a></b><b>Referenced in:</b>

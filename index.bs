@@ -70,9 +70,9 @@ the [=Artefact Lifecycle Event Log=] is an [[LDP]] Resource that is part of a [[
 This document describes
 
 - a data vocabulary compatible with [[prov-o|PROV-O]] and [[activitystreams-vocabulary|Activity Streams 2.0]] for describing lifecycle event and log information;
-- the Web resource definition of the [=Artefact Lifecycle Event Log=];
-- the creation and linking process;
-- the addition, discovery and retrieval process for Event information in the log.
+- the Web resource definition of a [=Artefact Lifecycle Event Log=];
+- disco
+- the addition,  and retrieval process for [=Lifecycle Event=] information in the log.
 
 # Document Conventions # {#conventions}
 
@@ -558,7 +558,7 @@ This enables actors in the network to efficiently aggregate all [=Lifecycle Even
 </div>
 
 
-Appending to an Artefact Lifecycle Event Log {#producing}
+Appending Lifecycle Events {#producing}
 ======================================
 
 An actor can append [=Lifecycle Events=] by sending a `POST` request to the [=Artefact Lifecycle Event Log=].
@@ -656,7 +656,7 @@ Any actor with Read permissions set for an event MUST be able to read this event
 ## Event specific update permissions authorization  ## {#authorization-specific-update}
 Any actor with Update permissions set for an event MUST be able edit permissions for all actors for this event.
 
-Validation {#validation}
+Validating an Artefact Lifecycle Event Log  {#validation}
 ===============================
 Any implementation of the [=Artefact Lifecycle Event Log=] mechanism MAY add support for validating events that are appended to the [=Artefact Lifecycle Event Log=].
 In case an actor tries to append an event to the [=Artefact Lifecycle Event Log=] that cannot be validated, the event MUST NOT be added to the [=Artefact Lifecycle Event Log=] and an appropriate 4xx error code must be returned.
@@ -706,65 +706,6 @@ In this case, the implementation SHOULD also advertise this shape file using EIT
 ```
 </div>
 
-
-Issue: move section below to new document?
-
-Implementation {#implementation}
-========================
-In this section, we provide implementation examples 
-
-## Linked Data Event Streams and the Solid Platform ## {#implementation-solid}
-
-
-An Event Log is defined as a [Linked Data Event Stream (LDES)](https://semiceu.github.io/LinkedDataEventStreams/eventstreams.html), a collection of immutable objects, each object being described using a set of RDF triples.
-
-<div class="example">
-<u><b>/EventLog</b></u>
-```
-<> a ldes:EventStream ;
-	tree:shape <EventShape.shacl> ; 
-	tree:member </Events/1>, </Events/2>, ... ;
-	tree:view <?page=1> .
-
-<#node> a tree:Node ;
-    tree:relation [
-        a tree:GreaterThanOrEqualToRelation ;
-        tree:path dct:issued ;
-        tree:node </pages/1#node> ;
-        tree:value "2020-10-10T10:00:00Z"^^xsd:dateTime
-     ] .
-```
-<hr>
-<u><b>/pages/1</b></u>
-```
-</EventLog> a ldes:EventStream ;
-	tree:shape <EventShape.shacl> ; 
-	tree:member </Events/3>, </Events/4>, ... ;
-
-<#node> a tree:Node ;
-	void:subset </EventLog>;
-```
-</div>
-
-Note: This example shows the [=Artefact Lifecycle Event Log=] as a Linked Data Event Stream, ordered according to the `dct:issued` value of the Events.
-
-
-
-<img alt="…" src="images/peer_review_sequence.svg" style="width: 100%">
-
-<img alt="…" src="images/review_aftermath.svg" style="width: 100%">
-
-
-
-Spec roadmap {#roadmap}
-====================================
-## September ## {#september}
-1. Work out full implementation details
-	- target the Solid ecosystem
-	- using the Event Streams Spec
-	- update images of control flows (outdated)
-
-2. Better definitions for minimal-requirements (do you need a full Solid implementation?) - low priority
 
 
 
