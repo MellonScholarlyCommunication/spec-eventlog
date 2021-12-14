@@ -1,9 +1,0 @@
-@prefix daen: <http://www.w3.org/ns/solid/daen#> . 
-@prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix ldp: <http://www.w3.org/ns/ldp#>.
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix as: <https://www.w3.org/ns/activitystreams#> .
-
-<http://registar.org> a daen:ServiceHub;
-    as:name "Registry service"@en.

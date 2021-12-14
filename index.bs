@@ -195,7 +195,7 @@ while an [=artefact=] MAY correspond to multiple [=Artefact Lifecycle Event Logs
 Vocabulary {#vocabulary}
 =================================
 
-An [=Artefact Lifecycle Event Log=] can be described using a minimal data vocabulary, 
+An [=Artefact Lifecycle Event Log=] is described using a minimal data vocabulary, 
 introducing a number of high level semantic types and properties.
 The <dfn>Artefact Lifecycle Event Vocabulary</dfn> can be used to construct an [[rdf-primer|RDF 1.1]] representation of the log and the lifecycle events it contains.
 The data vocabulary is fully compatible with [[prov-o|PROV-O]] and the object types from [[activitystreams-vocabulary|Activity Streams 2.0]].
@@ -209,6 +209,7 @@ An overview is given in the figure below.
 </figure>
 
 Issue: add a high level explanation
+
 
 ## Types
 
@@ -231,8 +232,8 @@ A Web resource and [[spec-overview#artefact|Artefact]] that is the object of int
 **Example:**
 
 <pre class=include-code>
-path: examples/Artefact.ttl
-highlight: turtle
+path: examples/Artefact.jsonld
+highlight: json
 show: 
 </pre>
 
@@ -252,8 +253,8 @@ They often result from an [=actor=] performing a service pertaining to that [[sp
 **Example:**
 
 <pre class=include-code>
-path: examples/LifecycleEvent.ttl
-highlight: turtle
+path: examples/LifecycleEvent.jsonld
+highlight: json
 show: 
 </pre>
 
@@ -271,8 +272,8 @@ A Web resource and [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecyc
 **Example:**
 
 <pre class=include-code>
-path: examples/ArtefactLifecycleEventLog.ttl
-highlight: turtle
+path: examples/ArtefactLifecycleEventLog.jsonld
+highlight: json
 show: 
 </pre>
 
@@ -290,8 +291,8 @@ A [[spec-overview#actor|Actor]], [[spec-overview#maintainer|Maintainer]] and [[s
 **Example:**
 
 <pre class=include-code>
-path: examples/Maintainer.ttl
-highlight: turtle
+path: examples/Maintainer.jsonld
+highlight: json
 show: 
 </pre>
 
@@ -309,7 +310,7 @@ A [[spec-overview#actor|Actor]] and [[spec-overview#service-hub|Service Hub]] th
 **Example:**
 
 <pre class=include-code>
-path: examples/ServiceHub.ttl
+path: examples/ServiceHub.jsonld
 highlight: turtle
 show: 
 </pre>
@@ -373,7 +374,7 @@ The [[spec-overview#artefact|Artefact]] which lifecycle is represented by t[[spe
 The artefact whose lifecycle the [[spec-overview#lifecycle-event|Lifecycle Event]] belongs to.
 
 : Subproperty of:
-:: 
+:: <a href="https://www.w3.org/TR/prov-o/#used">prov:used</a>
 : In domain:
 :: <a href="">daen:LifecycleEvent</a>
 : In range:
@@ -381,25 +382,27 @@ The artefact whose lifecycle the [[spec-overview#lifecycle-event|Lifecycle Event
 
 ### Property: <a href="">daen:maintainer</a>
 
+Issue: remove this property because not needed?
+
 **URI:** `http://www.w3.org/ns/solid/daen#maintainer`
 
 The [[spec-overview#maintainer|Maintainer]] who maintains the [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]] resource.
 
 : Subproperty of:
-:: <a href="">prov:</a>
+:: 
 : In domain:
 :: <a href="">daen:ArtefactLifecycleEventLog</a>
 : In range:
-:: <a href="">daen:Maintainer</a>
+:: <a href="">daen:Maintainer</a> | <a href="">daen:ServiceHub</a>
 
-### Property: <a href="">daen:executor</a>
+### Property: <a href="">daen:executor</a> ## {#property-executor}
 
 **URI:** `http://www.w3.org/ns/solid/daen#executor`
 
 The [[spec-overview#maintainer|Maintainer]] or [[spec-overview#service-hub|Service Hub]] who executed the event.
 
 : Subproperty of:
-:: <a href="">prov:</a>
+:: <a href="https://www.w3.org/TR/prov-o/#wasAssociatedWith">prov:wasAssociatedWith</a>
 : In domain:
 :: <a href="">daen:LifecycleEvent</a>
 : In range:
@@ -407,53 +410,101 @@ The [[spec-overview#maintainer|Maintainer]] or [[spec-overview#service-hub|Servi
 
 ### External properties
 
-<table>
-<tr>
-	<td><a href="">ldp:contains</a>
-	<td>`http://www.w3.org/ns/ldp#contains`
-	<td>The [[spec-overview#lifecycle-event|Lifecycle Event]] that is contained by this [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]].
-	<td><a href="">daen:ArtefactLifecycleEventLog</a>
-	<td><a href="">daen:LifecycleEvent</a>
-<tr>
-	<td><a href="">prov:generated</a>
-	<td>`http://www.w3.org/ns/prov#generated`
-	<td>An secondary [[spec-overview#artefact|Artefact]] that resulted from this [[spec-overview#lifecycle-event|Lifecycle Event]]. 
-	<td><a href="">daen:LifecycleEvent</a>
-	<td><a href="">daen:Artefact</a>
+#### Property: <a href="http://www.w3.org/ns/ldp#contains">ldp:contains</a>
 
-<tr>
-	<td><a href="">prov:startedAtTime</a>
-	<td>`http://www.w3.org/ns/prov#startedAtTime`
-	<td>The moment the [[spec-overview#lifecycle-event|Lifecycle Event]] started.
-	<td><a href="">daen:LifecycleEvent</a>
-	<td><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a>
-<tr>
-	<td><a href="">prov:endedAtTime</a>
-	<td>`http://www.w3.org/ns/prov#endedAtTime`
-	<td>The moment the [[spec-overview#lifecycle-event|Lifecycle Event]] ended.
-	<td><a href="">daen:LifecycleEvent</a>
-	<td><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a>
+**URI:** `http://www.w3.org/ns/ldp#contains`
 
-<tr>
-	<td><a href="">dct:title</a>
-	<td>`http://purl.org/dc/terms/title`
-	<td>The title of the [[spec-overview#lifecycle-event|Lifecycle Event]].
-	<td><a href="">daen:LifecycleEvent</a> | <a href="">daen:ArtefactLifecycleEventLog</a>
-	<td><a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a>
+The [[spec-overview#lifecycle-event|Lifecycle Event]] that is contained by this [[spec-overview#artefact-lifecycle-event-log|Artefact Lifecycle Event Log]].
 
-</table>
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:ArtefactLifecycleEventLog</a>
+: In range:
+:: <a href="">daen:LifecycleEvent</a>
 
+#### Property: <a href="http://www.w3.org/ns/prov#generated">prov:generated</a>
 
-<div class='example'>
+**URI:** `http://www.w3.org/ns/prov#generated`
+
+A secondary [[spec-overview#artefact|Artefact]] that resulted from this [[spec-overview#lifecycle-event|Lifecycle Event]]. 
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="">daen:Artefact</a>
+
+#### Property: <a href="http://www.w3.org/ns/prov#startedAtTime">prov:startedAtTime</a>
+
+**URI:** `http://www.w3.org/ns/prov#startedAtTime`
+
+The moment the [[spec-overview#lifecycle-event|Lifecycle Event]] started.
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a>
+
+#### Property: <a href="http://www.w3.org/ns/prov#endedAtTime">prov:endedAtTime</a>
+
+**URI:** `http://www.w3.org/ns/prov#endedAtTime`
+
+The moment the [[spec-overview#lifecycle-event|Lifecycle Event]] ended.
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a>
+
+#### Property: <a href="http://purl.org/dc/terms/title">dct:title</a>
+
+**URI:** `http://purl.org/dc/terms/title`
+
+The title of the [[spec-overview#lifecycle-event|Lifecycle Event]].
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a>
+
+#### Property: <a href="https://w3id.org/security#signature">sec:signature</a> ## {#property-signature}
+
+**URI:** `https://w3id.org/security#signature`
+
+The title of the [[spec-overview#lifecycle-event|Lifecycle Event]].
+
+: Subproperty of:
+:: 
+: In domain:
+:: <a href="">daen:LifecycleEvent</a>
+: In range:
+:: <a href="https://w3id.org/security#Signature">sec:Signature</a>
+
+## Signing lifecycle events
+
+Lifecycle events that belong to a single [=Artefact=] can be produced by different [=actors=] in the network. 
+While one can derive the [=actor=] who executed the event via the [[#property-executor|`daen:executor`]] property,
+it is also essential to derive who vouches for its existence. 
+This is done by signing the serialized [=Lifecycle Event=] and adding the who, what, and when of the digital signature.
+Often, the [=actor=] who executes the event is the same as the one who sings it, although this is should not always be the case.
+
+An event of type [[#type-lifecycle-event|`daen:LifecycleEvent`]] SHOULD contain a [[#property-signature|`sec:signature`]] property. 
+The signature MUST be typed as one of the classes in [[security-vocab#classes]] and MUST be a valid [[linked-data-proof#linked-data-signatures|Linked Data Signature]].
+It MUST contain the property `sec:creator` with the URI of the signing [=actor=] as value.
 
 <pre class=include-code>
-path: examples/basic.ttl
-highlight: turtle
+path: examples/SignedLifecycleEvent.jsonld
+highlight: json
 show: 
 </pre>
-
-</div>
-
 
 Discovering an Artefact Lifecycle Event Log {#discovery}
 ===============================
@@ -482,24 +533,26 @@ A resource MAY advertise multiple [=Artefact Lifecycle Event Log=] resources, fo
 <div class='example'>
 In case of an RDF resource located at `resourceURI`, any implementation linking an Event Log located at `eventLogURI` through an in-body link MUST add the following data triple to the document body:
 
-``` turtle
-@prefix daen: <http://www.w3.org/ns/solid/daen#> . 
-
-<resourceURI> daen:eventLog <eventLogURI>.
-```
+<pre class=include-code>
+path: examples/discovery.ttl
+highlight: turtle
+show: 
+</pre>
 </div>
 
 <div class='example'>
 In case of an HTML resource located at `resourceURI`, any implementation linking an Event Log located at `eventLogURI` through an in-body link MUST add use a Link element in the HTML body as follows:
-``` html
-	<link href="http://www.w3.org/ns/solid/daen#eventLog" rel="eventlog" />;
-```
+<pre class=include-code>
+path: examples/discovery.html
+highlight: html
+show: 
+</pre>
 </div>
 
 <div class='example'>
 Any resource with a linked Event Log that does not advertise this Event Log through an in-body link MUST advertise this Event Log through a Link header in the server response as follows: 
-```
-	Link: </EventLog>; rel="http://www.w3.org/ns/solid/daen#eventLog".
+``` http
+Link: <https://example.org/eventlog>; rel="http://www.w3.org/ns/solid/daen#eventLog".
 ```
 </div>
 
@@ -766,6 +819,33 @@ In this case, the implementation SHOULD also advertise this shape file using EIT
 		"publisher": "Solid project",
 		"deliveredBy": [
 			"https://www.w3.org/community/solid/"
+		]
+	},
+	"security-vocab": {
+		"authors": [
+			"Manu Sporny",
+			"Orie Steele",
+			"Tobias Looker"
+		],
+		"href": "https://w3c-ccg.github.io/security-vocab/",
+		"title": "The Security Vocabulary",
+		"status": "Draft Community Group Report",
+		"publisher": "W3C Credentials Community Group",
+		"deliveredBy": [
+			"https://w3c-ccg.github.io/"
+		]
+	},
+		"linked-data-proof": {
+		"authors": [
+			"Manu Sporny",
+			"Dave Longley"
+		],
+		"href": "https://w3c-ccg.github.io/ld-proofs",
+		"title": "Linked Data Proofs 1.0",
+		"status": "Draft Community Group Report",
+		"publisher": "W3C Credentials Community Group",
+		"deliveredBy": [
+			"https://w3c-ccg.github.io/"
 		]
 	}
 }

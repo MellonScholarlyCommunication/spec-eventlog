@@ -1,0 +1,9 @@
+{
+  "@context": "http://www.w3.org/ns/solid/daen/context.jsonld",
+  "@id": "http://registar.org",
+  "@type": "ServiceHub",
+  "as:name": {
+    "@value": "Registry service",
+    "@language": "en"
+  }
+}

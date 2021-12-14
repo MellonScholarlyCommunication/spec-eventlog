@@ -1,0 +1,41 @@
+{
+  "@context": "http://www.w3.org/ns/solid/daen/context.jsonld",
+  "@id": "https://example.org/eventlog",
+  "@type": "ArtefactLifecycleEventLog",
+  "title": "Artefact Lifecycle Event Log",
+  "isEventLogOf": {
+    "@id": "https://example.org/artefacts/1",
+    "@type": ["Artefact","prov:Entity"],
+    "name": "Publication about WOII"
+  },
+  "contains": [
+    {
+      "@id": "https://example.org/eventlog#1",
+      "@type": ["LifecycleEvent, prov:Activity"],
+      "title": "Artefact was registered.",
+      "startedAtTime": "2011-07-14T01:01:01Z",
+      "endedAtTime": "2011-07-14T02:02:02Z",
+      "artefact": "https://example.org/artefacts/1",
+      "executor": "https://registar.org/",
+      "generated": "https://registar.org/registration/23813178"
+    },
+    {
+      "@id": "https://example.org/eventlog#2",
+      "@type": ["LifecycleEvent, prov:Activity"],
+      "title": "Artefact was certified.",
+      "startedAtTime": "2011-07-16T01:01:01Z",
+      "endedAtTime": "2011-07-16T02:02:02Z",
+      "artefact": "https://example.org/artefacts/1",
+      "executor": "https://certifier.org"
+    },
+    {
+      "@id": "https://example.org/eventlog#3",
+      "@type": ["LifecycleEvent, prov:Activity"],
+      "title": "Artefact was archived.",
+      "startedAtTime": "2011-07-17T01:01:01Z",
+      "endedAtTime": "2011-07-17T02:02:02Z",
+      "artefact": "https://example.org/artefacts/1",
+      "executor": "https://archive.org"
+    }
+  ]
+}
