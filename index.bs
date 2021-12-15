@@ -208,6 +208,8 @@ An overview is given in the figure below.
 	</figcaption>
 </figure>
 
+The examples in the document use a predefined compliant [JSON-LD context](examples/context.jsonld) comliant with the [=Artefact Lifecycle Event Vocabulary=].
+
 Issue: add a high level explanation
 
 
