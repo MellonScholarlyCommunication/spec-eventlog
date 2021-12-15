@@ -1,0 +1,22 @@
+{
+  "@context": "http://www.w3.org/ns/solid/daen/context.jsonld",
+  "@id": "https://example.org/eventlog#1",
+  "@type": "LifecycleEvent",
+  "title": "Artefact was registered.",
+  "startedAtTime": "2011-07-14T01:01:01Z",
+  "endedAtTime": "2011-07-14T02:02:02Z",
+  "artefact": {
+    "@id": "https://example.org/artefacts/1"
+  },
+  "executor": {
+    "@id": "https://registar.org/"
+  },
+  "generated": {
+    "@id": "https://registar.org/registration/23813178"
+  },
+  "signature": {
+    "@type": "GraphSignature2012",
+    "creator": "https://registar.org/",
+    "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+  }
+}

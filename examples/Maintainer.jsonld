@@ -1,0 +1,9 @@
+{
+  "@context": "http://www.w3.org/ns/solid/daen/context.jsonld",
+  "@id": "https://www.kb.nl#me",
+  "@type": ["Maintainer", "as:Organization"],
+  "as:name": {
+    "@value": "National Library",
+    "@language": "en"
+  }
+}

@@ -1,0 +1,3 @@
+@prefix daen: <http://www.w3.org/ns/solid/daen#> . 
+
+<https://example.org/artefacts/1> daen:eventLog <https://example.org/eventlog>.

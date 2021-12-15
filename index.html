@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="22c09eff6aada72e9f96877c1e6ce9d03b1f9639" name="document-revision">
+  <meta content="a28fc23df0ea170567adf838471b5051ad325db4" name="document-revision">
 <style>
 table {
   margin: 25px auto;
@@ -1497,7 +1497,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Artefact Lifecycle Event Log</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-12-14">14 December 2021</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2021-12-15">15 December 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1515,7 +1515,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 14 December 2021,
+In addition, as of 15 December 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1558,9 +1558,19 @@ Parts of this work may be from another specification document.  If so, those par
         <li><a href="#property-daeniseventlogof"><span class="secno">6.2.2</span> <span class="content">Property: <span>daen:isEventLogOf</span></span></a>
         <li><a href="#property-daenartefact"><span class="secno">6.2.3</span> <span class="content">Property: <span>daen:artefact</span></span></a>
         <li><a href="#property-daenmaintainer"><span class="secno">6.2.4</span> <span class="content">Property: <span>daen:maintainer</span></span></a>
-        <li><a href="#property-daenexecutor"><span class="secno">6.2.5</span> <span class="content">Property: <span>daen:executor</span></span></a>
-        <li><a href="#external-properties"><span class="secno">6.2.6</span> <span class="content">External properties</span></a>
+        <li><a href="#property-executor"><span class="secno">6.2.5</span> <span class="content">Property: <span>daen:executor</span> ## {#property-executor}</span></a>
+        <li>
+         <a href="#external-properties"><span class="secno">6.2.6</span> <span class="content">External properties</span></a>
+         <ol class="toc">
+          <li><a href="#property-ldpcontains"><span class="secno">6.2.6.1</span> <span class="content">Property: <span>ldp:contains</span></span></a>
+          <li><a href="#property-provgenerated"><span class="secno">6.2.6.2</span> <span class="content">Property: <span>prov:generated</span></span></a>
+          <li><a href="#property-provstartedattime"><span class="secno">6.2.6.3</span> <span class="content">Property: <span>prov:startedAtTime</span></span></a>
+          <li><a href="#property-provendedattime"><span class="secno">6.2.6.4</span> <span class="content">Property: <span>prov:endedAtTime</span></span></a>
+          <li><a href="#property-dcttitle"><span class="secno">6.2.6.5</span> <span class="content">Property: <span>dct:title</span></span></a>
+          <li><a href="#property-signature"><span class="secno">6.2.6.6</span> <span class="content">Property: <span>sec:signature</span> ## {#property-signature}</span></a>
+         </ol>
        </ol>
+      <li><a href="#signing-lifecycle-events"><span class="secno">6.3</span> <span class="content">Signing lifecycle events</span></a>
      </ol>
     <li>
      <a href="#discovery"><span class="secno">7</span> <span class="content">Discovering an Artefact Lifecycle Event Log</span></a>
@@ -1753,7 +1763,7 @@ while an <a data-link-type="dfn">artefact</a> MAY correspond to multiple <a data
 	Also, Bob made a comment on Alice’s Artefact B, hence both actor’s logs contain the lifecycle event that artefact A has been commented on by Bob. </figcaption>
    </figure>
    <h2 class="heading settled" data-level="6" id="vocabulary"><span class="secno">6. </span><span class="content">Vocabulary</span><a class="self-link" href="#vocabulary"></a></h2>
-   <p>An <a data-link-type="dfn">Artefact Lifecycle Event Log</a> can be described using a minimal data vocabulary,
+   <p>An <a data-link-type="dfn">Artefact Lifecycle Event Log</a> is described using a minimal data vocabulary,
 introducing a number of high level semantic types and properties.
 The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="artefact-lifecycle-event-vocabulary">Artefact Lifecycle Event Vocabulary</dfn> can be used to construct an <a data-link-type="biblio" href="#biblio-rdf-primer">RDF 1.1</a> representation of the log and the lifecycle events it contains.
 The data vocabulary is fully compatible with <a data-link-type="biblio" href="#biblio-prov-o">PROV-O</a> and the object types from <a data-link-type="biblio" href="#biblio-activitystreams-vocabulary">Activity Streams 2.0</a>.
@@ -1781,15 +1791,13 @@ These semantic types that distinguish the different resources and actors that ar
    <p><strong>URI:</strong> http://www.w3.org/ns/solid/daen#Artefact</p>
    <p>A Web resource and <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a> that is the object of interaction between <a data-link-type="dfn">actors</a> and retains a lifecycle within the network.</p>
    <p><strong>Example:</strong></p>
-<pre class="include-code highlight" data-code-show path="examples/Artefact.ttl"><c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
-<c- k>@prefix</c-> <c- nn>dcterms:</c-> <c- g>&lt;http://purl.org/dc/terms/></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>prov:</c-> <c- g>&lt;http://www.w3.org/ns/prov#></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>ldp:</c-> <c- g>&lt;http://www.w3.org/ns/ldp#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>xsd:</c-> <c- g>&lt;http://www.w3.org/2001/XMLSchema#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>as:</c-> <c- g>&lt;https://www.w3.org/ns/activitystreams#></c-> <c- p>.</c->
-
-<c- g>&lt;https://example.org/artefacts/1></c-> <c- b>a</c-> <c- nn>daen:</c-><c- f>Artefact</c-><c- p>,</c-> <c- nn>prov:</c-><c- f>Entity</c-><c- p>,</c-> <c- nn>as:</c-><c- f>Document</c-><c- p>;</c->
-    <c- nn>as:</c-><c- f>name</c-> <c- s>"Publication about WOII"</c-><c- p>.</c-></pre>
+<pre class="include-code highlight" data-code-show path="examples/Artefact.jsonld"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"Artefact"</c-><c- p>,</c-><c- u>"prov:Entity"</c-><c- p>,</c-><c- u>"as:Document"</c-><c- p>],</c->
+  <c- f>"name"</c-><c- p>:</c-> <c- u>"Publication about WOII"</c->
+<c- p>}</c->
+</pre>
    <dl>
     <dt data-md>Subclass of:
     <dd data-md>
@@ -1803,20 +1811,23 @@ These semantic types that distinguish the different resources and actors that ar
    <p>A <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event">Artefact Lifecycle Event</a> that impacted the lifecycle of a certain <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a> and is of value to the well-functioning of the network.
 They often result from an <a data-link-type="dfn">actor</a> performing a service pertaining to that <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a>.</p>
    <p><strong>Example:</strong></p>
-<pre class="include-code highlight" data-code-show path="examples/LifecycleEvent.ttl"><c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
-<c- k>@prefix</c-> <c- nn>dcterms:</c-> <c- g>&lt;http://purl.org/dc/terms/></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>prov:</c-> <c- g>&lt;http://www.w3.org/ns/prov#></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>ldp:</c-> <c- g>&lt;http://www.w3.org/ns/ldp#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>xsd:</c-> <c- g>&lt;http://www.w3.org/2001/XMLSchema#></c-><c- p>.</c->
-
-<c- g>&lt;#1></c-> <c- b>a</c-> <c- nn>daen:</c-><c- f>LifecycleEvent</c-><c- p>;</c->
-    <c- nn>dcterms:</c-><c- f>title</c-> <c- s>"Artefact was registered."</c-><c- p>;</c->
-    <c- nn>prov:</c-><c- f>startedAtTime</c->    <c- s>"2011-07-14T01:01:01Z"</c-><c- o>^^</c->xsd:dateTime<c- p>;</c->
-    <c- nn>prov:</c-><c- f>endedAtTime</c->      <c- s>"2011-07-14T02:02:02Z"</c-><c- o>^^</c->xsd:dateTime<c- p>;</c->
-    <c- nn>daen:</c-><c- f>artefact</c-> <c- g>&lt;https://example.org/artefacts/1></c-><c- p>;</c->
-    <c- nn>daen:</c-><c- f>executor</c-> <c- g>&lt;https://registar.org/></c-><c- p>;</c->
-    <c- c># Link to new artefact that was generated; the proof of registration</c->
-    <c- nn>prov:</c-><c- f>generated</c-> <c- g>&lt;https://registar.org/registration/23813178></c-><c- p>.</c-></pre>
+<pre class="include-code highlight" data-code-show path="examples/LifecycleEvent.jsonld"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog#1"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- u>"LifecycleEvent"</c-><c- p>,</c->
+  <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact was registered."</c-><c- p>,</c->
+  <c- f>"startedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T01:01:01Z"</c-><c- p>,</c->
+  <c- f>"endedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T02:02:02Z"</c-><c- p>,</c->
+  <c- f>"artefact"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c->
+  <c- p>},</c->
+  <c- f>"executor"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://registar.org/"</c->
+  <c- p>},</c->
+  <c- f>"generated"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://registar.org/registration/23813178"</c->
+  <c- p>}</c->
+<c- p>}</c-></pre>
    <dl>
     <dt data-md>Subclass of:
     <dd data-md>
@@ -1829,16 +1840,47 @@ They often result from an <a data-link-type="dfn">actor</a> performing a service
    <p><strong>URI:</strong> <code>http://www.w3.org/ns/solid/daen#ArtefactLifecycleEventLog</code></p>
    <p>A Web resource and <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event-log">Artefact Lifecycle Event Log</a> that exposes an ordered collection of <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event">Artefact Lifecycle Events</a> resources that pertain to certain <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a>.</p>
    <p><strong>Example:</strong></p>
-<pre class="include-code highlight" data-code-show path="examples/ArtefactLifecycleEventLog.ttl"><c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
-<c- k>@prefix</c-> <c- nn>dcterms:</c-> <c- g>&lt;http://purl.org/dc/terms/></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>prov:</c-> <c- g>&lt;http://www.w3.org/ns/prov#></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>ldp:</c-> <c- g>&lt;http://www.w3.org/ns/ldp#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>xsd:</c-> <c- g>&lt;http://www.w3.org/2001/XMLSchema#></c-><c- p>.</c->
-
-<c- g>&lt;></c-> <c- b>a</c-> <c- nn>daen:</c-><c- f>ArtefactLifecycleEventLog</c-><c- p>;</c->
-    <c- nn>dct:</c-><c- f>title</c-> <c- s>"Artefact Lifecycle Event Log"</c-><c- p>;</c->
-    <c- nn>daen:</c-><c- f>isEventLogOf</c-> <c- g>&lt;http://example.org/artefacts/1></c-><c- p>;</c->
-    <c- nn>ldp:</c-><c- f>contains</c-> <c- g>&lt;#1></c-><c- p>,</c-> <c- g>&lt;#2></c-><c- p>,</c-> <c- g>&lt;#3></c-><c- p>.</c-></pre>
+<pre class="include-code highlight" data-code-show path="examples/ArtefactLifecycleEventLog.jsonld"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- u>"ArtefactLifecycleEventLog"</c-><c- p>,</c->
+  <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact Lifecycle Event Log"</c-><c- p>,</c->
+  <c- f>"isEventLogOf"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+    <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"Artefact"</c-><c- p>,</c-><c- u>"prov:Entity"</c-><c- p>],</c->
+    <c- f>"name"</c-><c- p>:</c-> <c- u>"Publication about WOII"</c->
+  <c- p>},</c->
+  <c- f>"contains"</c-><c- p>:</c-> <c- p>[</c->
+    <c- p>{</c->
+      <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog#1"</c-><c- p>,</c->
+      <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"LifecycleEvent, prov:Activity"</c-><c- p>],</c->
+      <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact was registered."</c-><c- p>,</c->
+      <c- f>"startedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T01:01:01Z"</c-><c- p>,</c->
+      <c- f>"endedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T02:02:02Z"</c-><c- p>,</c->
+      <c- f>"artefact"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+      <c- f>"executor"</c-><c- p>:</c-> <c- u>"https://registar.org/"</c-><c- p>,</c->
+      <c- f>"generated"</c-><c- p>:</c-> <c- u>"https://registar.org/registration/23813178"</c->
+    <c- p>},</c->
+    <c- p>{</c->
+      <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog#2"</c-><c- p>,</c->
+      <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"LifecycleEvent, prov:Activity"</c-><c- p>],</c->
+      <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact was certified."</c-><c- p>,</c->
+      <c- f>"startedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-16T01:01:01Z"</c-><c- p>,</c->
+      <c- f>"endedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-16T02:02:02Z"</c-><c- p>,</c->
+      <c- f>"artefact"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+      <c- f>"executor"</c-><c- p>:</c-> <c- u>"https://certifier.org"</c->
+    <c- p>},</c->
+    <c- p>{</c->
+      <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog#3"</c-><c- p>,</c->
+      <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"LifecycleEvent, prov:Activity"</c-><c- p>],</c->
+      <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact was archived."</c-><c- p>,</c->
+      <c- f>"startedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-17T01:01:01Z"</c-><c- p>,</c->
+      <c- f>"endedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-17T02:02:02Z"</c-><c- p>,</c->
+      <c- f>"artefact"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c-><c- p>,</c->
+      <c- f>"executor"</c-><c- p>:</c-> <c- u>"https://archive.org"</c->
+    <c- p>}</c->
+  <c- p>]</c->
+<c- p>}</c-></pre>
    <dl>
     <dt data-md>Subclass of:
     <dd data-md>
@@ -1850,15 +1892,15 @@ They often result from an <a data-link-type="dfn">actor</a> performing a service
    <p><strong>URI:</strong> <code>http://www.w3.org/ns/solid/daen#Maintainer</code></p>
    <p>A <a href="http://mellonscholarlycommunication.github.io/spec-overview/#actor">Actor</a>, <a href="http://mellonscholarlycommunication.github.io/spec-overview/#maintainer">Maintainer</a> and <a href="http://mellonscholarlycommunication.github.io/spec-overview/#human-agent">Human Agent</a> that participates on the network and generates activities pertaining to the lifecycle of an <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a>.</p>
    <p><strong>Example:</strong></p>
-<pre class="include-code highlight" data-code-show path="examples/Maintainer.ttl"><c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
-<c- k>@prefix</c-> <c- nn>dcterms:</c-> <c- g>&lt;http://purl.org/dc/terms/></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>prov:</c-> <c- g>&lt;http://www.w3.org/ns/prov#></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>ldp:</c-> <c- g>&lt;http://www.w3.org/ns/ldp#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>xsd:</c-> <c- g>&lt;http://www.w3.org/2001/XMLSchema#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>as:</c-> <c- g>&lt;https://www.w3.org/ns/activitystreams#></c-> <c- p>.</c->
-
-<c- g>&lt;https://www.kb.nl#me></c-> <c- b>a</c-> <c- nn>daen:</c-><c- f>Maintainer</c-><c- p>,</c-> <c- nn>as:</c-><c- f>Organization</c-><c- p>;</c->
-    <c- nn>as:</c-><c- f>name</c-> <c- s>"Koninklijke Bibliotheek"</c-><c- o>@</c->nl<c- p>.</c-></pre>
+<pre class="include-code highlight" data-code-show path="examples/Maintainer.jsonld"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://www.kb.nl#me"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- p>[</c-><c- u>"Maintainer"</c-><c- p>,</c-> <c- u>"as:Organization"</c-><c- p>],</c->
+  <c- f>"as:name"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@value"</c-><c- p>:</c-> <c- u>"National Library"</c-><c- p>,</c->
+    <c- f>"@language"</c-><c- p>:</c-> <c- u>"en"</c->
+  <c- p>}</c->
+<c- p>}</c-></pre>
    <dl>
     <dt data-md>Subclass of:
     <dd data-md>
@@ -1870,15 +1912,16 @@ They often result from an <a data-link-type="dfn">actor</a> performing a service
    <p><strong>URI:</strong> <code>http://www.w3.org/ns/solid/daen#ServiceHub</code></p>
    <p>A <a href="http://mellonscholarlycommunication.github.io/spec-overview/#actor">Actor</a> and <a href="http://mellonscholarlycommunication.github.io/spec-overview/#service-hub">Service Hub</a> that performs services pertaining to the lifecycle of an <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a>.</p>
    <p><strong>Example:</strong></p>
-<pre class="include-code highlight" data-code-show path="examples/ServiceHub.ttl"><c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
-<c- k>@prefix</c-> <c- nn>dcterms:</c-> <c- g>&lt;http://purl.org/dc/terms/></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>prov:</c-> <c- g>&lt;http://www.w3.org/ns/prov#></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>ldp:</c-> <c- g>&lt;http://www.w3.org/ns/ldp#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>xsd:</c-> <c- g>&lt;http://www.w3.org/2001/XMLSchema#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>as:</c-> <c- g>&lt;https://www.w3.org/ns/activitystreams#></c-> <c- p>.</c->
-
-<c- g>&lt;http://registar.org></c-> <c- b>a</c-> <c- nn>daen:</c-><c- f>ServiceHub</c-><c- p>;</c->
-    <c- nn>as:</c-><c- f>name</c-> <c- s>"Registry service"</c-><c- o>@</c->en<c- p>.</c-></pre>
+<pre class="include-code highlight" data-code-show path="examples/ServiceHub.jsonld"><c- p>{</c->
+  <c- s>"@context"</c-><c- p>:</c-> <c- s>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- s>"@id"</c-><c- p>:</c-> <c- s>"http://registar.org"</c-><c- p>,</c->
+  <c- s>"@type"</c-><c- p>:</c-> <c- s>"ServiceHub"</c-><c- p>,</c->
+  <c- s>"as:name"</c-><c- p>:</c-> <c- p>{</c->
+    <c- s>"@value"</c-><c- p>:</c-> <c- s>"Registry service"</c-><c- p>,</c->
+    <c- s>"@language"</c-><c- p>:</c-> <c- s>"en"</c->
+  <c- p>}</c->
+<c- p>}</c->
+</pre>
    <dl>
     <dt data-md>Subclass of:
     <dd data-md>
@@ -1939,6 +1982,7 @@ These describe the relationship between the different resources and actors that 
    <dl>
     <dt data-md>Subproperty of:
     <dd data-md>
+     <p><a href="https://www.w3.org/TR/prov-o/#used">prov:used</a></p>
     <dt data-md>In domain:
     <dd data-md>
      <p><a href>daen:LifecycleEvent</a></p>
@@ -1947,26 +1991,26 @@ These describe the relationship between the different resources and actors that 
      <p><a href>daen:Artefact</a></p>
    </dl>
    <h4 class="heading settled" data-level="6.2.4" id="property-daenmaintainer"><span class="secno">6.2.4. </span><span class="content">Property: <a href>daen:maintainer</a></span><a class="self-link" href="#property-daenmaintainer"></a></h4>
+   <p class="issue" id="issue-3f8a0d28"><a class="self-link" href="#issue-3f8a0d28"></a> remove this property because not needed (see signatures)?</p>
    <p><strong>URI:</strong> <code>http://www.w3.org/ns/solid/daen#maintainer</code></p>
    <p>The <a href="http://mellonscholarlycommunication.github.io/spec-overview/#maintainer">Maintainer</a> who maintains the <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event-log">Artefact Lifecycle Event Log</a> resource.</p>
    <dl>
     <dt data-md>Subproperty of:
     <dd data-md>
-     <p><a href>prov:</a></p>
     <dt data-md>In domain:
     <dd data-md>
      <p><a href>daen:ArtefactLifecycleEventLog</a></p>
     <dt data-md>In range:
     <dd data-md>
-     <p><a href>daen:Maintainer</a></p>
+     <p><a href>daen:Maintainer</a> | <a href>daen:ServiceHub</a></p>
    </dl>
-   <h4 class="heading settled" data-level="6.2.5" id="property-daenexecutor"><span class="secno">6.2.5. </span><span class="content">Property: <a href>daen:executor</a></span><a class="self-link" href="#property-daenexecutor"></a></h4>
+   <h4 class="heading settled" data-level="6.2.5" id="property-executor"><span class="secno">6.2.5. </span><span class="content">Property: <a href>daen:executor</a> ## {#property-executor}</span><a class="self-link" href="#property-executor"></a></h4>
    <p><strong>URI:</strong> <code>http://www.w3.org/ns/solid/daen#executor</code></p>
    <p>The <a href="http://mellonscholarlycommunication.github.io/spec-overview/#maintainer">Maintainer</a> or <a href="http://mellonscholarlycommunication.github.io/spec-overview/#service-hub">Service Hub</a> who executed the event.</p>
    <dl>
     <dt data-md>Subproperty of:
     <dd data-md>
-     <p><a href>prov:</a></p>
+     <p><a href="https://www.w3.org/TR/prov-o/#wasAssociatedWith">prov:wasAssociatedWith</a></p>
     <dt data-md>In domain:
     <dd data-md>
      <p><a href>daen:LifecycleEvent</a></p>
@@ -1975,79 +2019,115 @@ These describe the relationship between the different resources and actors that 
      <p><a href>daen:Maintainer</a> | <a href>daen:ServiceHub</a></p>
    </dl>
    <h4 class="heading settled" data-level="6.2.6" id="external-properties"><span class="secno">6.2.6. </span><span class="content">External properties</span><a class="self-link" href="#external-properties"></a></h4>
-   <table>
-    <tbody>
-     <tr>
-      <td><a href>ldp:contains</a> 
-      <td><code>http://www.w3.org/ns/ldp#contains</code> 
-      <td>The <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a> that is contained by this <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event-log">Artefact Lifecycle Event Log</a>. 
-      <td><a href>daen:ArtefactLifecycleEventLog</a> 
-      <td><a href>daen:LifecycleEvent</a> 
-     <tr>
-      <td><a href>prov:generated</a> 
-      <td><code>http://www.w3.org/ns/prov#generated</code> 
-      <td>An secondary <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a> that resulted from this <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a>. 
-      <td><a href>daen:LifecycleEvent</a> 
-      <td><a href>daen:Artefact</a> 
-     <tr>
-      <td><a href>prov:startedAtTime</a> 
-      <td><code>http://www.w3.org/ns/prov#startedAtTime</code> 
-      <td>The moment the <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a> started. 
-      <td><a href>daen:LifecycleEvent</a> 
-      <td><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a> 
-     <tr>
-      <td><a href>prov:endedAtTime</a> 
-      <td><code>http://www.w3.org/ns/prov#endedAtTime</code> 
-      <td>The moment the <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a> ended. 
-      <td><a href>daen:LifecycleEvent</a> 
-      <td><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a> 
-     <tr>
-      <td><a href>dct:title</a> 
-      <td><code>http://purl.org/dc/terms/title</code> 
-      <td>The title of the <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a>. 
-      <td><a href>daen:LifecycleEvent</a> | <a href>daen:ArtefactLifecycleEventLog</a> 
-      <td><a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a> 
-   </table>
-   <div class="example" id="example-f4562e81">
-    <a class="self-link" href="#example-f4562e81"></a> 
-<pre class="include-code highlight" data-code-show path="examples/basic.ttl"><c- c># Namespace for Decentralized Artefact Exchange Network</c->
-<c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
-<c- k>@prefix</c-> <c- nn>dct:</c-> <c- g>&lt;http://purl.org/dc/terms/></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>prov:</c-> <c- g>&lt;http://www.w3.org/ns/prov#></c-> <c- p>.</c->
-<c- k>@prefix</c-> <c- nn>ldp:</c-> <c- g>&lt;http://www.w3.org/ns/ldp#></c-><c- p>.</c->
-<c- k>@prefix</c-> <c- nn>xsd:</c-> <c- g>&lt;http://www.w3.org/2001/XMLSchema#></c-><c- p>.</c->
-
-<c- k>@base</c-> <c- g>&lt;http://example.org/eventlog></c-> <c- p>.</c->
-
-<c- g>&lt;></c-> <c- b>a</c-> <c- nn>daen:</c-><c- f>ArtefactLifecycleEventLog</c-><c- p>;</c->
-    <c- nn>dct:</c-><c- f>title</c-> <c- s>"Artefact Lifecycle Event Log"</c-><c- p>;</c->
-    <c- nn>daen:</c-><c- f>isEventLogOf</c-> <c- g>&lt;http://example.org/artefacts/1></c-><c- p>;</c->
-    <c- nn>ldp:</c-><c- f>contains</c-> <c- g>&lt;#1></c-><c- p>,</c-> <c- g>&lt;#2></c-><c- p>,</c-> <c- g>&lt;#3></c-><c- p>.</c->
-
-<c- g>&lt;#1></c-> <c- b>a</c-> <c- nn>daen:</c-><c- f>LifecycleEvent</c-><c- p>;</c->
-    <c- nn>dct:</c-><c- f>title</c-> <c- s>"Artefact was registered."</c-><c- p>;</c->
-    <c- nn>prov:</c-><c- f>startedAtTime</c->    <c- s>"2011-07-14T01:01:01Z"</c-><c- o>^^</c->xsd:dateTime<c- p>;</c->
-    <c- nn>prov:</c-><c- f>endedAtTime</c->      <c- s>"2011-07-14T02:02:02Z"</c-><c- o>^^</c->xsd:dateTime<c- p>;</c->
-    <c- nn>daen:</c-><c- f>artefact</c-> <c- g>&lt;https://example.org/artefacts/1></c-><c- p>;</c->
-    <c- nn>daen:</c-><c- f>executor</c-> <c- g>&lt;https://registar.org/></c-><c- p>;</c->
-    <c- c># Link to new artefact that was generated; the proof of registration</c->
-    <c- nn>prov:</c-><c- f>generated</c-> <c- g>&lt;https://registar.org/registration/23813178></c-><c- p>.</c->
-
-<c- g>&lt;#2></c-> <c- b>a</c-> <c- nn>daen:</c-><c- f>LifecycleEvent</c-><c- p>;</c->
-    <c- nn>dct:</c-><c- f>title</c-> <c- s>"Artefact was certified."</c-><c- p>;</c->
-    <c- nn>prov:</c-><c- f>startedAtTime</c->    <c- s>"2011-07-16T01:01:01Z"</c-><c- o>^^</c->xsd:dateTime<c- p>;</c->
-    <c- nn>prov:</c-><c- f>endedAtTime</c->      <c- s>"2011-07-16T02:02:02Z"</c-><c- o>^^</c->xsd:dateTime<c- p>;</c->
-    <c- nn>daen:</c-><c- f>artefact</c-> <c- g>&lt;https://example.org/artefacts/1></c-><c- p>;</c->
-    <c- nn>daen:</c-><c- f>executor</c-> <c- g>&lt;https://certifier.org></c-><c- p>.</c->
-
-<c- g>&lt;#3></c-> <c- b>a</c-> <c- nn>daen:</c-><c- f>LifecycleEvent</c-><c- p>;</c->
-    <c- nn>dct:</c-><c- f>title</c-> <c- s>"Artefact was archived."</c-><c- p>;</c->
-    <c- nn>prov:</c-><c- f>startedAtTime</c->    <c- s>"2011-07-17T01:01:01Z"</c-><c- o>^^</c->xsd:dateTime<c- p>;</c->
-    <c- nn>prov:</c-><c- f>endedAtTime</c->      <c- s>"2011-07-17T02:02:02Z"</c-><c- o>^^</c->xsd:dateTime<c- p>;</c->
-    <c- nn>daen:</c-><c- f>artefact</c-> <c- g>&lt;https://example.org/artefacts/1></c-><c- p>;</c->
-    <c- nn>daen:</c-><c- f>executor</c-> <c- g>&lt;https://archive.org></c-><c- p>.</c->
-</pre>
-   </div>
+   <h5 class="heading settled" data-level="6.2.6.1" id="property-ldpcontains"><span class="secno">6.2.6.1. </span><span class="content">Property: <a href="http://www.w3.org/ns/ldp#contains">ldp:contains</a></span><a class="self-link" href="#property-ldpcontains"></a></h5>
+   <p><strong>URI:</strong> <code>http://www.w3.org/ns/ldp#contains</code></p>
+   <p>The <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a> that is contained by this <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact-lifecycle-event-log">Artefact Lifecycle Event Log</a>.</p>
+   <dl>
+    <dt data-md>Subproperty of:
+    <dd data-md>
+    <dt data-md>In domain:
+    <dd data-md>
+     <p><a href>daen:ArtefactLifecycleEventLog</a></p>
+    <dt data-md>In range:
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.2" id="property-provgenerated"><span class="secno">6.2.6.2. </span><span class="content">Property: <a href="http://www.w3.org/ns/prov#generated">prov:generated</a></span><a class="self-link" href="#property-provgenerated"></a></h5>
+   <p><strong>URI:</strong> <code>http://www.w3.org/ns/prov#generated</code></p>
+   <p>A secondary <a href="http://mellonscholarlycommunication.github.io/spec-overview/#artefact">Artefact</a> that resulted from this <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a>.</p>
+   <dl>
+    <dt data-md>Subproperty of:
+    <dd data-md>
+    <dt data-md>In domain:
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+    <dt data-md>In range:
+    <dd data-md>
+     <p><a href>daen:Artefact</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.3" id="property-provstartedattime"><span class="secno">6.2.6.3. </span><span class="content">Property: <a href="http://www.w3.org/ns/prov#startedAtTime">prov:startedAtTime</a></span><a class="self-link" href="#property-provstartedattime"></a></h5>
+   <p><strong>URI:</strong> <code>http://www.w3.org/ns/prov#startedAtTime</code></p>
+   <p>The moment the <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a> started.</p>
+   <dl>
+    <dt data-md>Subproperty of:
+    <dd data-md>
+    <dt data-md>In domain:
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+    <dt data-md>In range:
+    <dd data-md>
+     <p><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.4" id="property-provendedattime"><span class="secno">6.2.6.4. </span><span class="content">Property: <a href="http://www.w3.org/ns/prov#endedAtTime">prov:endedAtTime</a></span><a class="self-link" href="#property-provendedattime"></a></h5>
+   <p><strong>URI:</strong> <code>http://www.w3.org/ns/prov#endedAtTime</code></p>
+   <p>The moment the <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a> ended.</p>
+   <dl>
+    <dt data-md>Subproperty of:
+    <dd data-md>
+    <dt data-md>In domain:
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+    <dt data-md>In range:
+    <dd data-md>
+     <p><a href="http://www.w3.org/2001/XMLSchema#dateTime">xsd:dateTime</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.5" id="property-dcttitle"><span class="secno">6.2.6.5. </span><span class="content">Property: <a href="http://purl.org/dc/terms/title">dct:title</a></span><a class="self-link" href="#property-dcttitle"></a></h5>
+   <p><strong>URI:</strong> <code>http://purl.org/dc/terms/title</code></p>
+   <p>The title of the <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a>.</p>
+   <dl>
+    <dt data-md>Subproperty of:
+    <dd data-md>
+    <dt data-md>In domain:
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+    <dt data-md>In range:
+    <dd data-md>
+     <p><a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p>
+   </dl>
+   <h5 class="heading settled" data-level="6.2.6.6" id="property-signature"><span class="secno">6.2.6.6. </span><span class="content">Property: <a href="https://w3id.org/security#signature">sec:signature</a> ## {#property-signature}</span><a class="self-link" href="#property-signature"></a></h5>
+   <p><strong>URI:</strong> <code>https://w3id.org/security#signature</code></p>
+   <p>The title of the <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a>.</p>
+   <dl>
+    <dt data-md>Subproperty of:
+    <dd data-md>
+    <dt data-md>In domain:
+    <dd data-md>
+     <p><a href>daen:LifecycleEvent</a></p>
+    <dt data-md>In range:
+    <dd data-md>
+     <p><a href="https://w3id.org/security#Signature">sec:Signature</a></p>
+   </dl>
+   <h3 class="heading settled" data-level="6.3" id="signing-lifecycle-events"><span class="secno">6.3. </span><span class="content">Signing lifecycle events</span><a class="self-link" href="#signing-lifecycle-events"></a></h3>
+   <p>Lifecycle events that belong to a single <a data-link-type="dfn">Artefact</a> can be produced by different <a data-link-type="dfn">actors</a> in the network.
+While one can derive the <a data-link-type="dfn">actor</a> who executed the event via the [[#property-executor|<code>daen:executor</code>]] property,
+it is also essential to derive who vouches for its existence. 
+This is done by signing the serialized <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events②">Lifecycle Event</a> and adding the who, what, and when of the digital signature.
+Often, the <a data-link-type="dfn">actor</a> who executes the event is the same as the one who sings it, although this is should not always be the case.</p>
+   <p>An event of type [[#type-lifecycle-event|<code>daen:LifecycleEvent</code>]] SHOULD contain a [[#property-signature|<code>sec:signature</code>]] property.
+The signature MUST be typed as one of the classes in <a href="https://w3c-ccg.github.io/security-vocab/#classes">The Security Vocabulary §classes</a> and MUST be a valid <a href="https://w3c-ccg.github.io/ld-proofs#linked-data-signatures">Linked Data Signature</a>.
+It MUST contain the property <code>sec:creator</code> with the URI of the signing <a data-link-type="dfn">actor</a> as value.</p>
+<pre class="include-code highlight" data-code-show path="examples/SignedLifecycleEvent.jsonld"><c- p>{</c->
+  <c- f>"@context"</c-><c- p>:</c-> <c- u>"http://www.w3.org/ns/solid/daen/context.jsonld"</c-><c- p>,</c->
+  <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/eventlog#1"</c-><c- p>,</c->
+  <c- f>"@type"</c-><c- p>:</c-> <c- u>"LifecycleEvent"</c-><c- p>,</c->
+  <c- f>"title"</c-><c- p>:</c-> <c- u>"Artefact was registered."</c-><c- p>,</c->
+  <c- f>"startedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T01:01:01Z"</c-><c- p>,</c->
+  <c- f>"endedAtTime"</c-><c- p>:</c-> <c- u>"2011-07-14T02:02:02Z"</c-><c- p>,</c->
+  <c- f>"artefact"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://example.org/artefacts/1"</c->
+  <c- p>},</c->
+  <c- f>"executor"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://registar.org/"</c->
+  <c- p>},</c->
+  <c- f>"generated"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@id"</c-><c- p>:</c-> <c- u>"https://registar.org/registration/23813178"</c->
+  <c- p>},</c->
+  <c- f>"signature"</c-><c- p>:</c-> <c- p>{</c->
+    <c- f>"@type"</c-><c- p>:</c-> <c- u>"GraphSignature2012"</c-><c- p>,</c->
+    <c- f>"creator"</c-><c- p>:</c-> <c- u>"https://registar.org/"</c-><c- p>,</c->
+    <c- f>"signatureValue"</c-><c- p>:</c-> <c- u>"OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="</c->
+  <c- p>}</c->
+<c- p>}</c-></pre>
    <h2 class="heading settled" data-level="7" id="discovery"><span class="secno">7. </span><span class="content">Discovering an Artefact Lifecycle Event Log</span><a class="self-link" href="#discovery"></a></h2>
    <p>An <a data-link-type="dfn">Artefact Lifecycle Event Log</a> can be discovered with multiple methods:</p>
    <ol>
@@ -2069,22 +2149,33 @@ These describe the relationship between the different resources and actors that 
      <p>make an HTTP GET request on the target URL to retrieve an <a data-link-type="biblio" href="#biblio-html">[html]</a> representation, whose HTML body contains a link element with a rel value of <code>http://www.w3.org/ns/solid/daen#eventLog</code>. The value of the <code>href</code> attribute is the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
    </ul>
    <p>An <a data-link-type="dfn">actor</a> may be carried out in either order, but if the one fails to result in an <a data-link-type="dfn">Artefact Lifecycle Event Log</a> the alternatives MUST be tried.
-A resource MAY advertise multiple <a data-link-type="dfn">Artefact Lifecycle Event Log</a> resources, for example an <a data-link-type="dfn">artefact</a> aiding in the discovery of its lifecycle distributed over the network. A <a data-link-type="dfn">Artefact Lifecycle Event Log</a> MAY be used by multiple resources, for example using a single <a data-link-type="dfn">Artefact Lifecycle Event Log</a> to collect the <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events②">Lifecycle Events</a> from all <a data-link-type="dfn">Artefacts</a> in a data pod.</p>
-   <div class="example" id="example-d0fc716c">
-    <a class="self-link" href="#example-d0fc716c"></a> In case of an RDF resource located at <code>resourceURI</code>, any implementation linking an Event Log located at <code>eventLogURI</code> through an in-body link MUST add the following data triple to the document body: 
-<pre class="language-turtle highlight"><c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
+A resource MAY advertise multiple <a data-link-type="dfn">Artefact Lifecycle Event Log</a> resources, for example an <a data-link-type="dfn">artefact</a> aiding in the discovery of its lifecycle distributed over the network. A <a data-link-type="dfn">Artefact Lifecycle Event Log</a> MAY be used by multiple resources, for example using a single <a data-link-type="dfn">Artefact Lifecycle Event Log</a> to collect the <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events③">Lifecycle Events</a> from all <a data-link-type="dfn">Artefacts</a> in a data pod.</p>
+   <div class="example" id="example-439f6e07">
+    <a class="self-link" href="#example-439f6e07"></a> In case of an RDF resource located at <code>resourceURI</code>, any implementation linking an Event Log located at <code>eventLogURI</code> through an in-body link MUST add the following data triple to the document body: 
+<pre class="include-code highlight" data-code-show path="examples/discovery.ttl"><c- k>@prefix</c-> <c- nn>daen:</c-> <c- g>&lt;http://www.w3.org/ns/solid/daen#></c-> <c- p>.</c-> 
 
-<c- g>&lt;resourceURI></c-> <c- nn>daen:</c-><c- f>eventLog</c-> <c- g>&lt;eventLogURI></c-><c- p>.</c->
-</pre>
+<c- g>&lt;https://example.org/artefacts/1></c-> <c- nn>daen:</c-><c- f>eventLog</c-> <c- g>&lt;https://example.org/eventlog></c-><c- p>.</c-></pre>
    </div>
-   <div class="example" id="example-fe6bf33b">
-    <a class="self-link" href="#example-fe6bf33b"></a> In case of an HTML resource located at <code>resourceURI</code>, any implementation linking an Event Log located at <code>eventLogURI</code> through an in-body link MUST add use a Link element in the HTML body as follows: 
-<pre class="language-html highlight">	<c- p>&lt;</c-><c- f>link</c-> <c- e>href</c-><c- o>=</c-><c- s>"http://www.w3.org/ns/solid/daen#eventLog"</c-> <c- e>rel</c-><c- o>=</c-><c- s>"eventlog"</c-> <c- p>/></c->;
-</pre>
+   <div class="example" id="example-d4a9e341">
+    <a class="self-link" href="#example-d4a9e341"></a> In case of an HTML resource located at <code>resourceURI</code>, any implementation linking an Event Log located at <code>eventLogURI</code> through an in-body link MUST add use a Link element in the HTML body as follows: 
+<pre class="include-code highlight" data-code-show path="examples/discovery.html"><c- cp>&lt;!doctype html></c->
+
+<c- p>&lt;</c-><c- f>html</c-> <c- e>lang</c-><c- o>=</c-><c- s>"en"</c-><c- p>></c->
+<c- p>&lt;</c-><c- f>head</c-><c- p>></c->
+  <c- p>&lt;</c-><c- f>meta</c-> <c- e>charset</c-><c- o>=</c-><c- s>"utf-8"</c-><c- p>></c->
+
+  <c- p>&lt;</c-><c- f>title</c-><c- p>></c->A Basic HTML5 Template<c- p>&lt;/</c-><c- f>title</c-><c- p>></c->
+
+  <c- p>&lt;</c-><c- f>link</c-> <c- e>rel</c-><c- o>=</c-><c- s>'http://www.w3.org/ns/solid/daen#eventLog'</c-> <c- e>href</c-><c- o>=</c-><c- s>'https://example.org/eventlog'</c-> <c- p>/></c->
+<c- p>&lt;/</c-><c- f>head</c-><c- p>></c->
+<c- p>&lt;</c-><c- f>body</c-><c- p>></c->
+    ...
+<c- p>&lt;/</c-><c- f>body</c-><c- p>></c->
+<c- p>&lt;/</c-><c- f>html</c-><c- p>></c-></pre>
    </div>
-   <div class="example" id="example-8aca2086">
-    <a class="self-link" href="#example-8aca2086"></a> Any resource with a linked Event Log that does not advertise this Event Log through an in-body link MUST advertise this Event Log through a Link header in the server response as follows: 
-<pre>	Link: &lt;/EventLog>; rel="http://www.w3.org/ns/solid/daen#eventLog".
+   <div class="example" id="example-430c4b0d">
+    <a class="self-link" href="#example-430c4b0d"></a> Any resource with a linked Event Log that does not advertise this Event Log through an in-body link MUST advertise this Event Log through a Link header in the server response as follows: 
+<pre class="language-http highlight">Link: &lt;https://example.org/eventlog>; rel="http://www.w3.org/ns/solid/daen#eventLog".
 </pre>
    </div>
    <p class="issue" id="issue-732c4e91"><a class="self-link" href="#issue-732c4e91"></a> get more specifics on the method below</p>
@@ -2110,7 +2201,7 @@ or for a data triple with a predicate value of <code>rdf:seeAlso</code> in case 
    <h3 class="heading settled" data-level="7.2" id="discovery-shapetrees"><span class="secno">7.2. </span><span class="content">Discovery via Shape Trees</span><a class="self-link" href="#discovery-shapetrees"></a></h3>
     Any implementation MAY support the discovery of an <a data-link-type="dfn">Artefact Lifecycle Event Log</a> through <a data-link-type="biblio" href="#biblio-shapetrees">[shapetrees]</a> defined in the data platform. 
    <p>In the <a data-link-type="biblio" href="#biblio-solid-protocol">Solid</a> ecosystem, All created <a data-link-type="dfn">Artefact Lifecycle Event Log</a> resources SHOULD be discoverable in the data pod through the pod’s <a href="https://shapetrees.org/TR/specification/#tree">Shape Tree</a>.
-This enables actors in the network to efficiently aggregate all <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events③">Lifecycle Event</a> data in the data pod for which they have Read permissions.</p>
+This enables actors in the network to efficiently aggregate all <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events④">Lifecycle Event</a> data in the data pod for which they have Read permissions.</p>
    <div class="example" id="example-b81aa415">
     <a class="self-link" href="#example-b81aa415"></a> 
 <pre>// The Events folder contains EventLog containers
@@ -2129,7 +2220,7 @@ This enables actors in the network to efficiently aggregate all <a data-link-typ
 </pre>
    </div>
    <h2 class="heading settled" data-level="8" id="producing"><span class="secno">8. </span><span class="content">Appending Lifecycle Events</span><a class="self-link" href="#producing"></a></h2>
-   <p>An actor can append <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events④">Lifecycle Events</a> by sending a <code>POST</code> request to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
+   <p>An actor can append <a data-link-type="dfn" href="https://w3c.github.io/ServiceWorker/#dfn-lifecycle-events" id="ref-for-dfn-lifecycle-events⑤">Lifecycle Events</a> by sending a <code>POST</code> request to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.</p>
    <p>In case <a href="#authorization">authorization</a> is enabled for the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, the actor MUST have <a href="#authorization-append">append permissions</a> to execute this action.</p>
    <p>Before appending an event to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>, the client SHOULD try to discover if <a href="#validation">validation</a> is enabled for the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>. In case validation is enabled, the client SHOULD try to validate the event first on the client with the discovered validation link.</p>
    <p>Any event that is successfully posted and validated MUST be added to the <a data-link-type="dfn">Artefact Lifecycle Event Log</a>.
@@ -2388,9 +2479,10 @@ for the valuable input during this project.</p>
    <ul>
     <li><a href="#ref-for-dfn-lifecycle-events">2. Introduction</a>
     <li><a href="#ref-for-dfn-lifecycle-events①">5. Overview</a>
-    <li><a href="#ref-for-dfn-lifecycle-events②">7.1. Discovery via link</a>
-    <li><a href="#ref-for-dfn-lifecycle-events③">7.2. Discovery via Shape Trees</a>
-    <li><a href="#ref-for-dfn-lifecycle-events④">8. Appending Lifecycle Events</a>
+    <li><a href="#ref-for-dfn-lifecycle-events②">6.3. Signing lifecycle events</a>
+    <li><a href="#ref-for-dfn-lifecycle-events③">7.1. Discovery via link</a>
+    <li><a href="#ref-for-dfn-lifecycle-events④">7.2. Discovery via Shape Trees</a>
+    <li><a href="#ref-for-dfn-lifecycle-events⑤">8. Appending Lifecycle Events</a>
    </ul>
   </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
@@ -2435,6 +2527,7 @@ for the valuable input during this project.</p>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
    <div class="issue"> add a high level explanation<a href="#issue-859ec47b"> ↵ </a></div>
+   <div class="issue"> remove this property because not needed (see signatures)?<a href="#issue-3f8a0d28"> ↵ </a></div>
    <div class="issue"> how to pinpoint what resources can lead to such link? Who is hosting them?<a href="#issue-75f32e93"> ↵ </a></div>
    <div class="issue"> get more specifics on the method below<a href="#issue-732c4e91"> ↵ </a></div>
   </div>

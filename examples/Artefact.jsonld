@@ -1,0 +1,6 @@
+{
+  "@context": "http://www.w3.org/ns/solid/daen/context.jsonld",
+  "@id": "https://example.org/artefacts/1",
+  "@type": ["Artefact","prov:Entity","as:Document"],
+  "name": "Publication about WOII"
+}
