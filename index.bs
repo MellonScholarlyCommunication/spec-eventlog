@@ -175,7 +175,7 @@ An [=Artefact Lifecycle Event Log=] MUST be consumable for authorized actors in 
 Its URL MUST be discoverable through one of the methods described in [[#discovery]].
 Actors in the network MAY be authorized to read, append or change the permissions according to the authorization mechanism in [[#authorization]]. 
 Lifecycle events MUST be described in the artefact lifecycle data vocabulary as defined in [[#vocabulary]].
-An [=Artefact Lifecycle Event Log=] MUST be available in the [[turtle]] format, 
+An [=Artefact Lifecycle Event Log=] MUST be available in the [[json-ld11]] format, 
 but it MAY support other data formats as well through content negotiation.
 
 While not mandatory, each actor in the network is expected to host a [=Artefact Lifecycle Event Log=] per known artefact to allow effective network governance.
@@ -395,7 +395,7 @@ The [[spec-overview#maintainer|Maintainer]] who maintains the [[spec-overview#ar
 : In range:
 :: <a href="">daen:Maintainer</a> | <a href="">daen:ServiceHub</a>
 
-### Property: <a href="">daen:executor</a> ## {#property-executor}
+### Property: <a href="">daen:executor</a> ### {#property-executor}
 
 **URI:** `http://www.w3.org/ns/solid/daen#executor`
 
@@ -475,7 +475,7 @@ The title of the [[spec-overview#lifecycle-event|Lifecycle Event]].
 : In range:
 :: <a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a>
 
-#### Property: <a href="https://w3id.org/security#signature">sec:signature</a> ## {#property-signature}
+#### Property: <a href="https://w3id.org/security#signature">sec:signature</a> ### {#property-signature}
 
 **URI:** `https://w3id.org/security#signature`
 
