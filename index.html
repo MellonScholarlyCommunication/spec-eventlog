@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="a28fc23df0ea170567adf838471b5051ad325db4" name="document-revision">
+  <meta content="27d72d919048d4b6b9db57e4358bf0d2183304df" name="document-revision">
 <style>
 table {
   margin: 25px auto;
@@ -1558,7 +1558,7 @@ Parts of this work may be from another specification document.  If so, those par
         <li><a href="#property-daeniseventlogof"><span class="secno">6.2.2</span> <span class="content">Property: <span>daen:isEventLogOf</span></span></a>
         <li><a href="#property-daenartefact"><span class="secno">6.2.3</span> <span class="content">Property: <span>daen:artefact</span></span></a>
         <li><a href="#property-daenmaintainer"><span class="secno">6.2.4</span> <span class="content">Property: <span>daen:maintainer</span></span></a>
-        <li><a href="#property-executor"><span class="secno">6.2.5</span> <span class="content">Property: <span>daen:executor</span> ## {#property-executor}</span></a>
+        <li><a href="#property-executor"><span class="secno">6.2.5</span> <span class="content">Property: <span>daen:executor</span></span></a>
         <li>
          <a href="#external-properties"><span class="secno">6.2.6</span> <span class="content">External properties</span></a>
          <ol class="toc">
@@ -1567,7 +1567,7 @@ Parts of this work may be from another specification document.  If so, those par
           <li><a href="#property-provstartedattime"><span class="secno">6.2.6.3</span> <span class="content">Property: <span>prov:startedAtTime</span></span></a>
           <li><a href="#property-provendedattime"><span class="secno">6.2.6.4</span> <span class="content">Property: <span>prov:endedAtTime</span></span></a>
           <li><a href="#property-dcttitle"><span class="secno">6.2.6.5</span> <span class="content">Property: <span>dct:title</span></span></a>
-          <li><a href="#property-signature"><span class="secno">6.2.6.6</span> <span class="content">Property: <span>sec:signature</span> ## {#property-signature}</span></a>
+          <li><a href="#property-signature"><span class="secno">6.2.6.6</span> <span class="content">Property: <span>sec:signature</span> ### {#property-signature}</span></a>
          </ol>
        </ol>
       <li><a href="#signing-lifecycle-events"><span class="secno">6.3</span> <span class="content">Signing lifecycle events</span></a>
@@ -1750,7 +1750,7 @@ It MAY also validate <a data-link-type="dfn" href="https://w3c.github.io/Service
 Its URL MUST be discoverable through one of the methods described in <a href="#discovery">§ 7 Discovering an Artefact Lifecycle Event Log</a>.
 Actors in the network MAY be authorized to read, append or change the permissions according to the authorization mechanism in <a href="#authorization">§ 10 Authorization</a>. 
 Lifecycle events MUST be described in the artefact lifecycle data vocabulary as defined in <a href="#vocabulary">§ 6 Vocabulary</a>.
-An <a data-link-type="dfn">Artefact Lifecycle Event Log</a> MUST be available in the <a data-link-type="biblio" href="#biblio-turtle">[turtle]</a> format, 
+An <a data-link-type="dfn">Artefact Lifecycle Event Log</a> MUST be available in the <a data-link-type="biblio" href="#biblio-json-ld11">[json-ld11]</a> format, 
 but it MAY support other data formats as well through content negotiation.</p>
    <p>While not mandatory, each actor in the network is expected to host a <a data-link-type="dfn">Artefact Lifecycle Event Log</a> per known artefact to allow effective network governance.
 As a result, a single <a data-link-type="dfn">Artefact Lifecycle Event Log</a> MUST correspond to at least one <a data-link-type="dfn">artefact</a> in the network, 
@@ -2004,7 +2004,7 @@ These describe the relationship between the different resources and actors that 
     <dd data-md>
      <p><a href>daen:Maintainer</a> | <a href>daen:ServiceHub</a></p>
    </dl>
-   <h4 class="heading settled" data-level="6.2.5" id="property-executor"><span class="secno">6.2.5. </span><span class="content">Property: <a href>daen:executor</a> ## {#property-executor}</span><a class="self-link" href="#property-executor"></a></h4>
+   <h4 class="heading settled" data-level="6.2.5" id="property-executor"><span class="secno">6.2.5. </span><span class="content">Property: <a href>daen:executor</a></span><a class="self-link" href="#property-executor"></a></h4>
    <p><strong>URI:</strong> <code>http://www.w3.org/ns/solid/daen#executor</code></p>
    <p>The <a href="http://mellonscholarlycommunication.github.io/spec-overview/#maintainer">Maintainer</a> or <a href="http://mellonscholarlycommunication.github.io/spec-overview/#service-hub">Service Hub</a> who executed the event.</p>
    <dl>
@@ -2084,7 +2084,7 @@ These describe the relationship between the different resources and actors that 
     <dd data-md>
      <p><a href="http://www.w3.org/2001/XMLSchema#string">xsd:string</a></p>
    </dl>
-   <h5 class="heading settled" data-level="6.2.6.6" id="property-signature"><span class="secno">6.2.6.6. </span><span class="content">Property: <a href="https://w3id.org/security#signature">sec:signature</a> ## {#property-signature}</span><a class="self-link" href="#property-signature"></a></h5>
+   <h5 class="heading settled" data-level="6.2.6.6" id="property-signature"><span class="secno">6.2.6.6. </span><span class="content">Property: <a href="https://w3id.org/security#signature">sec:signature</a> ### {#property-signature}</span><a class="self-link" href="#property-signature"></a></h5>
    <p><strong>URI:</strong> <code>https://w3id.org/security#signature</code></p>
    <p>The title of the <a href="http://mellonscholarlycommunication.github.io/spec-overview/#lifecycle-event">Lifecycle Event</a>.</p>
    <dl>
@@ -2507,6 +2507,8 @@ for the valuable input during this project.</p>
    <dd>James Snell; Evan Prodromou. <a href="https://www.w3.org/TR/activitystreams-vocabulary/">Activity Vocabulary</a>. 23 May 2017. REC. URL: <a href="https://www.w3.org/TR/activitystreams-vocabulary/">https://www.w3.org/TR/activitystreams-vocabulary/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-json-ld11">[JSON-LD11]
+   <dd>Gregg Kellogg; Pierre-Antoine Champin; Dave Longley. <a href="https://www.w3.org/TR/json-ld11/">JSON-LD 1.1</a>. 16 July 2020. REC. URL: <a href="https://www.w3.org/TR/json-ld11/">https://www.w3.org/TR/json-ld11/</a>
    <dt id="biblio-ldp">[LDP]
    <dd>Steve Speicher; John Arwe; Ashok Malhotra. <a href="https://www.w3.org/TR/ldp/">Linked Data Platform 1.0</a>. 26 February 2015. REC. URL: <a href="https://www.w3.org/TR/ldp/">https://www.w3.org/TR/ldp/</a>
    <dt id="biblio-prov-o">[PROV-O]
@@ -2521,8 +2523,6 @@ for the valuable input during this project.</p>
    <dd>Eric Prud'hommeaux; Justin Bingham. <a href="https://shapetrees.org/TR/specification/">Shape Trees Specification</a>. Editor’s Draft. URL: <a href="https://shapetrees.org/TR/specification/">https://shapetrees.org/TR/specification/</a>
    <dt id="biblio-solid-protocol">[SOLID-PROTOCOL]
    <dd>Sarven Capadisli; et al. <a href="https://solidproject.org/TR/protocol">The Solid Protocol</a>. Editor’s Draft. URL: <a href="https://solidproject.org/TR/protocol">https://solidproject.org/TR/protocol</a>
-   <dt id="biblio-turtle">[TURTLE]
-   <dd>Eric Prud'hommeaux; Gavin Carothers. <a href="https://www.w3.org/TR/turtle/">RDF 1.1 Turtle</a>. 25 February 2014. REC. URL: <a href="https://www.w3.org/TR/turtle/">https://www.w3.org/TR/turtle/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
