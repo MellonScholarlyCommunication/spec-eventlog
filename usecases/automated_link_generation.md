@@ -16,7 +16,7 @@ Actors:
 ## User story
 
 A maintainer `M` downloads an app `AA(M)` that can understand artefact format XYZ and update it
-with new information. The application watches events logs for relevant artefacts and an 
+with new information. The application watches events logs for relevant artefacts and
 updates it with information newly added network resources that we made available to the pod
 on top of the stored artefacts.
 
@@ -24,10 +24,13 @@ E.g.
 
 - An app that knows IIIF could automatically add annotations to an annotation layer database
 when they are discovered in the Event log.
-- An app that knows HTML can create back links to publised versions , cited references into local pod artefacts
+- An app that knows HTML can create back links to published versions , cited references into local pod artefacts
 - An app that know signatures can add digital signatures to a joint local pod artefact
 
 ## Possible consequences
 
 In this way there can be a decoupling of services relevant for maintaining (and proving) event logs (the orchestrator) and
 making sense of the inboxes, and application that provide Pod services on top of the event logs.
+
+### Relevant for
+ - Cultural heritage: increasing interconnectedness of the cultural heritage collection data

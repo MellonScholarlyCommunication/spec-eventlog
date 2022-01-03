@@ -22,13 +22,15 @@ The `W` discovers an event :
 
 - Article `URL-A` was granted an official status by `H3`.
 
-Alas the details of this status are not availble to `X` because the information is not
+Alas the details of this status are not available to `X` because the information is not
 public shared (e.g. behind a paywall, or closed network).
 
-Allthough the information about the event itself is not accessible to `X` a proof/evidence
-can be discoverd from the network.
+Although the information about the event itself is not accessible to `X` a proof/evidence
+can be discovered from the network.
 
 ### Possible implementation
 
-The lifecycle event log contains a signed copy of an event as `H3`. The webapp `W`
-can proof `H3` really granted an official status , but doesn't require access to all details.
+- The lifecycle event log contains a signed copy of an event as `H3`. The webapp `W`
+can proof `H3` really granted an official status, but doesn't require access to all details.
+
+- The webapp `W` uses distributed redundancy of events as proof. When `W` has discovered he event "Article `URL-A` was granted an official status by `H3`" is a sufficient number of distinct event logs, it is considered as valid evidence. The algorithm can be weighted according to the trustworthiness of the event log's source.
