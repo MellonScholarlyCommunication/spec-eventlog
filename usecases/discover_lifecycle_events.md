@@ -16,7 +16,7 @@ Actors:
  ### User story
 
 A user `X` discovers by some mechanism an artefact `URL-A` on the Web and wants to learn more about it.
-User `X` browser is equiped with an webapp/plugin `W` that can retrieve relevant contextual information
+User `X` browser is equipped with an webapp/plugin `W` that can retrieve relevant contextual information
 about this artefact. 
 
 The user `X` instructs her webapp/plugin to search who in the network provides services in her field of
@@ -29,3 +29,5 @@ a preference of what services interests her).
 The service events allows user `X` to judge the relevance of the artefact `URL-A` and learn more about the
 details.
 
+### Relevant for
+ - Cultural heritage: knowing what happened to (the metadata of) an object, eg. where it has been preserved, digitized or whether it has been 'on a loan' in a different institution.
