@@ -64,9 +64,12 @@ a data format and protocol for the recording and discovery of these events,
 in order to serve mostly applications related to network governance.
 
 An [=Artefact Lifecycle Event Log=] is an artefact-centric, append-only, public Web resource that exposes a series of lifecycle events.
-To ensure network-wide interoperability, events are recorded using a data vocabulary encoded in [[rdf11-concepts|RDF]].
-In most common cases, 
-the [=Artefact Lifecycle Event Log=] is an [[LDP]] Resource that is part of a [[solid-protocol#data-pod|Solid Data Pod]].
+These events are recorded using a data vocabulary encoded in [[rdf11-concepts|RDF]] to ensure network-wide interoperability.
+In practice, 
+the [=Artefact Lifecycle Event Log=] will often be an [[LDP]] Resource implementation that is natively supported of a [[solid-protocol#data-pod|Solid Data Pod]].
+It is important to note, however, that similar to [[LDN]], a [=Artefact Lifecycle Event Log=] is a specialized use of Linked Data Platform [[LDP]] and is not dependent on a complete implementation of LDP. 
+It only requires a minimal subset that is easy to implement.
+
 This document describes
 
 - a data vocabulary compatible with [[prov-o|PROV-O]] and [[activitystreams-vocabulary|Activity Streams 2.0]] for describing lifecycle event and log information;
