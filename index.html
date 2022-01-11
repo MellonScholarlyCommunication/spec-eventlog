@@ -1223,7 +1223,7 @@ Possible extra rowspan handling
 </style>
   <meta content="Bikeshed version 5f7b0e20, updated Tue Aug 18 15:46:28 2020 -0700" name="generator">
   <link href="https://mellonscholarlycommunication.github.io/spec-eventlog" rel="canonical">
-  <meta content="b8eb8b70c60e3ad6b86a59b06ad43011c9cb5212" name="document-revision">
+  <meta content="c32f00c04336d8457ee78560d5fd3c44497982b9" name="document-revision">
 <style>
 table {
   margin: 25px auto;
@@ -1497,7 +1497,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1 class="p-name no-ref" id="title">Artefact Lifecycle Event Log</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2022-01-03">3 January 2022</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Living Standard, <time class="dt-updated" datetime="2022-01-11">11 January 2022</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -1515,7 +1515,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 3 January 2022,
+In addition, as of 11 January 2022,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1650,10 +1650,12 @@ This document introduces the <a data-link-type="dfn">Artefact Lifecycle Event Lo
 a data format and protocol for the recording and discovery of these events,
 in order to serve mostly applications related to network governance. 
    <p>An <a data-link-type="dfn">Artefact Lifecycle Event Log</a> is an artefact-centric, append-only, public Web resource that exposes a series of lifecycle events.
-To ensure network-wide interoperability, events are recorded using a data vocabulary encoded in <a data-link-type="biblio" href="#biblio-rdf11-concepts">RDF</a>.
-In most common cases, 
-the <a data-link-type="dfn">Artefact Lifecycle Event Log</a> is an <a data-link-type="biblio" href="#biblio-ldp">[LDP]</a> Resource that is part of a <a href="https://solidproject.org/TR/protocol#data-pod">Solid Data Pod</a>.
-This document describes</p>
+These events are recorded using a data vocabulary encoded in <a data-link-type="biblio" href="#biblio-rdf11-concepts">RDF</a> to ensure network-wide interoperability.
+In practice, 
+the <a data-link-type="dfn">Artefact Lifecycle Event Log</a> will often be an <a data-link-type="biblio" href="#biblio-ldp">[LDP]</a> Resource implementation that is natively supported of a <a href="https://solidproject.org/TR/protocol#data-pod">Solid Data Pod</a>.
+It is important to note, however, that similar to <a data-link-type="biblio" href="#biblio-ldn">[LDN]</a>, a <a data-link-type="dfn">Artefact Lifecycle Event Log</a> is a specialized use of Linked Data Platform <a data-link-type="biblio" href="#biblio-ldp">[LDP]</a> and is not dependent on a complete implementation of LDP. 
+It only requires a minimal subset that is easy to implement.</p>
+   <p>This document describes</p>
    <ul>
     <li data-md>
      <p>a data vocabulary compatible with <a data-link-type="biblio" href="#biblio-prov-o">PROV-O</a> and <a data-link-type="biblio" href="#biblio-activitystreams-vocabulary">Activity Streams 2.0</a> for describing lifecycle event and log information;</p>
@@ -2525,6 +2527,8 @@ for the valuable input during this project.</p>
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-json-ld11">[JSON-LD11]
    <dd>Gregg Kellogg; Pierre-Antoine Champin; Dave Longley. <a href="https://www.w3.org/TR/json-ld11/">JSON-LD 1.1</a>. 16 July 2020. REC. URL: <a href="https://www.w3.org/TR/json-ld11/">https://www.w3.org/TR/json-ld11/</a>
+   <dt id="biblio-ldn">[LDN]
+   <dd>Sarven Capadisli; Amy Guy. <a href="https://www.w3.org/TR/ldn/">Linked Data Notifications</a>. 2 May 2017. REC. URL: <a href="https://www.w3.org/TR/ldn/">https://www.w3.org/TR/ldn/</a>
    <dt id="biblio-ldp">[LDP]
    <dd>Steve Speicher; John Arwe; Ashok Malhotra. <a href="https://www.w3.org/TR/ldp/">Linked Data Platform 1.0</a>. 26 February 2015. REC. URL: <a href="https://www.w3.org/TR/ldp/">https://www.w3.org/TR/ldp/</a>
    <dt id="biblio-prov-o">[PROV-O]
