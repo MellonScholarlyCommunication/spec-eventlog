@@ -1,0 +1,2 @@
+#!/bin/bash
+mmdc -i $1 -o $2

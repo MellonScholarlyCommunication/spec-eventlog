@@ -1,0 +1,84 @@
+sequenceDiagram
+    participant Alice
+    participant Dennis
+    participant Conference
+    participant Review Service
+    participant Bob
+    participant Carol
+
+    Alice->>Conference: OFFER: Scholarly Artefact to present
+    rect rgb(0, 100, 255, .3)
+    Alice->>Alice: Add OFFER event to Researcher event log
+    Alice->>Alice: Add OFFER event to Artefact event log
+    end
+
+    Alice->>Dennis: NOTE: Notify co-authors
+    rect rgb(0, 100, 255, .3)
+    Dennis->>Dennis: Add OFFER event to Researcher event log
+    end
+
+    Conference->>Review Service: REQUEST: Scholarly Artefact to review
+
+    Review Service->>Carol: REQUEST: Review of Scholarly Artefact
+    rect rgb(0, 100, 255, .3)
+    Carol->>Carol: Add REQUEST event to Researcher event log
+    end
+
+    rect rgb(255, 0, 0, .3)
+    Carol->>Review Service: REJECT: Rejection of request for review
+    end
+    rect rgb(0, 100, 255, .3)
+    Carol->>Carol: Add REJECT event to Researcher event log
+    end
+
+    rect rgb(0, 100, 255, .3)
+    Review Service->>Review Service: Add REJECT event to Review Service event log
+    end
+    Review Service->>Conference: NOTE: Peer review refusal
+    rect rgb(0, 100, 255, .3)
+    Conference->>Conference: Add REJECT event to Conference event log
+    end
+
+    Review Service->>Bob: REQUEST: Review of Scholarly Artefact
+    rect rgb(0, 100, 255, .3)
+    Bob->>Bob: Add REQUEST event to Researcher event log
+    end
+
+    rect rgb(0, 255, 100, .3)
+    Bob->>Review Service: ACCEPT: Acceptance of request for review
+    end
+    rect rgb(0, 100, 255, .3)
+    Bob->>Bob: Add ACCEPT event to Researcher event log
+    end
+
+    rect rgb(0, 100, 255, .3)
+    Review Service->>Review Service: Add ACCEPT event to event log
+    end
+    Review Service->>Conference: NOTE: Peer review acceptance
+    rect rgb(0, 100, 255, .3)
+    Conference->>Conference: Add ACCEPT event to event log
+    end
+
+    Note right of Bob: Bob writes out review
+    Bob->>Review Service: OFFER: Peer review
+    rect rgb(0, 100, 255, .3)
+    Bob->>Bob: Add OFFER event to Researcher event log
+    end
+    rect rgb(0, 100, 255, .3)
+    Review Service->>Review Service: Add OFFER event to event log
+    end
+
+    Review Service->>Conference: OFFER: Peer review
+    rect rgb(0, 100, 255, .3)
+    Conference->>Conference: Add OFFER event to event log
+    end
+
+    Conference->>Alice: OFFER: Peer review
+    Conference->>Dennis: OFFER: Peer review
+    rect rgb(0, 100, 255, .3)
+    Alice->>Alice: Add OFFER event to Artefact event log
+    Alice->>Alice: Add OFFER event to Researcher event log
+    end
+    rect rgb(0, 100, 255, .3)
+    Dennis->>Dennis: Add OFFER event to Researcher event log
+    end

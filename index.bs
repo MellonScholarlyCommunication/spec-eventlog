@@ -63,6 +63,9 @@ This document introduces the [=Artefact Lifecycle Event Log=],
 a data format and protocol for the recording and discovery of these events,
 in order to serve mostly applications related to network governance.
 
+Note: Append-only is a very difficult aspect to enforce. If something is hosted by the same actor that is appending data, append-only can (almost) never be guaranteed.
+One could make the point for append-only if the event-log specifies its maintainer, and maintainer is not equal to appending actor.
+
 An [=Artefact Lifecycle Event Log=] is an artefact-centric, append-only, public Web resource that exposes a series of lifecycle events.
 These events are recorded using a data vocabulary encoded in [[rdf11-concepts|RDF]] to ensure network-wide interoperability.
 In practice, 
@@ -135,7 +138,7 @@ Typically, a network instance requires these events to be common knowledge to gu
 For instance, a food network might desire the publication of a completed health inspection process.
 It is therefore assumed that the dominant fraction of participating actors will experience sufficient incentive to host a [=Decentralized Artefact Exchange Network=] available to all actors in the network; and accurately record the selected lifecycle events.
 This pragmatic approach is needed because no decentralized design can force actors to comply,
-while maintaining truly scalable.
+while maintaining true scalability.
 
 This document offers a minimal semantic data model to construct and publish artefact lifecycle events, which serves as a basis for technical interoperability, 
 It is expected that a community that employs an instance of a [=Decentralized Artefact Exchange Network=], extends this model with domain-specific event types that provide more meaning and understanding within the network instance.
@@ -149,9 +152,32 @@ an artefact's value depends on its reconstructed lifecycle and whether this life
 For instance, 
 in scholarly communication, 
 a publication gains status after it has been certified by a certification service (eg. by a peer review process).
+To create trust in the  
 Such lifecycle event should be registered in the [=Artefact Lifecycle Event Logs=] of both parties.
 When reconstructing the artefact's lifecycle to assess its integrity, 
 encountering such events in multiple places increases the trust.
+
+<div class=note> 
+There were multiple options proposed in the initial document in terms of integrity of the Event log.
+A short recap here:
+
+1. Trusty URIs <br>
+spec: [https://github.com/trustyuri/trustyuri-spec](https://github.com/trustyuri/trustyuri-spec) <br>
+use-cases: <br>
+issues: spec defines a canonicalization algorithm, which may prove incomplete. Canonizalization is a currently in-work spec at W3C: https://www.w3.org/TR/rdf-canon/ (Jesse is part of WG)<br>
+
+
+Track 3.3 handles the Integrity of Event Logs.
+It outlines certain possibilities in terms of providing 
+and checking the integrity of events in an Event log, 
+which we do not touch upon here:
+- Digital Signatures of events
+- Verifyable Credentials
+- Trusty URIs
+- Redundancy
+</div> 
+
+The objective of this track is to obtain good understanding on the merits, limitations, and feasibility of each approach and the concrete ways they can be applied.
 
 ## Discovering entities on the network
 
@@ -162,7 +188,7 @@ Discovering unknown pods relies on existing links between actors and artefacts.
 Therefore, an [=Artefact Lifecycle Event Log=] can be used to find these links and serve as a routing mechanism.
 For instance, 
 in a digital heritage network,
-a portal wants to discover relevant data stored in pods controlled by cultural heritage institutions.
+a portal wants to discover relevant data stored in pods controlledi by cultural heritage institutions.
 No knowing the location of these pods beforehand, the portal might consult the eventlog of a registry service hub first, to finds links to all datasets that were registered there.
 
 Overview {#overview}
@@ -524,6 +550,20 @@ highlight: json
 show: 
 </pre>
 
+
+<div class='note'>
+In [this paper - only 12 citations](https://www.researchgate.net/publication/267425620_Towards_Interoperable_Provenance_Publication_on_the_Linked_Data_Web),
+they use the specific relation 'provenance' to link towards provenance information, and provide an ontology that could be partially mapped on our proposal here. Do we want to consider this?
+This same provenance link is also used [here](http://events.linkeddata.org/ldow2011/papers/ldow2011-paper02-coppens.pdf), where they propose exposing provenance information using memento.
+Would be possible with our approach as well, but does not tick any of our use-cases. So maybe not such an interesting lead.
+<pre>
+Link: provenance-URI; rel="provenance";
+    anchor="entity-URI"
+</pre>
+Are there other Link headers that we want to take into account?
+</div>
+
+
 Discovering an Artefact Lifecycle Event Log {#discovery}
 ===============================
 
@@ -661,6 +701,13 @@ or in the body of the [=Artefact Lifecycle Event Log=] / a retrieved page of the
 <eventLogURI> hydra:next <nextPageLocation> .
 ```
 Any implementation MAY provide additional pagination support or filtering possibilities, and SHOULD advertise these using the appropriate mechanisms detailed by their specifications. 
+
+Note: We are missing a section on Updating, while we do have a permissions section on updating authorization.
+Note that POST requests are only enforcable if the appender IS NOT HOSTING THE EVENT LOG!
+Afaik such a thing is impossible. Event KAFKA streams to do not support immutability for the admin, they always have access for updating resources.
+Do we want to follow SOlid in the PATCHing of resources?
+I would advise against it with all the problems they are facing, and make patch operations just a PUT request with the new state of a resource OR
+we could try to support versioning of events by requiring the new event to be POSTed as well, or through some sort of memento-enabled interface.
 
 
 Consuming an Artefact Lifecycle Event Log {#consuming}
